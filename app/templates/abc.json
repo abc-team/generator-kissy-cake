@@ -1,0 +1,13 @@
+{
+    "name": "<%= projectName %>",
+    "desc": "description of your app",
+    "type": "kissy-cake",
+    "type-url": "http://abc.alibaba-inc.com/r/kissy-pie",
+    "author": {
+        "name": "<%= author %>",
+        "email": "<%= email %>"
+    },
+    "_kissy_cake" : {
+        "groups": {}
+    }
+}

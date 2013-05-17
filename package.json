@@ -1,0 +1,21 @@
+{
+  "name": "generator-kissy-cake",
+  "version": "0.1.0",
+  "description": "generator for kissy-cake",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": "",
+  "keywords": [
+    "generator",
+    "abc",
+    "kissy-cake",
+    "yeoman"
+  ],
+  "author": "abc-team",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "~1.2.1"
+  }
+}

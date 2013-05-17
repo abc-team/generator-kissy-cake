@@ -1,0 +1,30 @@
+{
+    "name": "<%= projectName %>",
+    "version": "0.1.0",
+    "description": "an kissy pie app",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "repository": "",
+    "keywords": [
+        "kissy-pie"
+    ],
+    "author": "${ author } <${ email }>",
+    "license": "BSD",
+
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-copy": "*",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-clean": "~0.4.0",
+        "grunt-contrib-cssmin": "~0.5.0",
+        "grunt-contrib-watch": "~0.3.1",
+        "grunt-kmc": "~0.1.0",
+        "grunt-kissy-template": "~0.1.0",
+        "abc-gruntfile-helper": "~0.0.1"
+    },
+
+    "dependencies": {
+    }
+}
