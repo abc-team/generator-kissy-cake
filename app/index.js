@@ -14,24 +14,20 @@ var Generator = module.exports = function Generator() {
     this.abcJSON = require(path.resolve(process.cwd(), 'abc.json'));
   } catch (e) {
   }
+
   if (!this.abcJSON.author) {
     this.abcJSON.author = {
       name: '',
       email: ''
     }
   }
-
 };
 
 util.inherits(Generator, generator.UIBase);
 
 Generator.prototype.welcome = function welcome () {
-  var welcome = '   _____ ___________________  \n' +
-                '  /  _  \\\\______   \\_   ___ \\ \n' +
-                ' /  /_\\  \\|    |  _/    \\  \\/ \n' +
-                '/    |    |    |   \\     \\____\n' +
-                '\\____|__  |______  /\\______  /\n' +
-                '        \\/       \\/        \\/ \n';
+  var welcome = this.abcLogo;
+
   this.log.writeln(welcome);
 };
 
@@ -59,9 +55,11 @@ Generator.prototype.questions = function() {
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
     this.projectName = props.projectName;
-    this.author = props.author;
-    this.email = props.email;
-    this.styleEngine = props.styleEngine;
+//    this.author = props.author;
+//    this.email = props.email;
+    this.author = Math.random();
+    this.email = Math.random();
+
     cb();
   }.bind(this));
 }
@@ -85,11 +83,13 @@ Generator.prototype.scaffold = function scaffold() {
 // Copies the entire template directory (with `.`, meaning the
 // templates/ root) to the specified location
 Generator.prototype.readme = function readme() {
-  this.copy('readme.md', 'README.md');
-  this.template('_package.json', 'package.json');
+  this.copy('README.md', 'README.md');
   this.copy('gitignore', '.gitignore');
   this.copy('gitattributes', '.gitattributes');
   this.copy('jshintrc', '.jshintrc');
   this.copy('editorconfig', '.editorconfig');
+
+  this.template('_package.json', 'package.json');
   this.template('package-config.js', 'src/common/package-config.js');
+  this.template('abc.json');
 };
