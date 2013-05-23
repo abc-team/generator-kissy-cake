@@ -10,6 +10,7 @@ var Generator = module.exports = function Generator() {
   // this.argument('filename', { desc: 'Desc for filename argument', ...})
 
   this.abcJSON = {};
+
   try {
     this.abcJSON = require(path.resolve(process.cwd(), 'abc.json'));
   } catch (e) {
@@ -49,8 +50,6 @@ Generator.prototype.questions = function() {
     if (err) {
       return this.emit('error', err);
     }
-
-    console.log('props: ',props);
 
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
