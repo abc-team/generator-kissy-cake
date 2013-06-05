@@ -1,0 +1,16 @@
+<h3>{{info.name}}</h3>
+<p>{{info.type}}</p>
+
+<h3>Pages</h3>
+<ul>
+    <li ng-repeat="page in app.pages">
+        {{page.name}}@{{page.version}}
+    </li>
+</ul>
+
+<h3>Widget</h3>
+<ul>
+    <li ng-repeat="widget in app.widgets">
+        widget/{{widget}}
+    </li>
+</ul>
