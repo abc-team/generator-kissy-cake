@@ -9,11 +9,12 @@ var Generator = module.exports = function Generator() {
   // this.option('flag', { desc: 'Desc for flag', ...})
   // this.argument('filename', { desc: 'Desc for filename argument', ...})
 
-  this.abcJSON = {};
+
 
   try {
-    this.abcJSON = require(path.resolve(process.cwd(), 'abc.json'));
+    this.abcJSON = require(path.resolve('abc.json'));
   } catch (e) {
+    this.abcJSON = {};
   }
 
   if (!this.abcJSON.author) {
@@ -28,19 +29,36 @@ util.inherits(Generator, generator.UIBase);
 
 Generator.prototype.welcome = function welcome () {
   var welcome = this.abcLogo;
-
   this.log.writeln(welcome);
 };
 
-
 Generator.prototype.questions = function() {
   var cb = this.async();
+  var abcJSON = this.abcJSON;
 
   var prompts = [
     {
       name: 'projectName',
       message: 'Name of Project?',
-      default: path.basename(process.cwd()),
+      default: abcJSON.name || path.basename(process.cwd()),
+      warning: 'Yes: All Twitter Bootstrap files will be placed into the styles directory.'
+    },
+    {
+      name: 'author',
+      message: 'Author Name:',
+      default: abcJSON.author.name,
+      warning: ''
+    },
+    {
+      name: 'email',
+      message: 'Author Email:',
+      default: abcJSON.author.email,
+      warning: ''
+    },
+    {
+      name: 'styleEngine',
+      message: 'Whitch style engin do you use [css-combo|less|sass]?',
+      default: abcJSON.styleEngine || '',
       warning: 'Yes: All Twitter Bootstrap files will be placed into the styles directory.'
     }
   ];
@@ -54,14 +72,16 @@ Generator.prototype.questions = function() {
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
     this.projectName = props.projectName;
-//    this.author = props.author;
-//    this.email = props.email;
-    this.author = Math.random();
-    this.email = Math.random();
+    this.author = props.author;
+    this.email = props.email;
+    this.styleEngine = props.styleEngine;
+    this.enableLess = (/less/i).test(this.styleEngine);
+    this.enableSass = (/sass/i).test(this.styleEngine);
+    this.enableCSSCombo = (/css-combo/i).test(this.styleEngine);
 
     cb();
   }.bind(this));
-}
+};
 
 
 
@@ -91,4 +111,44 @@ Generator.prototype.readme = function readme() {
   this.template('_package.json', 'package.json');
   this.template('package-config.js', 'src/common/package-config.js');
   this.template('abc.json');
+};
+
+
+/**
+ * Scan Project
+ */
+Generator.prototype._scan = function _scan() {
+
+  var pages = this.expand('/src/pages/*/*.*/', {
+    nomount: true,
+    root: '.',
+    mark: true
+  });
+
+  pages = pages.map(function(pathname){
+
+    var version = path.basename(pathname);
+    var pageName = path.basename(path.dirname(pathname));
+
+    return {
+      name: pageName,
+      version: version
+    }
+  });
+
+  var widgets = this.expand('/src/widget/*/', {
+    nomount: true,
+    root: '.',
+    mark: true
+  });
+
+  widgets = widgets.map(function(pathname) {
+    return path.basename(pathname);
+  });
+
+  return {
+    pages: pages,
+    widgets: widgets
+  };
+
 };
