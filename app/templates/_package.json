@@ -1,7 +1,6 @@
 {
     "name": "<%= projectName %>",
-    "version": "0.1.0",
-    "description": "an kissy pie app",
+    "version": "0.0.0",
     "main": "index.js",
     "directories": {
         "doc": "docs"
@@ -10,7 +9,7 @@
     "keywords": [
         "kissy-pie"
     ],
-    "author": "${ author } <${ email }>",
+    "author": "<%= author %> <<%= email %>>",
     "license": "BSD",
 
     "devDependencies": {
