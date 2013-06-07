@@ -9,8 +9,6 @@ var Generator = module.exports = function Generator() {
   // this.option('flag', { desc: 'Desc for flag', ...})
   // this.argument('filename', { desc: 'Desc for filename argument', ...})
 
-
-
   try {
     this.abcJSON = require(path.resolve('abc.json'));
   } catch (e) {
@@ -23,6 +21,11 @@ var Generator = module.exports = function Generator() {
       email: ''
     }
   }
+
+  this.on('end', function() {
+    this.log();
+    this.log.ok('An Kissy Cake App was successfully created!');
+  });
 };
 
 util.inherits(Generator, generator.UIBase);
@@ -82,8 +85,6 @@ Generator.prototype.questions = function() {
     cb();
   }.bind(this));
 };
-
-
 
 // Copies the entire template directory (with `.`, meaning the
 // templates/ root) to the specified location

@@ -6,5 +6,6 @@
     "author": {
         "name": "<%= author %>",
         "email": "<%= email %>"
-    }
+    },
+    "styleEngine": "<%= styleEngine %>"
 }
