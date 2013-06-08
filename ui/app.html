@@ -1,17 +1,36 @@
-<h3>Common</h3>
-<h3>Pages</h3>
-<ul>
-    <li ng-repeat="page in app.pages">
-        {{page.name}}@{{page.version}}
-    </li>
-</ul>
+<button class="btn btn-primary">Build Common</button>
+<hr>
 
-<h3>Widget</h3>
-<ul>
-    <li ng-repeat="widget in app.widgets">
-        widget/{{widget}}
-    </li>
-</ul>
-<pre>
-{{UI.uiRoot}}/app.html
-</pre>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>pages</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="page in app.pages">
+            <td>{{page.name}}/{{page.version}}</td>
+            <td><button class="btn btn-small">Build</button></td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-success" ng-click="runYeomanSub('page')">add page</button>
+<hr>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>widget</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="widget in app.widgets">
+        <td>{{widget}}</td>
+        <td><button class="btn btn-small">Build</button></td>
+    </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-success" ng-click="runYeomanSub('widget')">Add a widget</button>
+

@@ -44,11 +44,14 @@ module.exports = function (grunt) {
     packageName: options.pkgName,
 
     // 用于页面打包路径
-    pageBase: '<%%= pageName %>/<%%= version %>/<%%= packageName %>',
-    // 用于common打包路径
-    commonBase: 'common',
+    pageBase: 'src/pages/<%%= pageName %>/<%%= version %>/<%%= packageName %>',
+
     // 打包输出目录
-    pageBuildBase: '<%%= pageName %>/<%%= timestamp %>/<%%= packageName %>',
+    pageBuildBase: 'build/pages/<%%= pageName %>/<%%= version %>/<%%= packageName %>',
+    // 用于common打包路径
+    commonBase: 'src/common',
+    // 用于common打包路径
+    commonBuildBase: 'build/common',
 
     /**
      * 进行KISSY 打包
@@ -63,11 +66,11 @@ module.exports = function (grunt) {
           },
           {
             name: 'utils',
-            path: './'
+            path: 'src/utils'
           },
           {
             name: 'common',
-            path: './'
+            path: 'src/common'
           }
         ]
       },

@@ -120,7 +120,7 @@ Generator.prototype.readme = function readme() {
  */
 Generator.prototype._scan = function _scan() {
 
-  var pages = this.expand('/src/pages/*/*.*/', {
+  var pages = this.expand('/src/pages/*/v*/', {
     nomount: true,
     root: '.',
     mark: true
@@ -128,8 +128,8 @@ Generator.prototype._scan = function _scan() {
 
   pages = pages.map(function(pathname){
 
-    var version = path.basename(pathname);
-    var pageName = path.basename(path.dirname(pathname));
+    var version = path.basename(pathname).replace(/[\\/]$/, '');
+    var pageName = path.basename(path.dirname(pathname))
 
     return {
       name: pageName,
@@ -137,14 +137,10 @@ Generator.prototype._scan = function _scan() {
     }
   });
 
-  var widgets = this.expand('/src/widget/*/', {
-    nomount: true,
-    root: '.',
-    mark: true
-  });
+  var widgets = this.expand('src/widget/*/');
 
   widgets = widgets.map(function(pathname) {
-    return path.basename(pathname);
+    return path.basename(pathname).replace(/[\\/]$/, '');
   });
 
   return {
