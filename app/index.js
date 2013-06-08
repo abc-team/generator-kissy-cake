@@ -103,7 +103,7 @@ Generator.prototype.scaffold = function scaffold() {
 // Copies the entire template directory (with `.`, meaning the
 // templates/ root) to the specified location
 Generator.prototype.readme = function readme() {
-  this.copy('README.md', 'README.md');
+  this.copy('readme.md', 'README.md');
   this.copy('gitignore', '.gitignore');
   this.copy('gitattributes', '.gitattributes');
   this.copy('jshintrc', '.jshintrc');
