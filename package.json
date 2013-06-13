@@ -17,6 +17,6 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "~1.2.1",
-    "abc-generator": "~0.0.4"
+    "abc-generator": "~0.0.5"
   }
 }
