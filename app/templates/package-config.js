@@ -1,31 +1,35 @@
 (function () {
     var S = KISSY;
 
-    window.FB = window.FB || {
+    window.ABC = window.ABC || {
+        type: 'kissy-cake',
         /**
          * Config Kissy 1.2 packages
          * of a FrontBuild Page
          * @param {Object} config
          * @param config.name     name of FrontBuild
          * @param config.version  version of you app
-         * @param config.pub      timestamp of published directory
+         * @param config.pub      version of publish
          * @param config.path     url of you fbapp root
          * @param config.charset
          * @param config.tag      timestamp appended
-         * @param config.debug    debug mode switch
+         * @param config.debug    debug mode switch, default false
          */
+        
         config: function (config) {
             if (!config.path) {
                 config.path = '';
             }
+
+            // Normalize
             config.path = config.path.replace(/\/$/, '');
 
             var pkgs = [],
                 packageConfig = {},
-                pagePath = S.substitute('{path}/{name}/{version}/', config),
+                pagePath = S.substitute('{path}/{pub}/pages/{name}/', config),
                 //switch dev or production env
-                debug = config.debug? true : KISSY.Config.debug,
-                pagePathBuild = S.substitute('{path}/{name}/{pub}/', config);
+                debug = config.debug ? true : KISSY.Config.debug,
+                pagePathPub = S.substitute('{path}/{name}/{pub}/', config);
 
             //package config
             S.mix(packageConfig, config, true, ['charset', 'tag']);

@@ -1,5 +1,5 @@
 {
-    "name": "<%= projectName %>",
+    "name": "an-abc-app",
     "version": "0.0.0",
     "main": "index.js",
     "directories": {
@@ -21,7 +21,8 @@
         "grunt-contrib-watch": "~0.3.1",
         "grunt-kmc": "~0.1.0",
         "grunt-kissy-template": "~0.1.0",
-        "abc-gruntfile-helper": "~0.0.1"
+        "grunt-contrib-less": "~0.6.1",
+        "grunt-contrib-connect": "~0.3.0"
     },
 
     "dependencies": {

@@ -1,36 +1,36 @@
-<button class="btn btn-primary">Build Common</button>
+<button class="btn btn-primary" ng-click="grunt.run($event)" data-tasks="common">Build Common</button>
 <hr>
 
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>pages</th>
-            <th>actions</th>
+            <th style="width:80px;">actions</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="page in app.pages">
             <td>{{page.name}}/{{page.version}}</td>
-            <td><button class="btn btn-small">Build</button></td>
+            <td><button class="btn btn-small" ng-click="grunt.run($event);" data-tasks="page" data-attrs="target={{page.name}}/{{page.version}}">Build</button></td>
         </tr>
     </tbody>
 </table>
-<button class="btn btn-success" ng-click="runYeomanSub('page')">add page</button>
+<button class="btn btn-success" ng-click="yeoman.run($event)" data-type="kissy-cake" data-sub="page">add page</button>
 <hr>
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
         <th>widget</th>
-        <th>actions</th>
+        <th style="width:80px;">actions</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="widget in app.widgets">
         <td>{{widget}}</td>
-        <td><button class="btn btn-small">Build</button></td>
+        <td><button class="btn btn-small" ng-click="grunt.run($event)" data-tasks="widget" data-attrs="widget={{widget}}">Build</button></td>
     </tr>
     </tbody>
 </table>
 
-<button class="btn btn-success" ng-click="runYeomanSub('widget')">Add a widget</button>
+<button class="btn btn-success" ng-click="yeoman.run($event)" data-sub="widget">Add a widget</button>
 

@@ -1,32 +1,31 @@
-var KISSYPie = require( 'abc-gruntfile-helper').kissypie;
-
 module.exports = function (grunt) {
 
   /**
    * 下列命令执行下面命令若不给定参数，则默认添加下面配置
-   *      `grunt watch`
    *      `grunt page`
+   *      `grunt widget`
    *      `grunt common`
-   * 可用配置：
-   *      timestamp: {String} 时间戳目录,
-   *      buildPage: {String|Array} pageName/version/pkgName
    */
-  var DEFAULTS = {
-    timestamp: '201279879',
-    buildPages: [ 'home/1.0']
-  };
+
+  // Page
+  var target = 'home/v1';
+  var packageName = 'page';
+
+  target = grunt.option('target') || target;
+  packageName = grunt.option('pkg') || packageName;
+
+  // Widget
+  var widget = 'sidebar';
+  widget = grunt.option('name') || widget;
 
   /**
    *  分析用户给定的参数
    *  @example
    *      单个页面：
-   *          打包：     `grunt page --target home/1.0 --ts 20130412`
-   *          watch：    `grunt watch --target home/1.0 --ts 20130412`
-   *      多个页面：
-   *          打包：     `grunt page --target home/1.0,intro/2.0 --ts 20130506`
-   *          watch:    `grunt watch --target home/1.0,intro/2.0 --ts 20130506`
+   *          打包：     `grunt page --target home/v1`
+   *      单个Widget
+   *          打包：     `grunt widget --name sidebar
    */
-  var options = KISSYPie.parse( grunt, DEFAULTS );
 
   /**
    * 对每个具体任务进行配置
@@ -35,64 +34,95 @@ module.exports = function (grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
     // 页面名称
-    pageName: options.pageName,
-    // 页面源码版本
-    version: options.version,
-    // 需要打包到的时间戳
-    timestamp: options.timestamp,
+    targetPage: target,
     // 包名
-    packageName: options.pkgName,
+    packageName: packageName,
+    pageBase: '<%= targetPage %>/<%= packageName %>',
 
     // 用于页面打包路径
-    pageBase: 'src/pages/<%%= pageName %>/<%%= version %>/<%%= packageName %>',
+    srcPageBase: 'src/pages/<%= pageBase %>',
 
     // 打包输出目录
-    pageBuildBase: 'build/pages/<%%= pageName %>/<%%= version %>/<%%= packageName %>',
+    buildPageBase: 'build/pages/<%= pageBase %>',
     // 用于common打包路径
-    commonBase: 'src/common',
+    srcCommonBase: 'src/common',
     // 用于common打包路径
-    commonBuildBase: 'build/common',
+    buildCommonBase: 'build/common',
+
+    targetWidget: widget,
+    srcWidgetBase: 'src/widget/<%= targetWidget %>',
+    buildWidgetBase: 'build/widget/<%= targetWidget %>',
 
     /**
      * 进行KISSY 打包
      * @link https://github.com/daxingplay/grunt-kmc
      */
     kmc: {
-      options: {
-        packages: [
+      page: {
+        options: {
+          packages: [
+            {
+              name: '<%= packageName %>',
+              path: 'src/pages/<%= targetPage %>'
+            },
+            {
+              name: 'utils',
+              path: 'src/'
+            },
+            {
+              name: 'widget',
+              path: 'src/'
+            }
+          ]
+        },
+        files: [
           {
-            name: '<%%= packageName %>',
-            path: '<%%= pageName %>/<%%= version %>'
-          },
-          {
-            name: 'utils',
-            path: 'src/utils'
-          },
-          {
-            name: 'common',
-            path: 'src/common'
+            expand: true,
+            cwd: '<%= srcPageBase %>',
+            src: [ '*.js', '!*.combo.js', '!*-min.js' ],
+            dest: '<%= buildPageBase %>'
           }
         ]
       },
 
-      page: {
+      widget: {
+        options: {
+          packages: [
+            {
+              name: 'utils',
+              path: 'src/'
+            },
+            {
+              name: 'widget',
+              path: 'src/'
+            }
+          ]
+        },
         files: [
           {
             expand: true,
-            cwd: '<%%= pageBase %>',
+            cwd: 'src/widget/<%= targetWidget %>',
             src: [ '*.js', '!*.combo.js', '!*-min.js' ],
-            dest: '<%%= pageName%>/<%%=timestamp %>/<%%= packageName %>/'
+            dest: 'build/widget/<%= targetWidget %>'
           }
         ]
       },
 
       common: {
+        options: {
+          packages: [
+            {
+              name: 'utils',
+              path: 'src/'
+            }
+          ]
+        },
         files: [
           {
             expand: true,
-            cwd: '<%%= commonBase %>',
+            cwd: '<%= srcCommonBase %>',
             src: [ '*.js', '!*.combo.js', '!*-min.js' ],
-            dest: '<%%= commonBase %>',
+            dest: '<%= buildCommonBase %>',
             ext: '-min.js'
           }
         ]
@@ -108,8 +138,8 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%%= pageBase %>',
-            dest: '<%%= pageBase %>',
+            cwd: '<%= srcPageBase %>',
+            dest: '<%= srcPageBase %>',
             src: '**/*-tpl.html',
             ext: '.js'
           }
@@ -120,8 +150,8 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: 'utils',
-            dest: 'utils',
+            cwd: 'src/utils',
+            dest: 'src/utils',
             src: '**/*-tpl.html',
             ext: '.js'
           }
@@ -132,231 +162,222 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%%= commonBase %>',
-            dest: '<%%= commonBase %>',
+            cwd: '<%= srcCommonBase %>',
+            dest: '<%= srcCommonBase %>',
+            src: '**/*-tpl.html',
+            ext: '.js'
+          }
+        ]
+      },
+
+      widget: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= srcWidgetBase %>',
+            dest: '<%= srcWidgetBase %>',
             src: '**/*-tpl.html',
             ext: '.js'
           }
         ]
       }
-    }<% if(enableCSSCombo) { %>,
-  /**
-   * CSS-Combo
-   */
-    'css-combo': {
-    options: {
-    paths: ['.', '<%%= pageBase %>']
     },
-
-  page: {
-    files: [
-    {
-    expand: true,
-    cwd: '<%%= pageBase %>',
-    src: '*.less',
-    dest: '<%%= pageBuildBase %>',
-    ext: '.css'
-    }
-  ]
-  },
-
-  common: {
-    files: [
-    {
-    expand: true,
-    cwd: '<%%= commonBase %>',
-    src: '*.less',
-    dest: '<%%= commonBase %>',
-    ext: '.css'
-    }
-  ]
-  }
-  }<% } %><% if(enableLess) { %>,
 
     /**
      * 将LESS编译为CSS
      * @link https://github.com/gruntjs/grunt-contrib-less
      */
-      less: {
-      options: {
-      paths: ['.', '<%%= pageBase %>']
-      },
-
-    page: {
-      files: [
-      {
-      expand: true,
-      cwd: '<%%= pageBase %>',
-      src: '*.less',
-      dest: '<%%= pageBuildBase %>',
-      ext: '.css'
-      }
-    ]
-    },
-
-    common: {
-      files: [
-      {
-      expand: true,
-      cwd: '<%%= commonBase %>',
-      src: '*.less',
-      dest: '<%%= commonBase %>',
-      ext: '.css'
-      }
-    ]
-    }
-    }<% } %><% if(enableSass) { %>,
-
-      /**
-       * 编译Compass & SASS
-       * @link https://github.com/gruntjs/grunt-contrib-compass
-       */
-        compass: {
-        options: {
-        outputStyle: 'nested',
-        noLineComments: true,
-        importPath: [ './' ],
-        trace: true
-        },
+    less: {
 
       page: {
         options: {
-        sassDir: '<%%= pageBase %>',
-        cssDir: '<%%= pageBuildBase %>',
-        imagesDir: '<%%= pageBase %>/images'
-        }
+          paths: ['src', '<%= srcPageBase %>']
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= srcPageBase %>',
+            src: '*.less',
+            dest: '<%= buildPageBase %>',
+            ext: '.css'
+          }
+        ]
       },
 
       common: {
         options: {
-        sassDir: '<%%= commonBase %>',
-        cssDir: '<%%= commonBase %>',
-        imagesDir: '<%%= commonBase %>/images'
+          paths: ['src', '<%= srcCommonBase %>']
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= srcCommonBase %>',
+            src: '*.less',
+            dest: '<%= buildCommonBase %>',
+            ext: '.css'
+          }
+        ]
+      },
+
+      widget: {
+        options: {
+          paths: ['src', '<%= srcWidgetBase %>']
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= srcWidgetBase %>',
+            src: '*.less',
+            dest: '<%= buildWidgetBase %>',
+            ext: '.css'
+          }
+        ]
+      }
+    },
+
+    /**
+     * 对JS文件进行压缩
+     * @link https://github.com/gruntjs/grunt-contrib-uglify
+     */
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> */\n',
+        beautify: {
+          ascii_only: true
+        }
+      },
+
+      page: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= buildPageBase %>',
+            src: ['*.js', '!*-min.js'],
+            dest: '<%= buildPageBase %>',
+            ext: '-min.js'
+          }
+        ]
+      },
+
+      common: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= buildCommonBase %>',
+            src: ['*.js', '!*-min.js'],
+            dest: '<%= buildCommonBase %>'
+          }
+        ]
+      },
+
+      widget: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= buildWidgetBase %>',
+            src: ['*.js', '!*-min.js'],
+            dest: '<%= buildWidgetBase %>',
+            ext: '-min.js'
+          }
+        ]
+      }
+    },
+
+    /**
+     * 对CSS 文件进行压缩
+     * @link https://github.com/gruntjs/grunt-contrib-cssmin
+     */
+    cssmin: {
+      page: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= buildPageBase %>',
+            src: ['*.css', '!*-min.css'],
+            dest: '<%= buildPageBase %>',
+            ext: '-min.css'
+          }
+        ]
+      },
+
+      widget: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= buildWidgetBase %>',
+            src: ['*.css', '!*-min.css'],
+            dest: '<%= buildWidgetBase %>',
+            ext: '-min.css'
+          }
+        ]
+      },
+
+
+      common: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= buildCommonBase %>',
+            src: ['*.css', '!*-min.css'],
+            dest: '<%= buildCommonBase %>',
+            ext: '-min.css'
+          }
+        ]
+      }
+    },
+
+    watch: {
+      'js': {
+        files: [ '<%= pageBase %>/**/*.js', './utils/**/*.js' ],
+        tasks: [ 'kmc:page', 'uglify:page' ]
+      },
+      'tpl': {
+        files: ['<%= pageBase %>/**/*-tpl.html', './utils/**/*-tpl.html' ],
+        tasks: ['ktpl']
+      },
+      'less': {
+        files: [ '<%= pageBase %>/**/*.less', './utils/**/*.less' ],
+        tasks: ['less', 'cssmin:page']
+      }
+    },
+
+    connect: {
+      server: {
+        options: {
+          port: 8000,
+          base: '.'
         }
       }
-      }<% } %>,
+    }
+  });
 
-        /**
-        * 对JS文件进行压缩
-        * @link https://github.com/gruntjs/grunt-contrib-uglify
-        */
-        uglify: {
-          options: {
-          banner: '/*! <%%= pkg.name %> <%%= grunt.template.today("yyyy-mm-dd") %> */\n',
-          beautify: {
-          ascii_only: true
-          }
-        },
-        page: {
-          files: [
-          {
-          expand: true,
-          cwd: '<%%= pageBuildBase %>',
-          src: ['*.js', '!*-min.js'],
-          dest: '<%%= pageBuildBase %>',
-          ext: '-min.js'
-          }
-        ]
-        },
+  /**
+   * 载入使用到的通过NPM安装的模块
+   */
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-kissy-template');
+  grunt.loadNpmTasks('grunt-kmc');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
-        common: {
-          files: [
-          {
-          expand: true,
-          cwd: '<%%= commonBase %>',
-          src: ['*-min.js'],
-          dest: '<%%= commonBase %>'
-          }
-        ]
-        }
-        },
+  /**
+   * 注册基本任务
+   */
+  grunt.registerTask('default', [ 'page' ]);
 
-        /**
-        * 对CSS 文件进行压缩
-        * @link https://github.com/gruntjs/grunt-contrib-cssmin
-        */
-        cssmin: {
-          page: {
-          files: [
-          {
-          expand: true,
-          cwd: '<%%= pageBuildBase %>',
-          src: ['*.css', '!*-min.css'],
-          dest: '<%%= pageBuildBase %>',
-          ext: '-min.css'
-          }
-        ]
-        },
-        common: {
-          files: [
-          {
-          expand: true,
-          cwd: '<%%= commonBase %>',
-          src: ['*.css', '!*-min.css'],
-          dest: '<%%= commonBase %>',
-          ext: '-min.css'
-          }
-        ]
-        }
-        },
+  // 对单个页面进行打包
+  grunt.registerTask('page', ['ktpl:page', 'kmc:page', 'uglify:page'  , 'less:page' , 'cssmin:page']);
+  // 对common进行打包
+  grunt.registerTask('common', ['ktpl:common', 'kmc:common', 'uglify:common', 'less:common' , 'cssmin:common']);
 
-        watch: {
-          'js': {
-          files: [ '<%%= pageBase %>/**/*.js', './utils/**/*.js' ],
-          tasks: [ 'kmc:page', 'uglify:page' ]
-          },
-        'tpl': {
-                files: ['<%%= pageBase %>/**/*-tpl.html', './utils/**/*-tpl.html' ],
-                tasks: ['ktpl']
-            }<% if(enableLess) { %>,
-            'less': {
-                files: [ '<%%= pageBase %>/**/*.less', './utils/**/*.less' ],
-                tasks: ['less', 'cssmin:page']
-            }<% } %><% if(enableSass) { %>,
-            'compass': {
-                files: [ '<%%= pageBase %>/**/*.scss', './utils/**/*.scss', '<%%= pageBase %>/**/*.png' ],
-                tasks: ['compass', 'cssmin:page']
-            }<% } %>
-        },
+  grunt.registerTask('widget', ['ktpl:widget', 'kmc:widget', 'uglify:widget', 'less:widget' , 'cssmin:widget']);
+  // 静态资源代理 + watch
+  grunt.registerTask('server', ['connect:server', 'watch']);
 
-        connect: {
-            server: {
-                options: {
-                    port: 8000,
-                    base: '.'
-          }
-          }
-          }
-          });
-
-          /**
-          * 载入使用到的通过NPM安装的模块
-          */
-          grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');<% if(enableCSSCombo) { %>
-    grunt.loadNpmTasks('grunt-css-combo');<% } %> <% if(enableLess) { %>
-    grunt.loadNpmTasks('grunt-contrib-less');<% } %> <% if(enableSass) { %>
-    grunt.loadNpmTasks('grunt-contrib-compass');<% } %>
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-kissy-template');
-    grunt.loadNpmTasks('grunt-kmc');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-
-    /**
-     * 注册基本任务
-     */
-    grunt.registerTask('default', [ 'page' ]);
-
-    // 对单个页面进行打包
-    grunt.registerTask('page', ['ktpl:page','kmc:page', 'uglify:page'<% if(enableCSSCombo) { %>, 'css-combo:page'<% } %> <% if(enableLess) { %> ,'less:page'<% } %> <% if(enableSass) { %>, 'compass:page'<% } %>, 'cssmin:page']);
-    // 对common进行打包
-    grunt.registerTask('common', ['ktpl:common', 'kmc:common', 'uglify:common'<% if(enableCSSCombo) { %>, 'css-combo:page'<% } %><% if(enableLess) { %>, 'less:common'<% } %> <% if(enableSass) { %>, 'compass:common'<% } %>, 'cssmin:common']);
-    // 静态资源代理 + watch
-    grunt.registerTask('server', ['connect:server', 'watch']);
-
-    /**
-     * 初始化KISSY-Pie的任务注册
-     */
-    KISSYPie.taskInit( grunt );
+  /**
+   * 初始化KISSY-Pie的任务注册
+   */
 };

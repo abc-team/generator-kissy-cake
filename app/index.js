@@ -23,8 +23,6 @@ var Generator = module.exports = function Generator() {
   }
 
   this.on('end', function() {
-    this.log();
-    this.log.ok('An Kissy Cake App was successfully created!');
   });
 };
 
@@ -100,19 +98,33 @@ Generator.prototype.scaffold = function scaffold() {
 };
 
 
+Generator.prototype.gitFiles = function gitFiles() {
+    this.copy('gitignore', '.gitignore');
+    this.copy('gitattributes', '.gitattributes');
+};
+
 // Copies the entire template directory (with `.`, meaning the
 // templates/ root) to the specified location
 Generator.prototype.readme = function readme() {
   this.copy('README.md', 'README.md');
-  this.copy('gitignore', '.gitignore');
-  this.copy('gitattributes', '.gitattributes');
   this.copy('jshintrc', '.jshintrc');
   this.copy('editorconfig', '.editorconfig');
-
-  this.template('_package.json', 'package.json');
-  this.template('package-config.js', 'src/common/package-config.js');
-  this.template('abc.json');
 };
+
+
+Generator.prototype.projectFiles = function projectFiles() {
+    this.template('abc.json');
+    this.template('package-config.js', 'src/common/package-config.js');
+};
+
+
+Generator.prototype.gruntFiles = function gruntFiles() {
+    this.template('_package.json', 'package.json');
+    this.copy('Gruntfile.js', 'Gruntfile.js');
+};
+
+
+Generator.prototype.endRun = function endRun() {};
 
 
 /**
@@ -120,32 +132,32 @@ Generator.prototype.readme = function readme() {
  */
 Generator.prototype._scan = function _scan() {
 
-  var pages = this.expand('/src/pages/*/v*/', {
-    nomount: true,
-    root: '.',
-    mark: true
-  });
+    var pages = this.expand('/src/pages/*/v*/', {
+        nomount: true,
+        root: '.',
+        mark: true
+    });
 
-  pages = pages.map(function(pathname){
+    pages = pages.map(function(pathname){
 
-    var version = path.basename(pathname).replace(/[\\/]$/, '');
-    var pageName = path.basename(path.dirname(pathname))
+        var version = path.basename(pathname).replace(/[\\/]$/, '');
+        var pageName = path.basename(path.dirname(pathname))
+
+        return {
+            name: pageName,
+            version: version
+        }
+    });
+
+    var widgets = this.expand('src/widget/*/');
+
+    widgets = widgets.map(function(pathname) {
+        return path.basename(pathname).replace(/[\\/]$/, '');
+    });
 
     return {
-      name: pageName,
-      version: version
-    }
-  });
-
-  var widgets = this.expand('src/widget/*/');
-
-  widgets = widgets.map(function(pathname) {
-    return path.basename(pathname).replace(/[\\/]$/, '');
-  });
-
-  return {
-    pages: pages,
-    widgets: widgets
-  };
+        pages: pages,
+        widgets: widgets
+    };
 
 };
