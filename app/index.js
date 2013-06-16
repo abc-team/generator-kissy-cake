@@ -23,6 +23,8 @@ var Generator = module.exports = function Generator() {
   }
 
   this.on('end', function() {
+    this.log();
+    this.log.ok('An Kissy Cake App was successfully created!');
   });
 };
 
