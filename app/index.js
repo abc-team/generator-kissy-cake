@@ -31,8 +31,7 @@ var Generator = module.exports = function Generator() {
 util.inherits(Generator, generator.UIBase);
 
 Generator.prototype.welcome = function welcome () {
-  var welcome = this.abcLogo;
-  this.log.writeln(welcome);
+  this.log.writeln(this.abcLogo);
 };
 
 Generator.prototype.questions = function() {
