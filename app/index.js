@@ -132,13 +132,9 @@ Generator.prototype.endRun = function endRun() {};
  * Scan Project
  */
 Generator.prototype._scan = function _scan() {
-
-    var pages = this.expand('/src/pages/*/v*/', {
-        nomount: true,
-        root: '.',
-        mark: true
-    });
-
+    // fix windows path
+    var pageMatch = path.join('src/pages/*/v*/');
+    var pages = this.expand(pageMatch);
     pages = pages.map(function(pathname){
 
         var version = path.basename(pathname).replace(/[\\/]$/, '');
@@ -149,8 +145,8 @@ Generator.prototype._scan = function _scan() {
             version: version
         }
     });
-
-    var widgets = this.expand('src/widget/*/');
+    var widgetMatch = path.join('src/widget/*/');
+    var widgets = this.expand(widgetMatch);
 
     widgets = widgets.map(function(pathname) {
         return path.basename(pathname).replace(/[\\/]$/, '');
