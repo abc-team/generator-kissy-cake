@@ -1,62 +1,80 @@
-(function () {
-    var S = KISSY;
+/**
+ * ABC.config({
+ *   pageName: 'list',
+ *   pageVersion: 'v1',
+ *   pub: '1.1.1',
+ *   path: 'http://g.tbcdn.cn/myGroup/myRepo/',
+ *   charset: 'utf-8'
+ * })
+ *
+ */
+(function (S) {
 
-    window.ABC = window.ABC || {
-        type: 'kissy-cake',
-        /**
-         * Config Kissy 1.2 packages
-         * of a FrontBuild Page
-         * @param {Object} config
-         * @param config.name     name of FrontBuild
-         * @param config.version  version of you app
-         * @param config.pub      version of publish
-         * @param config.path     url of you fbapp root
-         * @param config.charset
-         * @param config.tag      timestamp appended
-         * @param config.debug    debug mode switch, default false
-         */
-        
-        config: function (config) {
-            if (!config.path) {
-                config.path = '';
-            }
+  window.ABC = window.ABC || {
+    /**
+     * Config Kissy 1.2 packages
+     * of a FrontBuild Page
+     * @param {Object} config
+     * @param config.pageName     name of FrontBuild
+     * @param config.pageVersion  version of you app
+     * @param config.pub      timestamp of published directory
+     * @param config.path     url of you fbapp root
+     * @param config.charset
+     * @param config.debug    debug mode switch
+     */
+    config: function (config) {
+      if (!config.path) {
+        config.path = '';
+      }
 
-            // Normalize
-            config.path = config.path.replace(/\/$/, '');
+      var debugPagePath = S.unparam(location.search.replace(/^\?/, ''))['ks-debug'];
 
-            var pkgs = [],
-                packageConfig = {},
-                pagePath = S.substitute('{path}/{pub}/pages/{name}/', config),
-                //switch dev or production env
-                debug = config.debug ? true : KISSY.Config.debug,
-                pagePathPub = S.substitute('{path}/{name}/{pub}/', config);
+      if (debugPagePath) {
+        config.path = debugPagePath;
+        config.pub = "src/";
+        config.debug = true;
+      }
 
-            //package config
-            S.mix(packageConfig, config, true, ['charset', 'tag']);
+      config.path = config.path.replace(/\/$/, '');
 
-            //common package
-            pkgs.push(S.merge(packageConfig, {
-                name: 'common',
-                path: config.path
-            }));
+      var pkgs = [],
+        packageConfig = {},
+        pagePath = S.substitute('{path}/{pub}/pages/{pageName}/{pageVersion}', config),
+      //switch dev or production env
+        debug = config.debug ? true : KISSY.Config.debug;
 
-            //utils package is only for dev mode
-            if (debug) {
-                pkgs.push(S.merge(packageConfig, {
-                    name: 'utils',
-                    path: config.path
-                }));
-            }
+      //package config
+      S.mix(packageConfig, config, true, ['charset', 'tag']);
 
-            //page packages
-            pkgs.push(S.merge(packageConfig, {
-                name: 'page',
-                path: debug? pagePath : pagePathBuild
-            }));
+      //common package
+      pkgs.push(S.merge(packageConfig, {
+        name: 'common',
+        path: config.path
+      }));
 
-            S.config({
-                packages: pkgs
-            });
-        }
-    };
-})();
+      //widget package
+      pkgs.push(S.merge(packageConfig, {
+        name: 'widget',
+        path: config.path
+      }));
+
+      //utils package is only for dev mode
+      if (debug) {
+        pkgs.push(S.merge(packageConfig, {
+          name: 'utils',
+          path: config.path
+        }));
+      }
+
+      //page packages
+      pkgs.push(S.merge(packageConfig, {
+        name: 'page',
+        path: pagePath
+      }));
+
+      S.config({
+        packages: pkgs
+      });
+    }
+  };
+})(KISSY);
