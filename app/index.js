@@ -65,12 +65,7 @@ Generator.prototype.questions = function() {
     }
   ];
 
-  this.prompt(prompts, function (err, props) {
-
-    if (err) {
-      return this.emit('error', err);
-    }
-
+  this.prompt(prompts, function ( props) {
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
     this.projectName = props.projectName;
