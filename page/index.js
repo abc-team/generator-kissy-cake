@@ -56,6 +56,8 @@ Generator.prototype.askfor = function() {
   }.bind(this));
 };
 
+
+
 Generator.prototype.initFile = function() {
   var root = path.join('src/pages', this.pageName, this.pageVersion, 'page');
   this.copy('index.js', path.join(root, 'index.js'));
