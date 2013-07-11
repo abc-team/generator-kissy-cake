@@ -1,36 +1,68 @@
+<div class="row-fluid">
+    <div class="span6">
+        <p>
+            <button class="btn btn-success"
+                    ng-click="yeoman.run($event)"
+                    data-type="kissy-cake"
+                    data-sub="page">添加页面</button>
+        </p>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>页面</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="page in app.pages" ng-click="page.checked = !page.checked" ng-class="page.checked && 'success'">
+                <td>{{page.name}}/{{page.version}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div class="span6">
+        <p>
+            <button class="btn btn-success"
+                    ng-click="yeoman.run($event)"
+                    data-sub="widget">添加组件</button>
+        </p>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>组件</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="widget in app.widgets"  ng-click="widget.checked = !widget.checked" ng-class="widget.checked && 'success'">
+                <td>{{widget.name}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<hr>
+<p>pages: {{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}</p>
+<p>widget: {{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}</p>
+
+<button class="btn btn-success"
+        ng-click="grunt.run($event)"
+        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
+        data-tasks="build">Build</button>
+
+<button class="btn btn-success"
+        ng-click="grunt.run($event)"
+        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
+        data-tasks="watch">Watch</button>
+<hr>
+
 <button class="btn btn-primary" ng-click="grunt.run($event)" data-tasks="common">打包应用通用脚本</button>
-<hr>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>页面</th>
-            <th style="width:80px;">动作</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="page in app.pages">
-            <td>{{page.name}}/{{page.version}}</td>
-            <td><button class="btn btn-small" ng-click="grunt.run($event);" data-tasks="page" data-attrs="target={{page.name}}/{{page.version}}">打包页面</button></td>
-        </tr>
-    </tbody>
-</table>
-<button class="btn btn-success" ng-click="yeoman.run($event)" data-type="kissy-cake" data-sub="page">添加页面</button>
-<hr>
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th>组件</th>
-        <th style="width:80px;">动作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="widget in app.widgets">
-        <td>{{widget}}</td>
-        <td><button class="btn btn-small" ng-click="grunt.run($event)" data-tasks="widget" data-attrs="widget={{widget}}">打包组件</button></td>
-    </tr>
-    </tbody>
-</table>
 
-<button class="btn btn-success" ng-click="yeoman.run($event)" data-sub="widget">添加组件</button>
 

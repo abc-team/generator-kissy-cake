@@ -13,7 +13,7 @@
     "kissy-cake",
     "yeoman"
   ],
-  "author": "abc-team",
+  "author": "yinruo.nyj <yinruo.nyj@taobao.com>",
   "license": "MIT",
   "dependencies": {
     "lodash": "~1.2.1",

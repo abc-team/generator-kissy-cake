@@ -12,6 +12,7 @@ var Generator = module.exports = function Generator() {
   try {
     this.abcJSON = require(path.resolve('abc.json'));
   } catch (e) {
+    this.isFirstTime = true;
     this.abcJSON = {};
   }
 
@@ -36,7 +37,8 @@ Generator.prototype.welcome = function welcome () {
 
 Generator.prototype.questions = function() {
   var cb = this.async();
-  var abcJSON = this.abcJSON;
+  var abcJSON = this.abcJSON || {};
+  var cakeConfig = this.abcJSON['_kissy_cake'] || {};
 
   var prompts = [
     {
@@ -47,20 +49,20 @@ Generator.prototype.questions = function() {
     },
     {
       name: 'author',
-      message: 'Author Name:',
-      default: abcJSON.author.name,
+      message: 'Author Name',
+      default: abcJSON.author.name || '',
       warning: ''
     },
     {
       name: 'email',
-      message: 'Author Email:',
-      default: abcJSON.author.email,
+      message: 'Author Email',
+      default: abcJSON.author.email || '',
       warning: ''
     },
     {
       name: 'styleEngine',
       message: 'Whitch style engin do you use [css-combo|less|sass]?',
-      default: abcJSON.styleEngine || '',
+      default: cakeConfig.styleEngine || '',
       warning: 'Yes: All Twitter Bootstrap files will be placed into the styles directory.'
     }
   ];
@@ -83,9 +85,9 @@ Generator.prototype.questions = function() {
 // Copies the entire template directory (with `.`, meaning the
 // templates/ root) to the specified location
 Generator.prototype.scaffold = function scaffold() {
+
   this.mkdir('src/pages');
   this.mkdir('src/common');
-  this.mkdir('src/utils');
   this.mkdir('src/widget');
 
   this.mkdir('build/common');
@@ -120,7 +122,13 @@ Generator.prototype.gruntFiles = function gruntFiles() {
 };
 
 
-Generator.prototype.endRun = function endRun() {};
+Generator.prototype.sampleFiles = function endRun() {
+    if(!this.isFirstTime) {
+        return;
+    }
+
+    this.copy('sample-util.js', 'sample.js');
+};
 
 
 /**
@@ -130,12 +138,14 @@ Generator.prototype._scan = function _scan() {
     // fix windows path
     var pageMatch = path.join('src/pages/*/v*/');
     var pages = this.expand(pageMatch);
-    pages = pages.map(function(pathname){
+
+    pages = pages.map(function (pathname) {
 
         var version = path.basename(pathname).replace(/[\\/]$/, '');
         var pageName = path.basename(path.dirname(pathname))
 
         return {
+            id: pageName + '/' + version,
             name: pageName,
             version: version
         }
@@ -144,7 +154,9 @@ Generator.prototype._scan = function _scan() {
     var widgets = this.expand(widgetMatch);
 
     widgets = widgets.map(function(pathname) {
-        return path.basename(pathname).replace(/[\\/]$/, '');
+        return {
+            name: path.basename(pathname).replace(/[\\/]$/, '')
+        };
     });
 
     return {
