@@ -34,7 +34,7 @@ describe('ABC - KISSY-PIE generator build', function () {
             projectName: "my_project",
             author: 'neekey',
             email: 'ni184775761@gmail.com',
-            styleEngine: 'less'
+            styleEngine: 'css'
         });
 
         KISSYPie.run({}, function () {
