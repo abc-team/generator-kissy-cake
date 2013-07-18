@@ -6,8 +6,6 @@ var path = require('path');
 
 var Generator = module.exports = function Generator() {
   generator.UIBase.apply(this, arguments);
-  // this.option('flag', { desc: 'Desc for flag', ...})
-  // this.argument('filename', { desc: 'Desc for filename argument', ...})
 
   try {
     this.abcJSON = require(path.resolve('abc.json'));
@@ -25,7 +23,7 @@ var Generator = module.exports = function Generator() {
 
   this.on('end', function() {
     this.log();
-    this.log.ok('An Kissy Cake App was successfully created!');
+    this.log.ok('KISSY-Cake初始化完毕!');
   });
 };
 
@@ -43,27 +41,27 @@ Generator.prototype.questions = function() {
   var prompts = [
     {
       name: 'projectName',
-      message: 'Name of Project?',
+      message: '项目名称',
       default: abcJSON.name || path.basename(process.cwd()),
-      warning: 'Yes: All Twitter Bootstrap files will be placed into the styles directory.'
+      warning: ''
     },
     {
       name: 'author',
-      message: 'Author Name',
+      message: '作者',
       default: abcJSON.author.name || '',
       warning: ''
     },
     {
       name: 'email',
-      message: 'Author Email',
+      message: '邮箱地址',
       default: abcJSON.author.email || '',
       warning: ''
     },
     {
       name: 'styleEngine',
-      message: 'Whitch style engin do you use [css-combo|less|sass]?',
+      message: '使用样式引擎[css|less|sass]?',
       default: cakeConfig.styleEngine || '',
-      warning: 'Yes: All Twitter Bootstrap files will be placed into the styles directory.'
+      warning: ''
     }
   ];
 
@@ -76,7 +74,7 @@ Generator.prototype.questions = function() {
     this.styleEngine = props.styleEngine;
     this.enableLess = (/less/i).test(this.styleEngine);
     this.enableSass = (/sass/i).test(this.styleEngine);
-    this.enableCSSCombo = (/css-combo/i).test(this.styleEngine);
+    this.enableCSSCombo = (/css/i).test(this.styleEngine);
 
     cb();
   }.bind(this));
@@ -89,6 +87,7 @@ Generator.prototype.scaffold = function scaffold() {
   this.mkdir('src/pages');
   this.mkdir('src/common');
   this.mkdir('src/widget');
+  this.mkdir('src/utils');
 
   this.mkdir('build/common');
   this.mkdir('build/widget');
@@ -96,19 +95,12 @@ Generator.prototype.scaffold = function scaffold() {
 };
 
 
-Generator.prototype.gitFiles = function gitFiles() {
+Generator.prototype.dotFiles = function gitFiles() {
     this.copy('gitignore', '.gitignore');
     this.copy('gitattributes', '.gitattributes');
+    this.copy('jshintrc', '.jshintrc');
+    this.copy('editorconfig', '.editorconfig');
 };
-
-// Copies the entire template directory (with `.`, meaning the
-// templates/ root) to the specified location
-Generator.prototype.readme = function readme() {
-  this.copy('README.md', 'README.md');
-  this.copy('jshintrc', '.jshintrc');
-  this.copy('editorconfig', '.editorconfig');
-};
-
 
 Generator.prototype.projectFiles = function projectFiles() {
     this.template('abc.json');
@@ -127,9 +119,36 @@ Generator.prototype.sampleFiles = function endRun() {
         return;
     }
 
-    this.copy('sample-util.js', 'sample.js');
+    this.copy('sample-util.js', 'src/utils/sample.js');
 };
 
+Generator.prototype.install = function install() {
+    var cb = this.async();
+    var self = this;
+
+    if( this.options[ 'skip-install' ] ){
+        cb();
+    }
+    else {
+        this.npmInstall('', {}, function (err) {
+
+            if (err) {
+                cb(err);
+                return;
+            }
+
+            self.log.writeln('\n\nnpm was installed successful. \n\n');
+            cb();
+        });
+    }
+};
+
+Generator.prototype.installSubTip = function installSub() {
+
+    this.log.writeln('\n****************************************************');
+    this.log.writeln('\n  【下一步】使用 yo kissy-cake:page 命令来创建子页面');
+    this.log.writeln('\n****************************************************\n');
+};
 
 /**
  * Scan Project
@@ -163,5 +182,4 @@ Generator.prototype._scan = function _scan() {
         pages: pages,
         widgets: widgets
     };
-
 };

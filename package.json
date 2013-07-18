@@ -4,7 +4,7 @@
   "description": "generator for kissy-cake",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha -t 0 -R spec"
   },
   "repository": "",
   "keywords": [
@@ -16,7 +16,10 @@
   "author": "yinruo.nyj <yinruo.nyj@taobao.com>",
   "license": "MIT",
   "dependencies": {
-    "lodash": "~1.2.1",
     "abc-generator": "~0.1.3"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "fs-extra": "0.6.3"
   }
 }

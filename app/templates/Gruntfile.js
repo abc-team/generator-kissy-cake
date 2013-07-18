@@ -427,7 +427,7 @@ module.exports = function (grunt) {
             'tpl_page': {
                 files: [ '<%%= pageSrcBase %>/**/*-tpl.html' ],
                 tasks: [ 'ktpl:page' ]
-            },
+            }<% } if(enableSass) { %>,
             // utils目录中的sass文件变更，就build widget
             'compass_utils_widget': {
                 files: [ '<%%= utilsSrcBase %>/**/*.scss' ],
@@ -452,7 +452,7 @@ module.exports = function (grunt) {
             'compass_page': {
                 files: [ '<%%= pageSrcBase %>/**/*.scss', '<%%= pageSrcBase %>/**/*.png' ],
                 tasks: [ 'compass:page', 'cssmin:page' ]
-            },
+            }<% if(enableLess) { %>,
             // utils目录中的less文件变更，就build widget
             'less_utils_widget': {
                 files: [ '<%%= utilsSrcBase %>/**/*.less' ],
@@ -477,7 +477,32 @@ module.exports = function (grunt) {
             'less_page': {
                 files: [ '<%%= pageSrcBase %>/**/*.less' ],
                 tasks: [ 'less:page', 'cssmin:page' ]
-            }
+            }<% } if(enableCSSCombo) { %>,
+            // utils目录中的less文件变更，就build widget
+            'css_utils_widget': {
+                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:widget', 'cssmin:widget' ]
+            },
+            // utils目录中的less文件变更，就build page
+            'css_utils_page': {
+                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            // 某个widget目录中的less文件变更，就build 对应的widget
+            'css_widget_widget': {
+                files: [ '<%%= widgetSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:widget', 'cssmin:widget' ]
+            },
+            // 任意widget目录中的less文件变更，就build page
+            'css_widget_page': {
+                files: [ '<%%= srcBase %>/widget/**/*.css' ],
+                tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            // 某个page目录中的less文件变更，就build对应的page
+            'css_page': {
+                files: [ '<%%= pageSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:page', 'cssmin:page' ]
+            }<% } %>
         }
     });
 
@@ -495,17 +520,17 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('page', ['ktpl:page','kmc:page', 'uglify:page', <% if(enableCSSCombo) { %>'csscombo:page',<% } %> <% if(enableLess) {%>'less:page',<% } %> <% if(enableSass) {%> 'compass:page', <% } %>,'cssmin:page']);
+    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page','kmc:page', 'uglify:page', <% if(enableCSSCombo) { %>'css_combo:page',<% } %> <% if(enableLess) {%>'less:page',<% } %> <% if(enableSass) {%> 'compass:page', <% } %>,'cssmin:page']);
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('widget', ['ktpl:widget','kmc:widget', 'uglify:widget', <% if(enableCSSCombo) { %>'csscombo:widget',<% } %> <% if(enableLess) { %>'less:widget',<% } %> <% if(enableSass) { %>'compass:widget',<% } %> 'cssmin:widget']);
+    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget','kmc:widget', 'uglify:widget', <% if(enableCSSCombo) { %>'css_combo:widget',<% } %> <% if(enableLess) { %>'less:widget',<% } %> <% if(enableSass) { %>'compass:widget',<% } %> 'cssmin:widget']);
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', ['ktpl:common', 'kmc:common' , 'uglify:common', <% if(enableCSSCombo) { %>'csscombo:common',<% } %> <% if(enableLess) { %>'less:common',<% } %> <% if(enableSass) { %>'compass:common',<% } %>  'cssmin:common']);
+    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common' , 'uglify:common', <% if(enableCSSCombo) { %>'css_combo:common',<% } %> <% if(enableLess) { %>'less:common',<% } %> <% if(enableSass) { %>'compass:common',<% } %>  'cssmin:common']);
 
     /**
      * 初始化KISSY-Cake的任务注册

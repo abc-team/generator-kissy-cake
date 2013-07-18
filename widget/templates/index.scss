@@ -1,0 +1,30 @@
+/**
+ * 引入SASS的样式框架COMPASS
+ * @link http://compass-style.org/
+ */
+@import "compass";
+
+/**
+ * 可以将多个页面共享的样式放置于utils文件夹中直接引入
+ */
+//@import "utils/style/mod";
+
+/**
+ * 引入页面中需要的图片sprite
+ */
+@import "mods/sprites";
+
+/**
+ * 针对每个icon，单独设置，"attention" 对应文件名，"i" 对应到了文件夹名
+ */
+.my-attention {
+  @include i-sprite("attention");
+  height: i-sprite-height("attention");
+  width: i-sprite-width("attention");
+}
+
+.my-question {
+  @include i-sprite("question");
+  height: i-sprite-height("question");
+  width: i-sprite-width("question");
+}
