@@ -427,7 +427,7 @@ module.exports = function (grunt) {
             'tpl_page': {
                 files: [ '<%%= pageSrcBase %>/**/*-tpl.html' ],
                 tasks: [ 'ktpl:page' ]
-            }<% } if(enableSass) { %>,
+            }<% if(enableSass) { %>,
             // utils目录中的sass文件变更，就build widget
             'compass_utils_widget': {
                 files: [ '<%%= utilsSrcBase %>/**/*.scss' ],
@@ -452,7 +452,7 @@ module.exports = function (grunt) {
             'compass_page': {
                 files: [ '<%%= pageSrcBase %>/**/*.scss', '<%%= pageSrcBase %>/**/*.png' ],
                 tasks: [ 'compass:page', 'cssmin:page' ]
-            }<% if(enableLess) { %>,
+            }<% } if(enableLess) { %>,
             // utils目录中的less文件变更，就build widget
             'less_utils_widget': {
                 files: [ '<%%= utilsSrcBase %>/**/*.less' ],
@@ -520,17 +520,17 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page','kmc:page', 'uglify:page', <% if(enableCSSCombo) { %>'css_combo:page',<% } %> <% if(enableLess) {%>'less:page',<% } %> <% if(enableSass) {%> 'compass:page', <% } %>,'cssmin:page']);
+    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableCSSCombo) { %>, 'css_combo:page'<% } if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'cssmin:page']);
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget','kmc:widget', 'uglify:widget', <% if(enableCSSCombo) { %>'css_combo:widget',<% } %> <% if(enableLess) { %>'less:widget',<% } %> <% if(enableSass) { %>'compass:widget',<% } %> 'cssmin:widget']);
+    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableCSSCombo) { %>, 'css_combo:widget'<% } if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'cssmin:widget']);
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common' , 'uglify:common', <% if(enableCSSCombo) { %>'css_combo:common',<% } %> <% if(enableLess) { %>'less:common',<% } %> <% if(enableSass) { %>'compass:common',<% } %>  'cssmin:common']);
+    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableCSSCombo) { %>, 'css_combo:common'<% } if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'cssmin:common']);
 
     /**
      * 初始化KISSY-Cake的任务注册

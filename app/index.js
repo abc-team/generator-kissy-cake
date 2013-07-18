@@ -110,7 +110,7 @@ Generator.prototype.projectFiles = function projectFiles() {
 
 Generator.prototype.gruntFiles = function gruntFiles() {
     this.template('_package.json', 'package.json');
-    this.copy('Gruntfile.js', 'Gruntfile.js');
+    this.template('Gruntfile.js');
 };
 
 
