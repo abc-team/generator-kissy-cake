@@ -79,7 +79,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= pageSrcBase %>',
-                        src: [ '*.js', '!*.combo.js', '!*-min.js' ],
+                        src: [ '*.js', '!*.combo.js', '!*-min.js', '!*-tpl.js' ],
                         dest: '<%%= pageBuildBase %>/'
                     }
                 ]
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= widgetSrcBase %>',
-                        src: [ '*.js', '!*.combo.js', '!*-min.js' ],
+                        src: [ '*.js', '!*.combo.js', '!*-min.js', '!*-tpl.js' ],
                         dest: '<%%= widgetBuildBase %>/'
                     }
                 ]
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= commonSrcBase %>',
-                        src: [ '*.js', '!*.combo.js', '!*-min.js' ],
+                        src: [ '**/*.js', '!**/*.combo.js', '!**/_*.js', '!**/*-min.js', '!**/*-tpl.js' ],
                         dest: '<%%= commonBuildBase %>'
                     }
                 ]
@@ -160,16 +160,14 @@ module.exports = function (grunt) {
                     }
                 ]
             }
-        },
-
+        }<% if(enableCSSCombo) { %>,
         /**
          * CSS Combo
          * @link https://github.com/daxingplay/grunt-css-combo
          */
         css_combo: {
             options: {
-                debug: false,
-                compress: false
+                paths: [ '.' ]
             },
             page: {
                 files: [
@@ -177,8 +175,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%%= pageSrcBase %>',
                         src: '*.css',
-                        dest: '<%%= pageBuildBase %>',
-                        ext: '.css'
+                        dest: '<%%= pageBuildBase %>'
                     }
                 ]
             },
@@ -189,8 +186,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%%= widgetSrcBase %>',
                         src: '*.css',
-                        dest: '<%%= widgetBuildBase %>',
-                        ext: '.css'
+                        dest: '<%%= widgetBuildBase %>'
                     }
                 ]
             },
@@ -200,13 +196,12 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= commonSrcBase %>',
-                        src: '*.css',
-                        dest: '<%%= commonBuildBase %>',
-                        ext: '.css'
+                        src: [ '**/*.css', '!**/_*.css' ],
+                        dest: '<%%= commonBuildBase %>'
                     }
                 ]
             }
-        },
+        }<% } if(enableLess) { %>,
 
         /**
          * 将LESS编译为CSS
@@ -246,13 +241,13 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= commonSrcBase %>',
-                        src: '*.less',
+                        src: [ '**/*.less', '!**/_*.less' ],
                         dest: '<%%= commonBuildBase %>',
                         ext: '.css'
                     }
                 ]
             }
-        },
+        }<% } if(enableSass) { %>,
 
         /**
          * 编译Compass & SASS
@@ -289,7 +284,7 @@ module.exports = function (grunt) {
                     imagesDir: '<%%= commonSrcBase %>/images'
                 }
             }
-        },
+        }<% } %>,
 
         /**
          * 对JS文件进行压缩
@@ -297,9 +292,7 @@ module.exports = function (grunt) {
          */
         uglify: {
             options: {
-                banner: '/*! Build: <%%= grunt.template.today("yyyy-mm-dd") %> */\n',
                 beautify: {
-                    // 将非ASCII转化为Unicode
                     ascii_only: true
                 }
             },
@@ -308,7 +301,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= pageBuildBase %>',
-                        src: ['*.js', '!*-min.js'],
+                        src: ['**/*.js', '!**/*-min.js'],
                         dest: '<%%= pageBuildBase %>',
                         ext: '-min.js'
                     }
@@ -319,7 +312,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= widgetBuildBase %>',
-                        src: ['*.js', '!*-min.js'],
+                        src: ['**/*.js', '!**/*-min.js'],
                         dest: '<%%= widgetBuildBase %>',
                         ext: '-min.js'
                     }
@@ -330,7 +323,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= commonBuildBase %>',
-                        src: ['*.js', '!*-min.js'],
+                        src: ['**/*.js', '!**/*-min.js'],
                         ext: ['-min.js'],
                         dest: '<%%= commonBuildBase %>'
                     }
@@ -348,7 +341,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= pageBuildBase %>',
-                        src: ['*.css', '!*-min.css'],
+                        src: ['**/*.css', '!**/*-min.css'],
                         dest: '<%%= pageBuildBase %>',
                         ext: '-min.css'
                     }
@@ -359,7 +352,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= widgetBuildBase %>',
-                        src: ['*.css', '!*-min.css'],
+                        src: ['**/*.css', '!**/*-min.css'],
                         dest: '<%%= widgetBuildBase %>',
                         ext: '-min.css'
                     }
@@ -370,7 +363,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%%= commonBuildBase %>',
-                        src: ['*.css', '!*-min.css'],
+                        src: ['**/*.css', '!**/*-min.css'],
                         dest: '<%%= commonBuildBase %>',
                         ext: '-min.css'
                     }
