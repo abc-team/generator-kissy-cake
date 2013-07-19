@@ -556,7 +556,7 @@ module.exports = function (grunt) {
     /**
      * 注册基本任务
      */
-    grunt.registerTask('default', [ 'page' ]);
+    grunt.registerTask('default', [ 'all' ]);
 
     /**
      * 对page进行打包

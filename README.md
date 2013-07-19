@@ -57,6 +57,13 @@ $ yo kissy-cake:page
     }
 ```
 
-之后则可以直接使用 `grunt` 或者 `grunt build`进行打包，或者使用`grunt common`对common目录进行打包。
-另外还可以使用`grunt watch`进行文件监控。
+## 命令列表
+
+- `grunt page` 将对`abc.json`中指定的page进行打包
+- `grunt widget` 将对`abc.json`中指定的widget进行打包
+- `grunt build` 将对`abc.json`中指定的page和widget进行打包
+- `grunt common` 将对common进行打包
+- `grunt all` 将对项目中所有的page、widget以及common进行打包
+- `grunt` 同`grunt all`
+- `grunt watch` 对`abc.json`中指定的page和widget以及common进行监控
 

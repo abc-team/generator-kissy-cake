@@ -239,6 +239,52 @@ describe('ABC - KISSY-PIE generator build', function () {
         });
     });
 
+    var gruntAllExpect = [
+        'build/pages/home/1.0/page/index.css',
+        'build/pages/home/1.0/page/index-min.css',
+        'build/pages/home/v1/page/index.css',
+        'build/pages/home/v1/page/index-min.css',
+        'build/common/out.css',
+        'build/common/out-min.css',
+        'build/common/sub/in.css',
+        'build/common/sub/in-min.css',
+        'build/widget/tooltip/index.css',
+        'build/widget/tooltip/index-min.css',
+        'build/widget/slide/index.css',
+        'build/widget/slide/index-min.css',
+
+        // page: KMC
+        'build/pages/home/v1/page/init.js',
+        'build/pages/home/1.0/page/init.js',
+        // page: uglify
+        'build/pages/home/v1/page/init-min.js',
+        'build/pages/home/1.0/page/init-min.js',
+        // page: ktpl
+        'src/pages/home/v1/page/mods/page-tpl.js',
+        'src/pages/home/1.0/page/mods/page-tpl.js',
+        // widget: KMC
+        'build/widget/tooltip/index.js',
+        'build/widget/slide/index.js',
+        // widget: uglify
+        'build/widget/tooltip/index-min.js',
+        'build/widget/slide/index-min.js',
+        // widget: ktpl
+        'src/widget/tooltip/mods/widget-tpl.js',
+        'src/widget/slide/mods/widget-tpl.js',
+        // common: KMC
+        'build/common/out.js',
+        'build/common/tooltip/in.js',
+        'build/common/package-config.js',
+        // common: uglify
+        'build/common/out-min.js',
+        'build/common/tooltip/in-min.js',
+        'build/common/package-config-min.js',
+        // common: ktpl
+        'src/common/mods/popup-tpl.js',
+        // utils: ktpl
+        'src/utils/utils-tpl.js'
+    ];
+
     it('测试 `grunt all`', function (done) {
 
         helpers.mockPrompt( KISSYPie, {
@@ -264,51 +310,42 @@ describe('ABC - KISSY-PIE generator build', function () {
                         else {
 
                             // 检查文件
-                            helpers.assertFiles([
-                                'build/pages/home/1.0/page/index.css',
-                                'build/pages/home/1.0/page/index-min.css',
-                                'build/pages/home/v1/page/index.css',
-                                'build/pages/home/v1/page/index-min.css',
-                                'build/common/out.css',
-                                'build/common/out-min.css',
-                                'build/common/sub/in.css',
-                                'build/common/sub/in-min.css',
-                                'build/widget/tooltip/index.css',
-                                'build/widget/tooltip/index-min.css',
-                                'build/widget/slide/index.css',
-                                'build/widget/slide/index-min.css',
+                            helpers.assertFiles( gruntAllExpect );
 
-                                // page: KMC
-                                'build/pages/home/v1/page/init.js',
-                                'build/pages/home/1.0/page/init.js',
-                                // page: uglify
-                                'build/pages/home/v1/page/init-min.js',
-                                'build/pages/home/1.0/page/init-min.js',
-                                // page: ktpl
-                                'src/pages/home/v1/page/mods/page-tpl.js',
-                                'src/pages/home/1.0/page/mods/page-tpl.js',
-                                // widget: KMC
-                                'build/widget/tooltip/index.js',
-                                'build/widget/slide/index.js',
-                                // widget: uglify
-                                'build/widget/tooltip/index-min.js',
-                                'build/widget/slide/index-min.js',
-                                // widget: ktpl
-                                'src/widget/tooltip/mods/widget-tpl.js',
-                                'src/widget/slide/mods/widget-tpl.js',
-                                // common: KMC
-                                'build/common/out.js',
-                                'build/common/tooltip/in.js',
-                                'build/common/package-config.js',
-                                // common: uglify
-                                'build/common/out-min.js',
-                                'build/common/tooltip/in-min.js',
-                                'build/common/package-config-min.js',
-                                // common: ktpl
-                                'src/common/mods/popup-tpl.js',
-                                // utils: ktpl
-                                'src/utils/utils-tpl.js'
-                            ]);
+                            done();
+                        }
+                    }, true );
+                }
+            });
+        });
+    });
+
+    it('测试 `grunt` 默认任务执行`all`', function (done) {
+
+        helpers.mockPrompt( KISSYPie, {
+            projectName: "my_project",
+            author: 'neekey',
+            email: 'ni184775761@gmail.com',
+            styleEngine: 'css'
+        });
+
+        KISSYPie.run({}, function () {
+
+            BuildMock.mocks( TestTargetDir, [ 'all' ], function( err ){
+                if( err ){
+                    done( err );
+                }
+                else {
+                    // build page & widget
+                    Grunt.exec( TestTargetDir, [], function( err ){
+
+                        if( err ){
+                            done( err );
+                        }
+                        else {
+
+                            // 检查文件
+                            helpers.assertFiles( gruntAllExpect );
 
                             done();
                         }
