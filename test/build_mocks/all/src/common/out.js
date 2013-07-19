@@ -1,9 +1,9 @@
 /**
- * @fileOverview 
- * @author  
+ * @fileOverview
+ * @author
  */
 KISSY.add(function (S) {
-
+    console.log( 'out.js' );
     /**
      * 下面的方式将自动执行所有require过来的模块的init方法
      *      1、异步执行，各模块不会互相影响
@@ -19,11 +19,10 @@ KISSY.add(function (S) {
             })(module),0);
         }
     });
-    
+
 }, { requires: [
-    './mods/page_mod',
-    './mods/page-tpl',
-    'widget/tooltip/mods/widget_mod',
+    './mods/_common_mod',
+    './mods/popup-tpl',
     'utils/utils_mod',
     'utils/utils-tpl'
 ]});

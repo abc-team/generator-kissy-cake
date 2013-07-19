@@ -41,14 +41,14 @@ Generator.prototype.askfor = function () {
         this.pageVersion = props.pageVersion.trim();
 
         // 检查版本号
-        if (!/^v\d+$/.test(this.pageVersion)) {
-            this.log.error('页面版本号格式错误：' + this.pageVersion + '!');
-            cb(new Error('页面版本号格式错误：' + this.pageVersion + '!'));
-        }
-        else {
+//        if (!/^v\d+$/.test(this.pageVersion)) {
+//            this.log.error('页面版本号格式错误：' + this.pageVersion + '!');
+//            cb(new Error('页面版本号格式错误：' + this.pageVersion + '!'));
+//        }
+//        else {
             this.pagePath = path.join( 'src/pages', props.pageName, props.pageVersion, 'page' );
             cb();
-        }
+//        }
 
     }.bind(this));
 };

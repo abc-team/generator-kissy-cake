@@ -1,6 +1,6 @@
 /**
- * @fileOverview 
- * @author  
+ * @fileOverview
+ * @author
  */
 KISSY.add(function (S) {
 
@@ -19,11 +19,10 @@ KISSY.add(function (S) {
             })(module),0);
         }
     });
-    
+
 }, { requires: [
-    './mods/page_mod',
-    './mods/page-tpl',
-    'widget/tooltip/mods/widget_mod',
+    './mods/widget_mod',
+    './mods/widget-tpl',
     'utils/utils_mod',
     'utils/utils-tpl'
 ]});

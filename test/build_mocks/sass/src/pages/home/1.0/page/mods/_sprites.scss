@@ -1,0 +1,9 @@
+@import "i/*.png";
+
+/**
+ * 将compass生成的图片上传到tps，并覆盖掉下方的url即可
+ */
+.i-sprite {
+  background-image: url(http://img04.taobaocdn.com/tps/i4/T15mdDFaJXXXXFQATa-19-38.png);
+  background-repeat: no-repeat;
+}

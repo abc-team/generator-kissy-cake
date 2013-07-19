@@ -1,0 +1,18 @@
+{
+    "name": "my_project",
+    "desc": "description of your app",
+    "type": "kissy-cake",
+    "type-url": "http://abc.alibaba-inc.com/r/kissy-cake",
+    "author": {
+        "name": "neekey",
+        "email": "ni184775761@gmail.com"
+    },
+    "_kissy_cake" : {
+        "groups": {},
+        "styleEngine": "less",
+        "defaults": {
+            "pages": [ "home/1.0" ],
+            "widgets": [ "tooltip" ]
+        }
+    }
+}

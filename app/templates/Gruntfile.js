@@ -167,7 +167,7 @@ module.exports = function (grunt) {
          */
         css_combo: {
             options: {
-                paths: [ '.' ]
+                paths: [ '<%%= srcBase %>' ]
             },
             page: {
                 files: [
@@ -209,7 +209,7 @@ module.exports = function (grunt) {
          */
         less: {
             options: {
-                paths: [ '<%%= srcBase %>', '<%%= pageSrcBase %>', '<%%= widgetSrcBase %>', '<%%= utilsSrcBase %>' ]
+                paths: [ '<%%= srcBase %>', '<%%= pageSrcBase %>', '<%%= widgetSrcBase %>', '<%%= utilsSrcBase %>', '<%%= commonSrcBase %>' ]
             },
 
             page: {
