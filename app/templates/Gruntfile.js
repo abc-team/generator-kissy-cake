@@ -392,6 +392,11 @@ module.exports = function (grunt) {
                 files: [ '<%%= utilsSrcBase %>/**/*.js' ],
                 tasks: [ 'kmc:page', 'uglify:page' ]
             },
+            // 所有在utils中的js文件变更将重新build common
+            'js_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.js' ],
+                tasks: [ 'kmc:common', 'uglify:common' ]
+            },
             // 所有在某个widget中的js文件变更将重新build对应的 widget
             'js_widget_widget': {
                 files: [ '<%%= widgetSrcBase %>/**/*.js' ],
@@ -407,12 +412,21 @@ module.exports = function (grunt) {
                 files: [ '<%%= pageSrcBase %>/**/*.js' ],
                 tasks: [ 'kmc:page', 'uglify:page' ]
             },
+            // 所有在某个common中的js文件变更将重新build common
+            'js_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.js' ],
+                tasks: [ 'kmc:common', 'uglify:common' ]
+            },
             // 所有位置的tpl变更，都只需要重新编译自己就可以了，因为tpl的编译会触发js的变更
             'tpl_utils_widget': {
                 files: [ '<%%= utilsSrcBase %>/**/*-tpl.html' ],
                 tasks: [ 'ktpl:utils' ]
             },
             'tpl_utils_page': {
+                files: [ '<%%= utilsSrcBase %>/**/*-tpl.html' ],
+                tasks: [ 'ktpl:utils' ]
+            },
+            'tpl_utils_common': {
                 files: [ '<%%= utilsSrcBase %>/**/*-tpl.html' ],
                 tasks: [ 'ktpl:utils' ]
             },
@@ -427,6 +441,10 @@ module.exports = function (grunt) {
             'tpl_page': {
                 files: [ '<%%= pageSrcBase %>/**/*-tpl.html' ],
                 tasks: [ 'ktpl:page' ]
+            },
+            'tpl_common': {
+                files: [ '<%%= commonSrcBase %>/**/*-tpl.html' ],
+                tasks: [ 'ktpl:common' ]
             }<% if(enableSass) { %>,
             // utils目录中的sass文件变更，就build widget
             'compass_utils_widget': {
@@ -438,6 +456,10 @@ module.exports = function (grunt) {
                 files: [ '<%%= utilsSrcBase %>/**/*.scss' ],
                 tasks: [ 'compass:page', 'cssmin:page' ]
             },
+            'compass_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.scss' ],
+                tasks: [ 'compass:common', 'cssmin:common' ]
+            },
             // 某个widget目录中的sass文件变更，就build 对应的widget
             'compass_widget_widget': {
                 files: [ '<%%= widgetSrcBase %>/**/*.scss', '<%%= widgetSrcBase %>/**/*.png' ],
@@ -447,6 +469,10 @@ module.exports = function (grunt) {
             'compass_widget_page': {
                 files: [ '<%%= srcBase %>/widget/**/*.scss', '<%%= srcBase %>/widget/**/*.png' ],
                 tasks: [ 'compass:page', 'cssmin:page' ]
+            },
+            'compass_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.scss', '<%%= commonSrcBase %>/**/*.png' ],
+                tasks: [ 'compass:common', 'cssmin:common' ]
             },
             // 某个page目录中的sass文件变更，就build对应的page
             'compass_page': {
@@ -463,6 +489,10 @@ module.exports = function (grunt) {
                 files: [ '<%%= utilsSrcBase %>/**/*.less' ],
                 tasks: [ 'less:page', 'cssmin:page' ]
             },
+            'less_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.less' ],
+                tasks: [ 'less:common', 'cssmin:common' ]
+            },
             // 某个widget目录中的less文件变更，就build 对应的widget
             'less_widget_widget': {
                 files: [ '<%%= widgetSrcBase %>/**/*.less' ],
@@ -477,6 +507,10 @@ module.exports = function (grunt) {
             'less_page': {
                 files: [ '<%%= pageSrcBase %>/**/*.less' ],
                 tasks: [ 'less:page', 'cssmin:page' ]
+            },
+            'less_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.less' ],
+                tasks: [ 'less:common', 'cssmin:common' ]
             }<% } if(enableCSSCombo) { %>,
             // utils目录中的less文件变更，就build widget
             'css_utils_widget': {
@@ -487,6 +521,10 @@ module.exports = function (grunt) {
             'css_utils_page': {
                 files: [ '<%%= utilsSrcBase %>/**/*.css' ],
                 tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            'css_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:common', 'cssmin:common' ]
             },
             // 某个widget目录中的less文件变更，就build 对应的widget
             'css_widget_widget': {
@@ -502,6 +540,10 @@ module.exports = function (grunt) {
             'css_page': {
                 files: [ '<%%= pageSrcBase %>/**/*.css' ],
                 tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            'css_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:common', 'cssmin:common' ]
             }<% } %>
         }
     });
