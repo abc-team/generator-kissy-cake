@@ -8,7 +8,7 @@ var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
 
     this.on('end', function () {
-        this.log.ok('Widget %s/%s 创建完毕!', this.pageName, this.pageVersion);
+        this.log.ok('Widget %s 创建完毕!', this.widgetName );
     });
 
 };

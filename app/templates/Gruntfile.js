@@ -258,14 +258,16 @@ module.exports = function (grunt) {
                 outputStyle: 'nested',
                 noLineComments: true,
                 importPath: [ '<%%= srcBase %>' ],
-                trace: true
+                trace: true,
+                relativeAssets: true
             },
 
             page: {
                 options: {
                     sassDir: '<%%= pageSrcBase %>',
                     cssDir: '<%%= pageBuildBase %>',
-                    imagesDir: '<%%= pageSrcBase %>/images'
+                    imagesDir: '<%%= pageSrcBase %>/images',
+                    generatedImagesDir: '<%%= pageSrcBase %>/images'
                 }
             },
 
@@ -273,7 +275,8 @@ module.exports = function (grunt) {
                 options: {
                     sassDir: '<%%= widgetSrcBase %>',
                     cssDir: '<%%= widgetBuildBase %>',
-                    imagesDir: '<%%= widgetSrcBase %>/images'
+                    imagesDir: '<%%= widgetSrcBase %>/images',
+                    generatedImagesDir: '<%%= widgetSrcBase %>/images'
                 }
             },
 
@@ -281,7 +284,8 @@ module.exports = function (grunt) {
                 options: {
                     sassDir: '<%%= commonSrcBase %>',
                     cssDir: '<%%= commonBuildBase %>',
-                    imagesDir: '<%%= commonSrcBase %>/images'
+                    imagesDir: '<%%= commonSrcBase %>/images',
+                    generatedImagesDir: '<%%= commonSrcBase %>/images'
                 }
             }
         }<% } %>,

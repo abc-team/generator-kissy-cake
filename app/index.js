@@ -1,97 +1,100 @@
 var generator = require('abc-generator');
-var util      = require('util');
+var util = require('util');
 var path = require('path');
 
 // Documentation: https://github.com/yeoman/generator/wiki/base
 
 var Generator = module.exports = function Generator() {
-  generator.UIBase.apply(this, arguments);
+    generator.UIBase.apply(this, arguments);
 
-  try {
-    this.abcJSON = require(path.resolve('abc.json'));
-  } catch (e) {
-    this.isFirstTime = true;
-    this.abcJSON = {};
-  }
-
-  if (!this.abcJSON.author) {
-    this.abcJSON.author = {
-      name: '',
-      email: ''
+    try {
+        this.abcJSON = require(path.resolve('abc.json'));
+    } catch (e) {
+        this.isFirstTime = true;
+        this.abcJSON = {};
     }
-  }
 
-  this.on('end', function() {
-    this.log();
-    this.log.ok('KISSY-Cake初始化完毕!');
-  });
+    if (!this.abcJSON.author) {
+        this.abcJSON.author = {
+            name: '',
+            email: ''
+        }
+    }
+
+    // 设置generator的version
+    this.generatorVersion = require( path.resolve( __dirname, '../package.json' ) ).version;
+
+    this.on('end', function () {
+        this.log();
+        this.log.ok('KISSY-Cake初始化完毕!');
+    });
 };
 
 util.inherits(Generator, generator.UIBase);
 
-Generator.prototype.welcome = function welcome () {
-  this.log.writeln(this.abcLogo);
+Generator.prototype.welcome = function welcome() {
+    this.log.writeln(this.abcLogo);
 };
 
-Generator.prototype.questions = function() {
-  var cb = this.async();
-  var abcJSON = this.abcJSON || {};
-  var cakeConfig = this.abcJSON['_kissy_cake'] || {};
+Generator.prototype.questions = function () {
+    var cb = this.async();
+    var abcJSON = this.abcJSON || {};
+    var cakeConfig = this.abcJSON['_kissy_cake'] || {};
 
-  var prompts = [
-    {
-      name: 'projectName',
-      message: '项目名称',
-      default: abcJSON.name || path.basename(process.cwd()),
-      warning: ''
-    },
-    {
-      name: 'author',
-      message: '作者',
-      default: abcJSON.author.name || '',
-      warning: ''
-    },
-    {
-      name: 'email',
-      message: '邮箱地址',
-      default: abcJSON.author.email || '',
-      warning: ''
-    },
-    {
-      name: 'styleEngine',
-      message: '使用样式引擎[css|less|sass]?',
-      default: cakeConfig.styleEngine || '',
-      warning: ''
-    }
-  ];
+    var prompts = [
+        {
+            name: 'projectName',
+            message: '项目名称',
+            default: abcJSON.name || path.basename(process.cwd()),
+            warning: ''
+        },
+        {
+            name: 'author',
+            message: '作者',
+            default: abcJSON.author.name || '',
+            warning: ''
+        },
+        {
+            name: 'email',
+            message: '邮箱地址',
+            default: abcJSON.author.email || '',
+            warning: ''
+        },
+        {
+            name: 'styleEngine',
+            message: '使用样式引擎[css|less|sass]?',
+            default: cakeConfig.styleEngine || '',
+            warning: ''
+        }
+    ];
 
-  this.prompt(prompts, function ( props) {
-    // manually deal with the response, get back and store the results.
-    // we change a bit this way of doing to automatically do this in the self.prompt() method.
-    this.projectName = props.projectName;
-    this.author = props.author;
-    this.email = props.email;
-    this.styleEngine = props.styleEngine;
-    this.enableLess = (/less/i).test(this.styleEngine);
-    this.enableSass = (/sass/i).test(this.styleEngine);
-    this.enableCSSCombo = (/css/i).test(this.styleEngine);
+    this.prompt(prompts, function (props) {
+        // manually deal with the response, get back and store the results.
+        // we change a bit this way of doing to automatically do this in the self.prompt() method.
+        this.projectName = props.projectName;
+        this.author = props.author;
+        this.email = props.email;
+        this.styleEngine = props.styleEngine;
+        this.enableLess = (/less/i).test(this.styleEngine);
+        this.enableSass = (/sass/i).test(this.styleEngine);
+        this.enableCSSCombo = (/css/i).test(this.styleEngine);
 
-    cb();
-  }.bind(this));
+        cb();
+    }.bind(this));
 };
 
 // Copies the entire template directory (with `.`, meaning the
 // templates/ root) to the specified location
 Generator.prototype.scaffold = function scaffold() {
 
-  this.mkdir('src/pages');
-  this.mkdir('src/common');
-  this.mkdir('src/widget');
-  this.mkdir('src/utils');
+    this.mkdir('src/pages');
+    this.mkdir('src/common');
+    this.mkdir('src/widget');
+    this.mkdir('src/utils');
 
-  this.mkdir('build/common');
-  this.mkdir('build/widget');
-  this.mkdir('build/pages');
+    this.mkdir('build/common');
+    this.mkdir('build/widget');
+    this.mkdir('build/pages');
 };
 
 
@@ -115,7 +118,7 @@ Generator.prototype.gruntFiles = function gruntFiles() {
 
 
 Generator.prototype.sampleFiles = function endRun() {
-    if(!this.isFirstTime) {
+    if (!this.isFirstTime) {
         return;
     }
 
@@ -126,7 +129,7 @@ Generator.prototype.install = function install() {
     var cb = this.async();
     var self = this;
 
-    if( this.options[ 'skip-install' ] ){
+    if (this.options[ 'skip-install' ]) {
         cb();
     }
     else {
@@ -172,7 +175,7 @@ Generator.prototype._scan = function _scan() {
     var widgetMatch = path.join('src/widget/*/');
     var widgets = this.expand(widgetMatch);
 
-    widgets = widgets.map(function(pathname) {
+    widgets = widgets.map(function (pathname) {
         return {
             name: path.basename(pathname).replace(/[\\/]$/, '')
         };

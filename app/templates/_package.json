@@ -1,6 +1,6 @@
 {
   "name": "project_power_by_kissy_cake",
-  "version": "0.1.0",
+  "version": "<%= generatorVersion %>",
   "description": "an kissy cake app",
   "main": "index.js",
   "directories": {
@@ -18,8 +18,8 @@
       "grunt-contrib-uglify": "~0.2.0"<% if(enableLess) { %>,
       "grunt-contrib-less": "~0.5.0"<% } %><% if(enableCSSCombo) { %>,
       "grunt-css-combo": ">=0.2.2"<% } %><% if(enableSass) { %>,
-      "grunt-contrib-compass": "~0.1.3"<% } %>,
-      "grunt-contrib-cssmin": "~0.5.0",
+      "grunt-contrib-compass": "~0.4.0"<% } %>,
+      "grunt-contrib-cssmin": "~0.6.1",
       "grunt-contrib-watch": "~0.3.1",
       "grunt-kmc": "~0.1.0",
       "grunt-contrib-connect": "~0.3.0",
