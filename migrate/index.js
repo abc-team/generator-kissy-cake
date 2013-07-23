@@ -97,7 +97,11 @@ Generator.prototype.copyFiles = function app() {
                         path = Path.resolve( self.srcDir, path );
                         var stat = FS.statSync( path );
 
+                        console.log( 'paths::', path );
+
                         if( stat.isDirectory() ){
+
+                            console.log( 'It\'s a directory' );
                             // 若部位utils和common，则为page
                             if( !/(?:utils|common)/.test( path ) ){
                                 dirCount++;
@@ -106,8 +110,10 @@ Generator.prototype.copyFiles = function app() {
                                         done( err );
                                     }
                                     else {
+                                        console.log( 'COPY::', path );
                                         copyCount++;
                                         if( ifForEachOver && copyCount == dirCount ){
+                                            console.log( 'BEFORE DONE' );
                                             done();
                                         }
                                     }
@@ -115,6 +121,7 @@ Generator.prototype.copyFiles = function app() {
                             }
                         }
                         else {
+                            console.log( 'It\'s a file!' );
                             self.copy( path, Path.join( Path.resolve( self.newDir, 'src' ), Path.basename( path ) ) );
                         }
                     });
@@ -122,6 +129,7 @@ Generator.prototype.copyFiles = function app() {
                     ifForEachOver = true;
 
                     if( dirCount == 0 ){
+                        console.log( 'BEFORE DONE' );
                         done();
                     }
                 }
