@@ -27,14 +27,12 @@ describe('ABC - KISSY-PIE generator', function () {
 
             KISSYPieMigrate.run({}, function(){
                 helpers.assertFiles([
-                    'src/pages/home/1.0/page/mods',
                     'src/pages/home/1.0/page/init.js',
                     'src/pages/home/1.0/page/index.css',
+                    'src/pages/index/v1/page/init.js',
+                    'src/pages/index/v1/page/index.css',
                     'src/common/package-config.js',
                     'src/utils/index.js',
-                    'src/Gruntfile.js',
-                    'src/abc.json',
-                    'src/package.json',
                     'src/.editorconfig',
                     'src/.gitattributes',
                     'src/.gitignore',
