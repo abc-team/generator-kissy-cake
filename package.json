@@ -4,9 +4,9 @@
   "description": "generator for kissy-cake",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/migrate.js -t 0 -R spec"
+    "test": "mocha -t 0 -R spec"
   },
-  "repository": "",
+  "repository": "https://github.com/abc-team/generator-kissy-cake.git",
   "keywords": [
     "generator",
     "abc",
