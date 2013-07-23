@@ -113,6 +113,10 @@ Generator.prototype.copyFiles = function app() {
                                         console.log( 'COPY::', path );
                                         copyCount++;
                                         if( ifForEachOver && copyCount == dirCount ){
+                                            console.log( Path.join( Path.resolve( self.newDir, 'src/pages' ), Path.basename( path ) ) );
+                                            if( FS.existsSync( Path.join( Path.resolve( self.newDir, 'src/pages' ), Path.basename( path ) ) ) ){
+                                                console.log( 'path exists!' );
+                                            }
                                             console.log( 'BEFORE DONE' );
                                             done();
                                         }
