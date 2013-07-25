@@ -27,22 +27,19 @@ module.exports = function (grunt) {
         srcBase: 'src',
         // 包名
         packageName: 'page',
-
         // 页面名称
         pageName: options.pageName,
-        // 页面源码版本
-        pageVersion: options.version,
         // Widget名称
         widgetName: options.widgetName,
 
         // 用于页面打包路径
-        pageSrcBase: '<%%= srcBase %>/pages/<%%= pageName %>/<%%= pageVersion %>/<%%= packageName %>',
+        pageSrcBase: '<%%= srcBase %>/pages/<%%= pageName %>/<%%= packageName %>',
         widgetSrcBase: '<%%= srcBase %>/widget/<%%= widgetName %>',
         commonSrcBase: '<%%= srcBase %>/common',
         utilsSrcBase: '<%%= srcBase %>/utils',
 
         // 打包输出目录
-        pageBuildBase: '<%%= buildBase %>/pages/<%%= pageName %>/<%%= pageVersion %>/<%%= packageName %>',
+        pageBuildBase: '<%%= buildBase %>/pages/<%%= pageName %>/<%%= packageName %>',
         widgetBuildBase: '<%%= buildBase %>/widget/<%%= widgetName %>',
         commonBuildBase: '<%%= buildBase %>/common',
 
@@ -55,7 +52,7 @@ module.exports = function (grunt) {
                 packages: [
                     {
                         name: '<%%= packageName %>',
-                        path: '<%%= srcBase %>/pages/<%%= pageName %>/<%%= pageVersion %>'
+                        path: '<%%= srcBase %>/pages/<%%= pageName %>'
                     },
                     {
                         name: 'widget',
@@ -160,7 +157,7 @@ module.exports = function (grunt) {
                     }
                 ]
             }
-        }<% if(enableCSSCombo) { %>,
+        },
         /**
          * CSS Combo
          * @link https://github.com/daxingplay/grunt-css-combo
@@ -201,7 +198,7 @@ module.exports = function (grunt) {
                     }
                 ]
             }
-        }<% } if(enableLess) { %>,
+        }<% if(enableLess) { %>,
 
         /**
          * 将LESS编译为CSS
@@ -449,6 +446,39 @@ module.exports = function (grunt) {
             'tpl_common': {
                 files: [ '<%%= commonSrcBase %>/**/*-tpl.html' ],
                 tasks: [ 'ktpl:common' ]
+            },
+            // utils目录中的CSS文件变更，就build widget
+            'css_utils_widget': {
+                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:widget', 'cssmin:widget' ]
+            },
+            // utils目录中的CSS文件变更，就build page
+            'css_utils_page': {
+                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            'css_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:common', 'cssmin:common' ]
+            },
+            // 某个widget目录中的CSS文件变更，就build 对应的widget
+            'css_widget_widget': {
+                files: [ '<%%= widgetSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:widget', 'cssmin:widget' ]
+            },
+            // 任意widget目录中的CSS文件变更，就build page
+            'css_widget_page': {
+                files: [ '<%%= srcBase %>/widget/**/*.css' ],
+                tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            // 某个page目录中的CSS文件变更，就build对应的page
+            'css_page': {
+                files: [ '<%%= pageSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:page', 'cssmin:page' ]
+            },
+            'css_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.css' ],
+                tasks: [ 'css_combo:common', 'cssmin:common' ]
             }<% if(enableSass) { %>,
             // utils目录中的sass文件变更，就build widget
             'compass_utils_widget': {
@@ -515,39 +545,6 @@ module.exports = function (grunt) {
             'less_common': {
                 files: [ '<%%= commonSrcBase %>/**/*.less' ],
                 tasks: [ 'less:common', 'cssmin:common' ]
-            }<% } if(enableCSSCombo) { %>,
-            // utils目录中的less文件变更，就build widget
-            'css_utils_widget': {
-                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
-                tasks: [ 'css_combo:widget', 'cssmin:widget' ]
-            },
-            // utils目录中的less文件变更，就build page
-            'css_utils_page': {
-                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
-                tasks: [ 'css_combo:page', 'cssmin:page' ]
-            },
-            'css_utils_common': {
-                files: [ '<%%= utilsSrcBase %>/**/*.css' ],
-                tasks: [ 'css_combo:common', 'cssmin:common' ]
-            },
-            // 某个widget目录中的less文件变更，就build 对应的widget
-            'css_widget_widget': {
-                files: [ '<%%= widgetSrcBase %>/**/*.css' ],
-                tasks: [ 'css_combo:widget', 'cssmin:widget' ]
-            },
-            // 任意widget目录中的less文件变更，就build page
-            'css_widget_page': {
-                files: [ '<%%= srcBase %>/widget/**/*.css' ],
-                tasks: [ 'css_combo:page', 'cssmin:page' ]
-            },
-            // 某个page目录中的less文件变更，就build对应的page
-            'css_page': {
-                files: [ '<%%= pageSrcBase %>/**/*.css' ],
-                tasks: [ 'css_combo:page', 'cssmin:page' ]
-            },
-            'css_common': {
-                files: [ '<%%= commonSrcBase %>/**/*.css' ],
-                tasks: [ 'css_combo:common', 'cssmin:common' ]
             }<% } %>
         }
     });
@@ -566,17 +563,17 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableCSSCombo) { %>, 'css_combo:page'<% } if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'cssmin:page']);
+    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page']);
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableCSSCombo) { %>, 'css_combo:widget'<% } if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'cssmin:widget']);
+    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget']);
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableCSSCombo) { %>, 'css_combo:common'<% } if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'cssmin:common']);
+    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common']);
 
     /**
      * 初始化KISSY-Cake的任务注册

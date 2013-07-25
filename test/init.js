@@ -128,7 +128,7 @@ describe('ABC - KISSY-PIE generator', function () {
                 projectName: "my_project",
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
-                styleEngine: 'css'
+                styleEngine: ''
             });
 
             KISSYPie.run({}, function() {

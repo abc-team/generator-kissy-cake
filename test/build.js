@@ -58,11 +58,11 @@ describe('ABC - KISSY-PIE generator build', function () {
                                 // 检查文件
                                 helpers.assertFiles([
                                     // page: KMC
-                                    'build/pages/home/v1/page/init.js',
+                                    'build/pages/home/page/init.js',
                                     // page: uglify
-                                    'build/pages/home/v1/page/init-min.js',
+                                    'build/pages/home/page/init-min.js',
                                     // page: ktpl
-                                    'src/pages/home/v1/page/mods/page-tpl.js',
+                                    'src/pages/home/page/mods/page-tpl.js',
                                     // widget: KMC
                                     'build/widget/tooltip/index.js',
                                     // widget: uglify
@@ -121,8 +121,8 @@ describe('ABC - KISSY-PIE generator build', function () {
 
                                 // 检查文件
                                 helpers.assertFiles([
-                                    'build/pages/home/1.0/page/index.css',
-                                    'build/pages/home/1.0/page/index-min.css',
+                                    'build/pages/home/page/index.css',
+                                    'build/pages/home/page/index-min.css',
                                     'build/common/out.css',
                                     'build/common/out-min.css',
                                     'build/common/sub/in.css',
@@ -169,14 +169,22 @@ describe('ABC - KISSY-PIE generator build', function () {
 
                                 // 检查文件
                                 helpers.assertFiles([
-                                    'build/pages/home/1.0/page/index.css',
-                                    'build/pages/home/1.0/page/index-min.css',
+                                    'build/pages/home/page/index.css',
+                                    'build/pages/home/page/index-min.css',
+                                    'build/pages/home/page/pure_css.css',
+                                    'build/pages/home/page/pure_css-min.css',
                                     'build/common/out.css',
                                     'build/common/out-min.css',
                                     'build/common/sub/in.css',
                                     'build/common/sub/in-min.css',
+                                    'build/common/pure_out.css',
+                                    'build/common/pure_out-min.css',
+                                    'build/common/sub/pure_in.css',
+                                    'build/common/sub/pure_in-min.css',
                                     'build/widget/tooltip/index.css',
-                                    'build/widget/tooltip/index-min.css'
+                                    'build/widget/tooltip/index-min.css',
+                                    'build/widget/tooltip/pure_css.css',
+                                    'build/widget/tooltip/pure_css-min.css'
                                 ]);
 
                                 done();
@@ -217,17 +225,25 @@ describe('ABC - KISSY-PIE generator build', function () {
 
                                 // 检查文件
                                 helpers.assertFiles([
-                                    'src/pages/home/1.0/page/images/i-sdcfa0aaa5c.png',
-                                    'build/pages/home/1.0/page/index.css',
-                                    'build/pages/home/1.0/page/index-min.css',
+                                    'src/pages/home/page/images/i-sdcfa0aaa5c.png',
+                                    'build/pages/home/page/index.css',
+                                    'build/pages/home/page/index-min.css',
+                                    'build/pages/home/page/pure_css.css',
+                                    'build/pages/home/page/pure_css-min.css',
                                     'src/common/images/i-sdcfa0aaa5c.png',
                                     'build/common/out.css',
                                     'build/common/out-min.css',
                                     'build/common/sub/in.css',
                                     'build/common/sub/in-min.css',
+                                    'build/common/pure_out.css',
+                                    'build/common/pure_out-min.css',
+                                    'build/common/sub/pure_in.css',
+                                    'build/common/sub/pure_in-min.css',
                                     'build/widget/tooltip/index.css',
+                                    'build/widget/tooltip/index-min.css',
+                                    'build/widget/tooltip/pure_css.css',
+                                    'build/widget/tooltip/pure_css-min.css',
                                     'src/widget/tooltip/images/i-sdcfa0aaa5c.png',
-                                    'build/widget/tooltip/index-min.css'
                                 ]);
 
                                 done();
@@ -240,10 +256,10 @@ describe('ABC - KISSY-PIE generator build', function () {
     });
 
     var gruntAllExpect = [
-        'build/pages/home/1.0/page/index.css',
-        'build/pages/home/1.0/page/index-min.css',
-        'build/pages/home/v1/page/index.css',
-        'build/pages/home/v1/page/index-min.css',
+        'build/pages/home/page/index.css',
+        'build/pages/home/page/index-min.css',
+        'build/pages/index/page/index.css',
+        'build/pages/index/page/index-min.css',
         'build/common/out.css',
         'build/common/out-min.css',
         'build/common/sub/in.css',
@@ -254,14 +270,14 @@ describe('ABC - KISSY-PIE generator build', function () {
         'build/widget/slide/index-min.css',
 
         // page: KMC
-        'build/pages/home/v1/page/init.js',
-        'build/pages/home/1.0/page/init.js',
+        'build/pages/home/page/init.js',
+        'build/pages/index/page/init.js',
         // page: uglify
-        'build/pages/home/v1/page/init-min.js',
-        'build/pages/home/1.0/page/init-min.js',
+        'build/pages/home/page/init-min.js',
+        'build/pages/index/page/init-min.js',
         // page: ktpl
-        'src/pages/home/v1/page/mods/page-tpl.js',
-        'src/pages/home/1.0/page/mods/page-tpl.js',
+        'src/pages/home/page/mods/page-tpl.js',
+        'src/pages/index/page/mods/page-tpl.js',
         // widget: KMC
         'build/widget/tooltip/index.js',
         'build/widget/slide/index.js',

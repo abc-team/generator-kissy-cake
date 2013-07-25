@@ -8,7 +8,7 @@ var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
 
     this.on('end', function () {
-        this.log.ok('Page %s/%s 创建完毕!', this.pageName, this.pageVersion);
+        this.log.ok('Page %s/%s 创建完毕!', this.pageName);
     });
 };
 
@@ -27,28 +27,13 @@ Generator.prototype.askfor = function () {
             message: 'Name of your page:',
             default: '',
             warning: ''
-        },
-        {
-            name: 'pageVersion',
-            message: 'Version of page:',
-            default: 'v1',
-            warning: ''
         }
     ];
 
     this.prompt(prompts, function (props) {
         this.pageName = props.pageName;
-        this.pageVersion = props.pageVersion.trim();
-
-        // 检查版本号
-//        if (!/^v\d+$/.test(this.pageVersion)) {
-//            this.log.error('页面版本号格式错误：' + this.pageVersion + '!');
-//            cb(new Error('页面版本号格式错误：' + this.pageVersion + '!'));
-//        }
-//        else {
-            this.pagePath = path.join( 'src/pages', props.pageName, props.pageVersion, 'page' );
-            cb();
-//        }
+        this.pagePath = path.join( 'src/pages', props.pageName, 'page' );
+        cb();
 
     }.bind(this));
 };

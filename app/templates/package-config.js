@@ -7,7 +7,6 @@
 /**
  * ABC.config({
  *   pageName: 'list',
- *   pageVersion: 'v1',
  *   pub: '1.1.1',
  *   path: 'http://g.tbcdn.cn/myGroup/myRepo/',
  *   charset: 'utf-8'
@@ -22,7 +21,6 @@
          * of a FrontBuild Page
          * @param {Object} config
          * @param config.pageName     name of FrontBuild
-         * @param config.pageVersion  version of you app
          * @param config.pub      timestamp of published directory
          * @param config.path     url of you fbapp root
          * @param config.charset
@@ -33,7 +31,6 @@
                 config.path = '';
             }
 
-            //switch dev or production env
             var debug = config.debug ? true : KISSY.Config.debug;
             var debugPagePath = S.unparam(location.search.replace(/^\?/, ''))['ks-debug'];
 
@@ -53,7 +50,7 @@
 
             var pkgs = [];
             var packageConfig = {};
-            var pagePath = S.substitute('{path}/{pub}/pages/{pageName}/{pageVersion}', config);
+            var pagePath = S.substitute('{path}/{pub}/pages/{pageName}', config);
             var widgetPath = S.substitute('{path}/{pub}', config);
             var commonPath = S.substitute('{path}/{pub}', config);
             var utilsPath = S.substitute('{path}/{pub}', config);

@@ -47,8 +47,8 @@ describe('ABC - KISSY-PIE generator', function () {
 
             KISSYPiePage.run({}, function(){
                 helpers.assertFiles([
-                    'src/pages/home/v1/page/mods',
-                    'src/pages/home/v1/page/init.js'
+                    'src/pages/home/page/mods',
+                    'src/pages/home/page/init.js'
                 ]);
 
                 done();
@@ -79,16 +79,15 @@ describe('ABC - KISSY-PIE generator', function () {
                 ]);
 
                 helpers.mockPrompt( KISSYPiePage, {
-                    pageName: 'home',
-                    pageVersion: 'v1'
+                    pageName: 'home'
                 });
 
                 KISSYPiePage.run({}, function(){
                     helpers.assertFiles([
-                        'src/pages/home/v1/page/images/i/attention.png',
-                        'src/pages/home/v1/page/images/i/question.png',
-                        'src/pages/home/v1/page/mods/_sprites.scss',
-                        'src/pages/home/v1/page/index.scss'
+                        'src/pages/home/page/images/i/attention.png',
+                        'src/pages/home/page/images/i/question.png',
+                        'src/pages/home/page/mods/_sprites.scss',
+                        'src/pages/home/page/index.scss'
                     ]);
 
                     done();
@@ -117,14 +116,13 @@ describe('ABC - KISSY-PIE generator', function () {
                 ]);
 
                 helpers.mockPrompt( KISSYPiePage, {
-                    pageName: 'home',
-                    pageVersion: 'v1'
+                    pageName: 'home'
                 });
 
                 KISSYPiePage.run({}, function(){
 
                     helpers.assertFiles([
-                        'src/pages/home/v1/page/index.less'
+                        'src/pages/home/page/index.less'
                     ]);
 
                     done();
@@ -153,13 +151,12 @@ describe('ABC - KISSY-PIE generator', function () {
                 ]);
 
                 helpers.mockPrompt( KISSYPiePage, {
-                    pageName: 'home',
-                    pageVersion: 'v1'
+                    pageName: 'home'
                 });
 
                 KISSYPiePage.run({}, function(){
                     helpers.assertFiles([
-                        'src/pages/home/v1/page/index.css'
+                        'src/pages/home/page/index.css'
                     ]);
 
                     done();
