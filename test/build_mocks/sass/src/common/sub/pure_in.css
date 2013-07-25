@@ -1,0 +1,6 @@
+@import "../mods/_common_mod.css";
+@import "utils/utils_mod.css";
+
+.common-in {
+    margin: 5px;
+}

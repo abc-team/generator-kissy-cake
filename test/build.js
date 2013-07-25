@@ -140,7 +140,7 @@ describe('ABC - KISSY-PIE generator build', function () {
         });
     });
 
-    it.only('使用LESS：page/common/widget', function (done) {
+    it('使用LESS：page/common/widget', function (done) {
 
         helpers.mockPrompt( KISSYPie, {
             projectName: "my_project",
@@ -179,8 +179,8 @@ describe('ABC - KISSY-PIE generator build', function () {
                                     'build/common/sub/in-min.css',
                                     'build/common/pure_out.css',
                                     'build/common/pure_out-min.css',
-                                    'build/common/pure_sub/in.css',
-                                    'build/common/pure_sub/in-min.css',
+                                    'build/common/sub/pure_in.css',
+                                    'build/common/sub/pure_in-min.css',
                                     'build/widget/tooltip/index.css',
                                     'build/widget/tooltip/index-min.css',
                                     'build/widget/tooltip/pure_css.css',
