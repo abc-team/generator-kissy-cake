@@ -11,7 +11,7 @@
         "groups": {},
         "styleEngine": "css",
         "defaults": {
-            "pages": [ "home/1.0" ],
+            "pages": [ "home" ],
             "widgets": [ "tooltip" ]
         }
     }
