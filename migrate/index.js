@@ -23,6 +23,7 @@ util.inherits(Generator, generator.UIBase);
 
 Generator.prototype.welcome = function () {
     this.log(this.abcLogo);
+    this.log( '\033[1;33m!注意\033[0m：由于KISSY-Cake中去掉了page的\033[0;36m原码版本\033[0m，因此会自动抓取\033[0;36m最新\033[0m的版本进行迁移!\n' )
 };
 
 Generator.prototype.askfor = function () {
@@ -38,7 +39,7 @@ Generator.prototype.askfor = function () {
         {
             name: 'newDir',
             message: '请输入需要迁入的目录地址（绝对地址）',
-            default: '',
+            default: process.cwd(),
             warning: ''
         }
     ];
@@ -78,6 +79,9 @@ Generator.prototype.copyFiles = function app() {
     this.mkdir( Path.resolve( this.newDir, 'src/widget' ) );
     this.mkdir( Path.resolve( this.newDir, 'src/pages' ) );
     this.mkdir( Path.resolve( this.newDir, 'build' ) );
+    console.log( '   \033[1;32mcreate\033[0m ' + Path.resolve( this.newDir, 'src/widget' ));
+    console.log( '   \033[1;32mcreate\033[0m ' + Path.resolve( this.newDir, 'src/pages' ));
+    console.log( '   \033[1;32mcreate\033[0m ' + Path.resolve( this.newDir, 'build' ));
 
     // 开始复制文件
     FS.copy( Path.resolve( self.srcDir, 'common' ), Path.resolve( self.newDir, 'src/common' ), function( err ){
@@ -87,12 +91,15 @@ Generator.prototype.copyFiles = function app() {
             done( err );
         }
         else {
+            console.log( '   \033[1;32mcreate\033[0m ' + Path.resolve( self.newDir, 'src/common' ));
+
             FS.copy( Path.resolve( self.srcDir, 'utils' ), Path.resolve( self.newDir, 'src/utils' ), function( err ){
                 if( err ){
                     self.log.error( err );
                     done( err );
                 }
                 else {
+                    console.log( '   \033[1;32mcreate\033[0m ' + Path.resolve( self.newDir, 'src/utils' ));
 
                     var dirCount = 0;
                     var copyCount = 0;
@@ -108,8 +115,8 @@ Generator.prototype.copyFiles = function app() {
                             // 若不为utils和common，则为page
                             if( !/(?:utils|common|node_modules|tools|docs)/.test( path ) ){
 
-                                // 创建page页面，之后在扫描下面的原码版本目录
-                                self.mkdir( Path.resolve( self.newDir, 'src/pages/' + pathBase ) );
+                                var latest = null;
+                                var latestVersion = null;
 
                                 FS.readdirSync( path).forEach(function( subPath ){
                                     var subPathBase = subPath;
@@ -118,23 +125,37 @@ Generator.prototype.copyFiles = function app() {
                                     // 由于KISSY-Pie目录的打包目录和1.0等原码目录在一个层级，因此需要过滤掉这些目录
                                     if( FS.statSync( subPath ).isDirectory() && ( /^\d*\.\d*$/.test( subPathBase ) || /^v/.test( subPathBase ) ) ){
 
-                                        dirCount++;
-
-                                        FS.copy( subPath, Path.join( Path.resolve( self.newDir, 'src/pages' ), pathBase, subPathBase ), function( err ){
-                                            if( err ){
-                                                self.log.error( err );
-                                                done( err );
+                                        if( latestVersion === null ){
+                                            latestVersion = subPathBase;
+                                            latest = subPath;
+                                        }
+                                        else {
+                                            if( parseFloat( subPathBase ) > latestVersion ){
+                                                latestVersion = subPathBase;
+                                                latest = subPath;
                                             }
-                                            else {
-                                                copyCount++;
-                                                if( ifForEachOver && copyCount == dirCount ){
-                                                    done();
-                                                }
-                                            }
-                                        });
+                                        }
                                     }
-
                                 });
+
+                                if( latest != null ){
+
+                                    dirCount++;
+
+                                    FS.copy( latest, Path.join( Path.resolve( self.newDir, 'src/pages' ), pathBase ), function( err ){
+                                        if( err ){
+                                            self.log.error( err );
+                                            done( err );
+                                        }
+                                        else {
+                                            console.log( '   \033[1;32mcreate\033[0m ' + Path.join( Path.resolve( self.newDir, 'src/pages' ), pathBase ));
+                                            copyCount++;
+                                            if( ifForEachOver && copyCount == dirCount ){
+                                                done();
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                         else {
