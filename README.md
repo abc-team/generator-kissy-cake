@@ -59,11 +59,11 @@ $ yo kissy-cake:page
 
 ## 命令列表
 
-- `grunt page` 将对`abc.json`中指定的page进行打包
-- `grunt widget` 将对`abc.json`中指定的widget进行打包
-- `grunt build` 将对`abc.json`中指定的page和widget进行打包
-- `grunt common` 将对common进行打包
-- `grunt all` 将对项目中所有的page、widget以及common进行打包
-- `grunt` 同`grunt all`
-- `grunt watch` 对`abc.json`中指定的page和widget以及common进行监控
+- `grunt page` 将对`abc.json`中指定的 page 进行打包
+- `grunt widget` 将对`abc.json`中指定的 widget 进行打包
+- `grunt build` 将对`abc.json`中指定的 page 和 widget 进行打包
+- `grunt common` 将对 common 进行打包
+- `grunt all` 将对项目中所有的 page、widget 以及 common 进行打包
+- `grunt` 同 `grunt all`
+- `grunt watch` 对`abc.json`中指定的 page 和 widget 以及 common 进行监控
 
