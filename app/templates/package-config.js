@@ -5,13 +5,20 @@
 
  */
 /**
+ * 如何使用这个脚本
+ * Step1. 引入 kissy/seed.js
+ *
+ * Step2. 引入 这个脚本(common/package-config.js)
+ *
+ * Step3. 使用下面代码 配置 ABC
+ * <script>
  * ABC.config({
  *   pageName: 'list',
  *   pub: '1.1.1',
  *   path: 'http://g.tbcdn.cn/myGroup/myRepo/',
  *   charset: 'utf-8'
- * })
- *
+ * });
+ * </script>
  */
 (function (S) {
 
@@ -90,4 +97,3 @@
         }
     };
 })(KISSY);
-
