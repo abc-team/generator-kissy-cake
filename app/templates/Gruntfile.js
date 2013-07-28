@@ -9,11 +9,11 @@ module.exports = function (grunt) {
      *  @example
      *      打包common：    `grunt common`
      *      单个：
-     *          打包page：  `grunt build --page home/1.0 --widget tooltip`
-     *          watch：    `grunt watch --page home/1.0 --widget tooltip
+     *          打包page：  `grunt build --page home --widget tooltip`
+     *          watch：    `grunt watch --page home--widget tooltip
      *      多个：
-     *          打包：     `grunt build --page home/1.0,intro/2.0 --widget tooltip,scroll`
-     *          watch:    `grunt watch --page home/1.0,intro/2.0 --widget tooltip,scroll`
+     *          打包：     `grunt build --page home,intro --widget tooltip,scroll`
+     *          watch:    `grunt watch --page home,intro --widget tooltip,scroll`
      */
     var options = KISSYCake.parse( grunt, ABCConfig._kissy_cake.defaults );
 
