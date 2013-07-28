@@ -1,3 +1,7 @@
+## v0.3.2
+
+更新UI，支持最新的目录结构和Gruntfile
+
 ## v0.3.1
 
 更新abc-gruntfile-helper到0.0.8，修正自动检查更新的问题。
