@@ -1,6 +1,6 @@
 {
   "name": "generator-kissy-cake",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "generator for kissy-cake",
   "main": "index.js",
   "scripts": {
