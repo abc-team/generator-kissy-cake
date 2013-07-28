@@ -1,3 +1,14 @@
+## v0.3.1
+
+更新abc-gruntfile-helper到0.0.8，修正自动检查更新的问题。
+
+## v0.3.0
+
+1、去掉了pages目录中的原码版本目录
+2、修正了对应的migrate
+3、强制设定abc-gruntfile-helper的版本
+4、优化了package-config.js文件
+
 ## v0.2.0
 
 1、优化css_combo的配置

@@ -57,6 +57,10 @@ $ yo kissy-cake:page
     }
 ```
 
+## 从KISSY-Pie迁移到KISSY-Cake
+
+使用`yo kissy-cake:migrate`来进行目录的迁移
+
 ## 命令列表
 
 - `grunt page` 将对`abc.json`中指定的 page 进行打包
