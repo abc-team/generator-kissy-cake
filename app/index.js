@@ -157,18 +157,16 @@ Generator.prototype.installSubTip = function installSub() {
  */
 Generator.prototype._scan = function _scan() {
     // fix windows path
-    var pageMatch = path.join('src/pages/*/v*/');
+    var pageMatch = path.join('src/pages/*/');
     var pages = this.expand(pageMatch);
 
     pages = pages.map(function (pathname) {
 
-        var version = path.basename(pathname).replace(/[\\/]$/, '');
-        var pageName = path.basename(path.dirname(pathname))
+        var pageName = path.basename(pathname).replace(/[\\/]$/, '');
 
         return {
-            id: pageName + '/' + version,
-            name: pageName,
-            version: version
+            id: pageName,
+            name: pageName
         }
     });
     var widgetMatch = path.join('src/widget/*/');

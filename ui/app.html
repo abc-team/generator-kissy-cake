@@ -1,11 +1,33 @@
 <div class="row-fluid">
-    <div class="span6">
+    <div class="span12">
+        <h3>构建</h3>
         <p>
-            <button class="btn btn-success"
-                    ng-click="yeoman.run($event)"
-                    data-type="kissy-cake"
-                    data-sub="page">添加页面</button>
+            <button class="btn btn-primary"
+                tooltip="监控文件变更，并自动打包"
+                ng-click="grunt.run($event)"
+                data-tasks="watch">自动构建</button>
+
+            <button class="btn btn-primary"
+                    ng-click="grunt.run($event)"
+                    tooltip="page + widget + common"
+                    data-tasks="all">整站构建</button>
+
+
+
+            <button
+                class="btn btn-primary"
+                tooltip="src/common -&gt; build/common"
+                ng-click="grunt.run($event)"
+                data-tasks="common">构建 Common 目录</button>
         </p>
+    </div>
+</div>
+
+<hr>
+<h3>应用概况</h3>
+<div class="row-fluid">
+    <div class="span4">
+
 
         <table class="table table-bordered">
             <thead>
@@ -15,20 +37,21 @@
             </thead>
             <tbody>
             <tr ng-repeat="page in app.pages" ng-click="page.checked = !page.checked" ng-class="page.checked && 'success'">
-                <td>{{page.name}}/{{page.version}}</td>
+                <td>{{page.name}}</td>
             </tr>
             </tbody>
         </table>
-
-
-    </div>
-
-    <div class="span6">
         <p>
             <button class="btn btn-success"
                     ng-click="yeoman.run($event)"
-                    data-sub="widget">添加组件</button>
+                    data-type="kissy-cake"
+                    data-sub="page">添加页面</button>
         </p>
+
+    </div>
+
+    <div class="span4">
+
 
         <table class="table table-bordered">
             <thead>
@@ -43,26 +66,30 @@
             </tbody>
         </table>
 
+        <p>
+            <button class="btn btn-success"
+                    ng-click="yeoman.run($event)"
+                    data-sub="widget">添加组件</button>
+        </p>
+
+    </div>
+    <div class="span4">
+        <div ng-show="(app.pages | filter:{ checked: true}).length || (app.widgets | filter:{ checked: true}).length">
+            <p>
+
+                <button class="btn btn-success"
+                        ng-click="grunt.run($event)"
+                        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
+                        data-tasks="build">Build</button>
+
+                <button class="btn btn-success"
+                        ng-click="grunt.run($event)"
+                        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
+                        data-tasks="watch">Watch</button>
+            </p>
+            <p>pages: {{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}</p>
+            <p>widget: {{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}</p>
+        </div>
+
     </div>
 </div>
-
-
-<hr>
-<p>pages: {{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}</p>
-<p>widget: {{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}</p>
-
-<button class="btn btn-success"
-        ng-click="grunt.run($event)"
-        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
-        data-tasks="build">Build</button>
-
-<button class="btn btn-success"
-        ng-click="grunt.run($event)"
-        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
-        data-tasks="watch">Watch</button>
-<hr>
-
-<button class="btn btn-primary" ng-click="grunt.run($event)" data-tasks="common">打包应用通用脚本</button>
-
-
-
