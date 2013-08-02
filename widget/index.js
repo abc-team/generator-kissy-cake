@@ -1,5 +1,3 @@
-'use strict';
-
 var generator = require('abc-generator');
 var util = require('util');
 var path = require('path');
@@ -33,9 +31,16 @@ Generator.prototype.askfor = function () {
 
     this.prompt(prompts, function (props) {
         this.widgetName = props.widgetName;
-        this.widgetPath = path.join( 'src/widget', this.widgetName );
+        this.widgetName && ( this.widgetName = props.widgetName.trim() );
 
-        cb();
+        if( this.widgetName ){
+            this.widgetPath = path.join( 'src/widget', this.widgetName );
+            cb();
+        }
+        else {
+            console.log( '\033[1;31mwidget名称不能为空!\033[0m' )
+        }
+
 
     }.bind(this));
 };

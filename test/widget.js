@@ -41,7 +41,7 @@ describe('ABC - KISSY-PIE generator', function () {
             ]);
 
             helpers.mockPrompt( KISSYPiePage, {
-                widgetName: 'tooltip'
+                widgetName: 'tooltip   '
             });
 
             KISSYPiePage.run({}, function(){

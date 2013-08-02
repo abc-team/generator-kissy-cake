@@ -1,5 +1,3 @@
-'use strict';
-
 var generator = require('abc-generator');
 var util = require('util');
 var path = require('path');
@@ -8,7 +6,7 @@ var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
 
     this.on('end', function () {
-        this.log.ok('Page %s/%s 创建完毕!', this.pageName);
+        this.log.ok('Page %s 创建完毕!', this.pageName);
     });
 };
 
@@ -32,8 +30,15 @@ Generator.prototype.askfor = function () {
 
     this.prompt(prompts, function (props) {
         this.pageName = props.pageName;
-        this.pagePath = path.join( 'src/pages', props.pageName, 'page' );
-        cb();
+        this.pageName && ( this.pageName = this.pageName.trim() );
+
+        if( this.pageName ){
+            this.pagePath = path.join( 'src/pages', this.pageName, 'page' );
+            cb();
+        }
+        else {
+            console.log( '\033[1;31mpage名称不能为空!\033[0m' )
+        }
 
     }.bind(this));
 };

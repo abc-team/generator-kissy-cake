@@ -41,8 +41,7 @@ describe('ABC - KISSY-PIE generator', function () {
             ]);
 
             helpers.mockPrompt( KISSYPiePage, {
-                pageName: 'home',
-                pageVersion: 'v1'
+                pageName: 'home   '
             });
 
             KISSYPiePage.run({}, function(){
