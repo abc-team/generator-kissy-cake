@@ -18,10 +18,10 @@ var Generator = module.exports = function Generator() {
     console.log( '仓库主页: \033[0;36m' + PKGInfo.repository.url + '\033[0m');
     console.log( '问题反馈: \033[0;36m' + PKGInfo.bugs.url + '\033[0m');
     console.log( '常见问题: \033[0;36m' + PKGInfo.bugs.faq + '\033[0m');
-    console.log( '维护人员: \033[0;36m' + PKGInfo.contributors[0] + '\033[0m');
+    console.log( '维护人员: \033[0;36m' + PKGInfo.contributors[0].name + ' <' + PKGInfo.contributors[0].email +  '>\033[0m');
     PKGInfo.contributors.forEach(function( person, index ){
         if( index > 0 ){
-            console.log( '          \033[0;36m' + person + '\033[0m');
+            console.log( '          \033[0;36m' + person.name + ' <' + person.email + '>\033[0m');
         }
     });
     console.log( '\n  Yo命令列表:\n');

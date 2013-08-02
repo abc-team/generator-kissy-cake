@@ -1,6 +1,6 @@
 {
     "name": "generator-kissy-cake",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Yeoman Generator for KISSY-Cake",
     "main": "index.js",
     "scripts": {
@@ -21,8 +21,14 @@
         "yeoman"
     ],
     "contributors": [
-        "yinruo <yinruo.nyj@taobao.com>",
-        "wenlong <wenlong@taobao.com>"
+        {
+            "name": "yinruo",
+            "email": "yinruo.nyj@taobao.com"
+        },
+        {
+            "name": "wenlong",
+            "email": "wenlong@taobao.com"
+        }
     ],
     "license": "MIT",
     "dependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "project_power_by_kissy_cake",
-  "version": "<%= generatorVersion %>",
+  "generator_version": "<%= generatorVersion %>",
   "description": "an kissy cake app",
   "main": "index.js",
   "directories": {
@@ -25,6 +25,6 @@
       "grunt-contrib-connect": "~0.3.0",
       "grunt-kissy-template": "~0.1.0",
       "matchdep": "~0.1.2",
-      "abc-gruntfile-helper": "0.0.8"
+      "abc-gruntfile-helper": "0.0.9"
   }
 }
