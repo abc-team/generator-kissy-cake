@@ -53,7 +53,7 @@ Generator.prototype.initFile = function app() {
     this.log.writeln('创建 Widget. %s', this.widgetPath);
 
     var widgetPath = this.widgetPath;
-    this.copy('init.js', path.join(widgetPath, 'init.js'));
+    this.copy('index.js', path.join(widgetPath, 'index.js'));
 
     /**
      * 读取用户目录中的abc.json文件，防止在这个未知的原因

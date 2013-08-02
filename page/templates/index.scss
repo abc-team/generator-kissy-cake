@@ -1,21 +1,22 @@
 /**
- * 引入SASS的样式框架COMPASS
+ * Import the powerful SASS style framework: COMPASS
  * @link http://compass-style.org/
  */
 @import "compass";
 
 /**
- * 可以将多个页面共享的样式放置于utils文件夹中直接引入
+ * You can import multi-page module via directory `utils`.
  */
 //@import "utils/style/mod";
 
 /**
- * 引入页面中需要的图片sprite
+ * Import sprites that your page will use.
  */
 @import "mods/sprites";
 
 /**
- * 针对每个icon，单独设置，"attention" 对应文件名，"i" 对应到了文件夹名
+ * For every icon, set the style individually,
+ * etc. `attention` stands for the filename and the `i` is the directory name.
  */
 .my-attention {
   @include i-sprite("attention");

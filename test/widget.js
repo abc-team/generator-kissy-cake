@@ -46,7 +46,7 @@ describe('ABC - KISSY-PIE generator', function () {
 
             KISSYPiePage.run({}, function(){
                 helpers.assertFiles([
-                    'src/widget/tooltip/init.js'
+                    'src/widget/tooltip/index.js'
                 ]);
 
                 done();
