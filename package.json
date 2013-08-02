@@ -17,7 +17,8 @@
   "license": "MIT",
   "dependencies": {
     "abc-generator": "~0.1.4",
-    "fs-extra": "~0.6.3"
+    "fs-extra": "~0.6.3",
+    "iconv-lite": "~0.2.11"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
