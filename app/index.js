@@ -1,8 +1,7 @@
 var generator = require('abc-generator');
 var util = require('util');
 var path = require('path');
-
-// Documentation: https://github.com/yeoman/generator/wiki/base
+var Log = require( '../lib/log' );
 
 var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
@@ -27,6 +26,11 @@ var Generator = module.exports = function Generator() {
     this.on('end', function () {
         this.log();
         this.log.ok('KISSY-Cake初始化完毕!');
+        console.log( '\n  \033[0;35m下一步 >>\033[0m 创建page或者widget:\n' );
+        console.log( '\t> \033[1;33myo kissy-cake:page\033[0m' );
+        console.log( '\t> \033[1;33myo kissy-cake:widget\033[0m' );
+        console.log( Log.curOff );
+        this.log( Log.helpTip );
     });
 };
 
@@ -143,13 +147,6 @@ Generator.prototype.install = function install() {
             cb();
         });
     }
-};
-
-Generator.prototype.installSubTip = function installSub() {
-
-    this.log.writeln('\n****************************************************');
-    this.log.writeln('\n  【下一步】使用 yo kissy-cake:page 命令来创建子页面');
-    this.log.writeln('\n****************************************************\n');
 };
 
 /**

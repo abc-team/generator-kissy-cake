@@ -9,7 +9,6 @@ var path = require('path');
 var BuildMock = require( './helper/build_mocks' );
 var helpers = require('abc-generator').test;
 
-
 describe('ABC - KISSY-PIE generator build', function () {
 
     var KISSYPie;

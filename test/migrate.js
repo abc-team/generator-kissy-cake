@@ -80,4 +80,20 @@ describe('ABC - KISSY-PIE generator', function () {
             });
         });
     });
+
+    it('help测试', function (done) {
+
+        helpers.testDirectory(Path.join(__dirname, 'temp'), function (err) {
+            if (err) {
+                done(err);
+            }
+            var KISSYPieMigrate = helpers.createGenerator( 'kissy-cake:help', [
+                '../../help'
+            ]);
+
+            KISSYPieMigrate.run({}, function(){
+                done();
+            });
+        });
+    });
 });

@@ -1,12 +1,16 @@
 var generator = require('abc-generator');
 var util = require('util');
 var path = require('path');
+var Log = require( '../lib/log' );
 
 var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
 
     this.on('end', function () {
+        this.log();
         this.log.ok('Widget %s 创建完毕!', this.widgetName );
+        console.log( Log.curOff );
+        this.log( Log.helpTip );
     });
 
 };
@@ -49,8 +53,6 @@ Generator.prototype.askfor = function () {
  * 创建用户文件
  */
 Generator.prototype.initFile = function app() {
-
-    this.log.writeln('创建 Widget. %s', this.widgetPath);
 
     var widgetPath = this.widgetPath;
     this.copy('index.js', path.join(widgetPath, 'index.js'));

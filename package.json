@@ -1,26 +1,36 @@
 {
-  "name": "generator-kissy-cake",
-  "version": "0.3.2",
-  "description": "generator for kissy-cake",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha -t 0 -R spec"
-  },
-  "repository": "https://github.com/abc-team/generator-kissy-cake.git",
-  "keywords": [
-    "generator",
-    "abc",
-    "kissy-cake",
-    "yeoman"
-  ],
-  "author": "neekey <ni184775761@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "abc-generator": "~0.1.4",
-    "fs-extra": "~0.6.3",
-    "iconv-lite": "~0.2.11"
-  },
-  "devDependencies": {
-    "mocha": "~1.12.0"
-  }
+    "name": "generator-kissy-cake",
+    "version": "0.3.2",
+    "description": "Yeoman Generator for KISSY-Cake",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha -t 0 -R spec"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/abc-team/generator-kissy-cake.git"
+    },
+    "bugs": {
+        "url": "http://github.com/abc-team/generator-kissy-cake/issues/new",
+        "faq": "http://github.com/abc-team/generator-kissy-cake/wiki/FAQ"
+    },
+    "keywords": [
+        "generator",
+        "abc",
+        "kissy-cake",
+        "yeoman"
+    ],
+    "contributors": [
+        "yinruo <yinruo.nyj@taobao.com>",
+        "wenlong <wenlong@taobao.com>"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "abc-generator": "~0.1.4",
+        "fs-extra": "~0.6.3",
+        "iconv-lite": "~0.2.11"
+    },
+    "devDependencies": {
+        "mocha": "~1.12.0"
+    }
 }

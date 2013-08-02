@@ -2,6 +2,7 @@ var generator = require('abc-generator');
 var util = require('util');
 var Path = require('path');
 var FS = require( 'fs-extra' );
+var Log = require( '../lib/log' );
 var IConv = require( 'iconv-lite' );
 
 var Generator = module.exports = function Generator() {
@@ -10,13 +11,13 @@ var Generator = module.exports = function Generator() {
     this.on('end', function () {
         console.log( '\n' );
         this.log.ok( '迁移成功！' );
-        console.log( '\n\033[1;32m-----------------------------------------------------------------------\033[0m\n');
-        console.log( '\t从旧目录: \033[0;36m' + this.srcDir + '\033[0m');
-        console.log( '\t到新目录: \033[0;36m' + this.newDir + '\033[0m');
-        console.log( '\n\t\033[0;35m下一步 >>\033[0m 进行 KISSY-Cake 初始化:\n' );
-        console.log( '\t\t> \033[1;33mcd ' + this.newDir + '\033[0m' );
-        console.log( '\t\t> \033[1;33myo kissy-cake\033[0m' );
-        console.log( '\n\033[1;32m-----------------------------------------------------------------------\033[0m');
+        console.log( '  从旧目录: \033[0;36m' + this.srcDir + '\033[0m');
+        console.log( '  到新目录: \033[0;36m' + this.newDir + '\033[0m');
+        console.log( '\n  \033[0;35m下一步 >>\033[0m 进行 KISSY-Cake 初始化:\n' );
+        console.log( '\t> \033[1;33mcd ' + this.newDir + '\033[0m' );
+        console.log( '\t> \033[1;33myo kissy-cake\033[0m' );
+        console.log( Log.curOff );
+        this.log( Log.helpTip );
     });
 };
 
