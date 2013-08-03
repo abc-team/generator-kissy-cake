@@ -1,18 +1,18 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-lg-12">
         <h3>构建</h3>
         <p>
+            <!--
             <button class="btn btn-primary"
                 tooltip="监控文件变更，并自动打包"
                 ng-click="grunt.run($event)"
                 data-tasks="watch">自动构建</button>
+            -->
 
             <button class="btn btn-primary"
                     ng-click="grunt.run($event)"
                     tooltip="page + widget + common"
                     data-tasks="all">整站构建</button>
-
-
 
             <button
                 class="btn btn-primary"
@@ -25,18 +25,20 @@
 
 <hr>
 <h3>应用概况</h3>
-<div class="row-fluid">
-    <div class="span4">
+<div class="row">
+    <div class="col-lg-4">
 
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
             <tr>
+                <th style="width:30px;">#</th>
                 <th>页面</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="page in app.pages" ng-click="page.checked = !page.checked" ng-class="page.checked && 'success'">
+            <tr ng-repeat="page in app.pages" ng-class="page.checked && 'success'">
+                <td><input type="checkbox" ng-model='page.checked'/></td>
                 <td>{{page.name}}</td>
             </tr>
             </tbody>
@@ -50,17 +52,19 @@
 
     </div>
 
-    <div class="span4">
+    <div class="col-lg-4">
 
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
             <tr>
+                <th style="width:30px;">#</th>
                 <th>组件</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="widget in app.widgets"  ng-click="widget.checked = !widget.checked" ng-class="widget.checked && 'success'">
+            <tr ng-repeat="widget in app.widgets"  ng-class="widget.checked && 'success'">
+                <td><input type="checkbox" ng-model='widget.checked'/></td>
                 <td>{{widget.name}}</td>
             </tr>
             </tbody>
@@ -73,7 +77,7 @@
         </p>
 
     </div>
-    <div class="span4">
+    <div class="col-lg-4">
         <div ng-show="(app.pages | filter:{ checked: true}).length || (app.widgets | filter:{ checked: true}).length">
             <p>
 
