@@ -1,14 +1,16 @@
-'use strict';
-
 var generator = require('abc-generator');
 var util = require('util');
 var path = require('path');
+var Log = require( '../lib/log' );
 
 var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
 
     this.on('end', function () {
-        this.log.ok('Page %s/%s 创建完毕!', this.pageName);
+        this.log();
+        this.log.ok('Page %s 创建完毕!', this.pageName);
+        console.log( Log.curOff );
+        this.log( Log.helpTip );
     });
 };
 
@@ -32,8 +34,15 @@ Generator.prototype.askfor = function () {
 
     this.prompt(prompts, function (props) {
         this.pageName = props.pageName;
-        this.pagePath = path.join( 'src/pages', props.pageName, 'page' );
-        cb();
+        this.pageName && ( this.pageName = this.pageName.trim() );
+
+        if( this.pageName ){
+            this.pagePath = path.join( 'src/pages', this.pageName, 'page' );
+            cb();
+        }
+        else {
+            console.log( '\033[1;31mpage名称不能为空!\033[0m' )
+        }
 
     }.bind(this));
 };
@@ -42,8 +51,6 @@ Generator.prototype.askfor = function () {
  * 创建用户文件
  */
 Generator.prototype.initFile = function app() {
-
-    this.log.writeln('创建 Page. %s', this.pagePath);
 
     var pagePath = this.pagePath;
     this.mkdir(path.join(pagePath, 'mods'));

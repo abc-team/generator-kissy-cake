@@ -1,14 +1,16 @@
-'use strict';
-
 var generator = require('abc-generator');
 var util = require('util');
 var path = require('path');
+var Log = require( '../lib/log' );
 
 var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
 
     this.on('end', function () {
+        this.log();
         this.log.ok('Widget %s 创建完毕!', this.widgetName );
+        console.log( Log.curOff );
+        this.log( Log.helpTip );
     });
 
 };
@@ -33,9 +35,16 @@ Generator.prototype.askfor = function () {
 
     this.prompt(prompts, function (props) {
         this.widgetName = props.widgetName;
-        this.widgetPath = path.join( 'src/widget', this.widgetName );
+        this.widgetName && ( this.widgetName = props.widgetName.trim() );
 
-        cb();
+        if( this.widgetName ){
+            this.widgetPath = path.join( 'src/widget', this.widgetName );
+            cb();
+        }
+        else {
+            console.log( '\033[1;31mwidget名称不能为空!\033[0m' )
+        }
+
 
     }.bind(this));
 };
@@ -45,10 +54,8 @@ Generator.prototype.askfor = function () {
  */
 Generator.prototype.initFile = function app() {
 
-    this.log.writeln('创建 Widget. %s', this.widgetPath);
-
     var widgetPath = this.widgetPath;
-    this.copy('init.js', path.join(widgetPath, 'init.js'));
+    this.copy('index.js', path.join(widgetPath, 'index.js'));
 
     /**
      * 读取用户目录中的abc.json文件，防止在这个未知的原因

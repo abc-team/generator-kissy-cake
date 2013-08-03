@@ -5,10 +5,10 @@
 KISSY.add(function (S) {
 
     /**
-     * 下面的方式将自动执行所有require过来的模块的init方法
-     *      1、异步执行，各模块不会互相影响
-     *      2、各模块都暴露init方法，模块的增删只需要修改requires就可以了
-     * 这是一种模块的执行方式，您完全可以删掉这段代码，根据自己的习惯编写.
+     * ����ķ�ʽ���Զ�ִ������require������ģ���init����
+     *      1���첽ִ�У���ģ�鲻�ụ��Ӱ��
+     *      2����ģ�鶼��¶init������ģ�����ɾֻ��Ҫ�޸�requires�Ϳ�����
+     * ����һ��ģ���ִ�з�ʽ������ȫ����ɾ����δ��룬�����Լ���ϰ�߱�д.
      */
     var args = S.makeArray(arguments);
     S.ready(function() {
@@ -21,7 +21,7 @@ KISSY.add(function (S) {
     });
     
 }, { requires: [
-    /* 可以直接引入utils中的模块
+    /* ����ֱ������utils�е�ģ��
     'utils/js/mod'
     */
 ]});

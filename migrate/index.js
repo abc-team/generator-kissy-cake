@@ -2,6 +2,8 @@ var generator = require('abc-generator');
 var util = require('util');
 var Path = require('path');
 var FS = require( 'fs-extra' );
+var Log = require( '../lib/log' );
+var IConv = require( 'iconv-lite' );
 
 var Generator = module.exports = function Generator() {
     generator.UIBase.apply(this, arguments);
@@ -9,13 +11,13 @@ var Generator = module.exports = function Generator() {
     this.on('end', function () {
         console.log( '\n' );
         this.log.ok( '迁移成功！' );
-        console.log( '\n\033[1;32m-----------------------------------------------------------------------\033[0m\n');
-        console.log( '\t从旧目录: \033[0;36m' + this.srcDir + '\033[0m');
-        console.log( '\t到新目录: \033[0;36m' + this.newDir + '\033[0m');
-        console.log( '\n\t\033[0;35m下一步 >>\033[0m 进行 KISSY-Cake 初始化:\n' );
-        console.log( '\t\t> \033[1;33mcd ' + this.newDir + '\033[0m' );
-        console.log( '\t\t> \033[1;33myo kissy-cake\033[0m' );
-        console.log( '\n\033[1;32m-----------------------------------------------------------------------\033[0m');
+        console.log( '  从旧目录: \033[0;36m' + this.srcDir + '\033[0m');
+        console.log( '  到新目录: \033[0;36m' + this.newDir + '\033[0m');
+        console.log( '\n  \033[0;35m下一步 >>\033[0m 进行 KISSY-Cake 初始化:\n' );
+        console.log( '\t> \033[1;33mcd ' + this.newDir + '\033[0m' );
+        console.log( '\t> \033[1;33myo kissy-cake\033[0m' );
+        console.log( Log.curOff );
+        this.log( Log.helpTip );
     });
 };
 
@@ -23,7 +25,8 @@ util.inherits(Generator, generator.UIBase);
 
 Generator.prototype.welcome = function () {
     this.log(this.abcLogo);
-    this.log( '\033[1;33m!注意\033[0m：由于KISSY-Cake中去掉了page的\033[0;36m原码版本\033[0m，因此会自动抓取\033[0;36m最新\033[0m的版本进行迁移!\n' )
+    this.log( '\033[1;33m!注意\033[0m：由于KISSY-Cake中去掉了page的\033[0;36m原码版本\033[0m，因此会自动抓取\033[0;36m最新\033[0m的版本进行迁移!' )
+    this.log( '\033[1;33m!注意\033[0m：由于KISSY-Cake中统一使用\033[0;36mUTF8\033[0m，请设置\033[0;36m原项目文件编码\033[0m，脚本将统一进行文件转化。\033[1;31m（若原项目编码较混乱，建议手动更改）\033[0m\n' )
 };
 
 Generator.prototype.askfor = function () {
@@ -41,6 +44,12 @@ Generator.prototype.askfor = function () {
             message: '请输入需要迁入的目录地址（绝对地址）',
             default: process.cwd(),
             warning: ''
+        },
+        {
+            name: 'oldCharset',
+            message: '旧项目编码（ 统一转码为UTF8，若要手动转码请留空回车）',
+            default: '',
+            warning: ''
         }
     ];
 
@@ -48,6 +57,7 @@ Generator.prototype.askfor = function () {
 
         this.newDir = props.newDir;
         this.srcDir = props.srcDir;
+        this.oldCharset = props.oldCharset;
 
         if( FS.existsSync( this.newDir ) ){
 
@@ -70,7 +80,7 @@ Generator.prototype.askfor = function () {
 /**
  * 创建用户文件
  */
-Generator.prototype.copyFiles = function app() {
+Generator.prototype.copyFiles = function() {
 
     var self = this;
     var done = this.async();
@@ -174,5 +184,37 @@ Generator.prototype.copyFiles = function app() {
             });
         }
     });
+};
+
+Generator.prototype.covertCharset = function() {
+
+    var self = this;
+
+    if( this.oldCharset ){
+
+        console.log( '\n开始对项目进行文件编码转化为UTF8:\n' );
+
+        var targets = this.expandFiles( 'src/**', { cwd: this.newDir } );
+
+        targets.forEach(function( file ){
+            var absPath = Path.resolve( self.newDir, file )
+            var extname = Path.extname( file );
+            var filename = Path.basename( file, extname );
+            var extFilter = /js|css|less|scss|sass|html/;
+            // 对文件进行过滤
+            if( extFilter.test( extname ) && filename !== 'Gruntfile' ){
+
+                try {
+                    var buf = FS.readFileSync( absPath );
+                    var str = IConv.decode( buf, self.oldCharset );
+                    FS.writeFileSync( absPath, IConv.encode( str, 'utf8' ) );
+                    console.log( '   \033[1;32m转化\033[0m ' + absPath );
+                }
+                catch( e ){
+                    console.log( '   \033[1;31m转化失败，请手动更改\033[0m ' + absPath );
+                }
+            }
+        });
+    }
 };
 
