@@ -88,9 +88,7 @@ Generator.prototype.questions = function () {
         this.enableLess = (/less/i).test(this.styleEngine);
         this.enableSass = (/sass/i).test(this.styleEngine);
 		this.useWebFonts = props.useWebFonts;
-	    console.log(this.useWebFonts);
-	    this.enableWebFonts = this.useWebFonts.toLowerCase() === 'yes';
-	    console.log(this.enableWebFonts);
+	    this.enableWebFonts = this.useWebFonts && this.useWebFonts.toLowerCase() === 'yes';
         cb();
     }.bind(this));
 };
