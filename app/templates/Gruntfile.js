@@ -244,9 +244,28 @@ module.exports = function (grunt) {
                     }
                 ]
             }
-        }<% } if(enableSass) { %>,
+        }<% } if(useWebFonts) {%>,
 
-        /**
+		/**
+		 * 将字体文件复制到build/fonts下
+		 * @字体库
+		 * 图标：http://ux.etao.com/fonts
+		 * 淘字体：http://ux.etao.com/tbfonts
+		 */
+		copy: {
+			fonts: {
+				files: [
+				    {
+			        expand: true,
+				    cwd: "<%%= srcBase %>/fonts",
+				    src: ["*.*"],
+				    dest: "<%%= buildBase %>/fonts"
+				    }
+			    ]
+			}
+		}<% } if(enableSass) { %>,
+
+		/**
          * 编译Compass & SASS
          * @link https://github.com/gruntjs/grunt-contrib-compass
          */
@@ -573,7 +592,7 @@ module.exports = function (grunt) {
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common']);
+    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common'<% if(useWebFonts) { %>, 'copy:fonts'<% } %>]);
 
     /**
      * 初始化KISSY-Cake的任务注册

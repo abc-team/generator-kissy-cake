@@ -10,6 +10,7 @@
   "_kissy_cake": {
     "groups": {},
     "styleEngine": "<%= styleEngine %>",
+	"useWebFonts": "<%= useWebFonts %>",
     "defaults": {
       "pages": [],
       "widgets": []
