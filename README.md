@@ -1,6 +1,6 @@
 A yeoman generator for KISSY-Cake
 
-[![Build Status](https://secure.travis-ci.org/neekey/generator-kissy-cake.png)](http://travis-ci.org/neekey/generator-kissy-cake)
+[![Build Status](https://secure.travis-ci.org/abc-team/generator-kissy-cake.png)](http://travis-ci.org/neekey/generator-kissy-cake)
 
 ## install
 
@@ -40,7 +40,7 @@ $ yo kissy-cake:page
         "groups": {},
         "styleEngine": "sass",
         "defaults": {
-            "pages": [ "home/v1" ],
+            "pages": [ "home" ],
             "widgets": [ "tooltip" ]
         }
     }
@@ -48,11 +48,11 @@ $ yo kissy-cake:page
 
 设置你需要打包的page，和widget：
 
-如，需要打包`index`页面的`v1`版本，以及widget `slide`:
+如，需要打包`index`页面，以及widget `slide`:
 
 ```js
     "defaults": {
-        "pages": [ "index/v1" ],
+        "pages": [ "index" ],
         "widgets": [ "slide" ]
     }
 ```
@@ -61,13 +61,7 @@ $ yo kissy-cake:page
 
 使用`yo kissy-cake:migrate`来进行目录的迁移
 
-## 命令列表
+## 查看版本信息以及命令列表
 
-- `grunt page` 将对`abc.json`中指定的 page 进行打包
-- `grunt widget` 将对`abc.json`中指定的 widget 进行打包
-- `grunt build` 将对`abc.json`中指定的 page 和 widget 进行打包
-- `grunt common` 将对 common 进行打包
-- `grunt all` 将对项目中所有的 page、widget 以及 common 进行打包
-- `grunt` 同 `grunt all`
-- `grunt watch` 对`abc.json`中指定的 page 和 widget 以及 common 进行监控
+- `yo kissy-cake:help` 
 
