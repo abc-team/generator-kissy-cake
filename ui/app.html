@@ -1,14 +1,39 @@
+<style type="text/css">
+    .cake-page {
+        position: relative;
+    }
+
+    .cake-page:hover {
+        background: #ffffEE;
+    }
+
+    .cake-page.cake-page-checked {
+        font-weight: bold;
+        border-bottom: 1px solid #333;
+
+    }
+    .cake-page-link {
+        cursor: pointer;
+        display: block;
+        padding:15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .cake-page-action {
+        display: none;
+    }
+
+    .cake-page:hover .cake-page-action {
+        display: block;
+        position: absolute;
+        top:10px;
+        right:10px;
+    }
+</style>
+
 <div class="row">
     <div class="col-lg-12">
-        <h3>构建</h3>
         <p>
-            <!--
-            <button class="btn btn-primary"
-                tooltip="监控文件变更，并自动打包"
-                ng-click="grunt.run($event)"
-                data-tasks="watch">自动构建</button>
-            -->
-
             <button class="btn btn-primary"
                     ng-click="grunt.run($event)"
                     tooltip="page + widget + common"
@@ -19,81 +44,57 @@
                 tooltip="src/common -&gt; build/common"
                 ng-click="grunt.run($event)"
                 data-tasks="common">构建 Common 目录</button>
+
+            <span ng-show="(app.pages | filter:{ checked: true}).length || (app.widgets | filter:{ checked: true}).length">
+            <button class="btn btn-success"
+                    ng-click="grunt.run($event)"
+                    data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
+                    data-tasks="build">批量打包</button>
+
+            <button class="btn btn-success"
+                    ng-click="grunt.run($event)"
+                    data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
+                    data-tasks="watch">开始Watch</button>
+            </span>
         </p>
     </div>
 </div>
 
 <hr>
-<h3>应用概况</h3>
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-6">
+        <h3>Pages (<a href="#" ng-click="yeoman.run($event)" data-type="kissy-cake" data-sub="page">添加</a>)</h3>
 
-
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th style="width:30px;">#</th>
-                <th>页面</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="page in app.pages" ng-class="page.checked && 'success'">
-                <td><input type="checkbox" ng-model='page.checked'/></td>
-                <td>{{page.name}}</td>
-            </tr>
-            </tbody>
-        </table>
-        <p>
-            <button class="btn btn-success"
-                    ng-click="yeoman.run($event)"
-                    data-type="kissy-cake"
-                    data-sub="page">添加页面</button>
-        </p>
-
-    </div>
-
-    <div class="col-lg-4">
-
-
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th style="width:30px;">#</th>
-                <th>组件</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="widget in app.widgets"  ng-class="widget.checked && 'success'">
-                <td><input type="checkbox" ng-model='widget.checked'/></td>
-                <td>{{widget.name}}</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>
-            <button class="btn btn-success"
-                    ng-click="yeoman.run($event)"
-                    data-sub="widget">添加组件</button>
-        </p>
-
-    </div>
-    <div class="col-lg-4">
-        <div ng-show="(app.pages | filter:{ checked: true}).length || (app.widgets | filter:{ checked: true}).length">
-            <p>
-
-                <button class="btn btn-success"
+        <div class="cake-page" ng-repeat="page in app.pages" ng-class="page.checked && 'cake-page-checked'">
+            <span class="cake-page-link" ng-click="page.checked = !page.checked">
+                {{page.name}}
+            </span>
+            <div class="cake-page-action">
+                <button class="btn btn-primary btn-small"
                         ng-click="grunt.run($event)"
-                        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
-                        data-tasks="build">Build</button>
+                        data-attrs="page={{page.name}}"
+                        data-tasks="page" >Build</button>
+            </div>
 
-                <button class="btn btn-success"
-                        ng-click="grunt.run($event)"
-                        data-attrs="page={{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}&widget={{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}"
-                        data-tasks="watch">Watch</button>
-            </p>
-            <p>pages: {{app.pages | filter:{ checked: true} | join:{key:'id', sep: ','} }}</p>
-            <p>widget: {{app.widgets | filter:{ checked: true} | join:{key:'name', sep: ','} }}</p>
         </div>
+
+    </div>
+
+    <div class="col-lg-6">
+        <h3>Widget (<a href="#' ng-click="yeoman.run($event)" data-sub="widget">添加</a>)</h3>
+        <div class="cake-page" ng-repeat="widget in app.widgets" ng-class="widget.checked && 'cake-page-checked'">
+            <span class="cake-page-link" ng-click="widget.checked = !widget.checked">
+                {{widget.name}}
+            </span>
+            <div class="cake-page-action">
+                <button class="btn btn-primary btn-small"
+                        ng-click="grunt.run($event)"
+                        data-attrs="widget={{widget.name}}"
+                        data-tasks="widget" >Build</button>
+            </div>
+
+        </div>
+
 
     </div>
 </div>
