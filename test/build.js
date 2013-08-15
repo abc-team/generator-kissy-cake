@@ -27,7 +27,7 @@ describe('ABC - KISSY-PIE generator build', function () {
         });
     });
 
-    it('基本build：page/common[html/js]', function (done) {
+    it('基本build：page/common/widget[html/js]', function (done) {
 
         helpers.mockPrompt( KISSYPie, {
             projectName: "my_project",
@@ -299,6 +299,65 @@ describe('ABC - KISSY-PIE generator build', function () {
         // utils: ktpl
         'src/utils/utils-tpl.js'
     ];
+
+    it.only('字体文件复制 page/common/widget', function (done) {
+
+        helpers.mockPrompt( KISSYPie, {
+            projectName: "my_project",
+            author: 'neekey',
+            email: 'ni184775761@gmail.com',
+            styleEngine: 'less'
+        });
+
+        KISSYPie.run({}, function () {
+
+            BuildMock.mocks( TestTargetDir, [ 'font' ], function( err ){
+                if( err ){
+                    done( err );
+                }
+                else {
+                    // build page & widget
+                    Grunt.exec( TestTargetDir, [ 'all' ], function( err ){
+
+                        if( err ){
+                            done( err );
+                        }
+                        else {
+                            // 检查文件
+                            helpers.assertFiles([
+                                'build/pages/home/page/font/page_font.eot',
+                                'build/pages/home/page/font/page_font.svg',
+                                'build/pages/home/page/font/page_font.ttf',
+                                'build/pages/home/page/font/page_font.woff',
+                                'build/pages/home/page/font/sub/page_sub_font.eot',
+                                'build/pages/home/page/font/sub/page_sub_font.svg',
+                                'build/pages/home/page/font/sub/page_sub_font.ttf',
+                                'build/pages/home/page/font/sub/page_sub_font.woff',
+                                'build/common/font/common_font.eot',
+                                'build/common/font/common_font.svg',
+                                'build/common/font/common_font.ttf',
+                                'build/common/font/common_font.woff',
+                                'build/common/font/sub/common_sub_font.eot',
+                                'build/common/font/sub/common_sub_font.svg',
+                                'build/common/font/sub/common_sub_font.ttf',
+                                'build/common/font/sub/common_sub_font.woff',
+                                'build/widget/tooltip/font/widget_font.eot',
+                                'build/widget/tooltip/font/widget_font.svg',
+                                'build/widget/tooltip/font/widget_font.ttf',
+                                'build/widget/tooltip/font/widget_font.woff',
+                                'build/widget/tooltip/font/sub/widget_sub_font.eot',
+                                'build/widget/tooltip/font/sub/widget_sub_font.svg',
+                                'build/widget/tooltip/font/sub/widget_sub_font.ttf',
+                                'build/widget/tooltip/font/sub/widget_sub_font.woff'
+                            ]);
+
+                            done();
+                        }
+                    }, true );
+                }
+            });
+        });
+    });
 
     it('测试 `grunt all`', function (done) {
 
