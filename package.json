@@ -1,6 +1,6 @@
 {
   "name": "generator-kissy-cake",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Yeoman Generator for KISSY-Cake",
   "main": "index.js",
   "scripts": {
