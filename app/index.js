@@ -69,7 +69,13 @@ Generator.prototype.questions = function () {
             message: '使用样式引擎[less|sass]? 只使用CSS请回车',
             default: cakeConfig.styleEngine || '',
             warning: ''
-        }
+        },
+	    {
+		    name: 'useWebFonts',
+		    message: '是否需要web fonts目录[yes|no]？使用请回车',
+		    default: cakeConfig.useWebFonts || "yes",
+		    warning: ''
+	    }
     ];
 
     this.prompt(prompts, function (props) {
@@ -81,7 +87,8 @@ Generator.prototype.questions = function () {
         this.styleEngine = props.styleEngine || 'css';
         this.enableLess = (/less/i).test(this.styleEngine);
         this.enableSass = (/sass/i).test(this.styleEngine);
-
+		this.useWebFonts = props.useWebFonts;
+	    this.enableWebFonts = this.useWebFonts && this.useWebFonts.toLowerCase() === 'yes';
         cb();
     }.bind(this));
 };
@@ -94,10 +101,16 @@ Generator.prototype.scaffold = function scaffold() {
     this.mkdir('src/common');
     this.mkdir('src/widget');
     this.mkdir('src/utils');
+	if(this.useWebFonts){
+		this.mkdir('src/fonts');
+	}
 
     this.mkdir('build/common');
     this.mkdir('build/widget');
     this.mkdir('build/pages');
+	if(this.useWebFonts){
+		this.mkdir('build/fonts');
+	}
 };
 
 
