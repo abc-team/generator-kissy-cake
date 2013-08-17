@@ -200,7 +200,8 @@ module.exports = function (grunt) {
          */
         css_combo: {
             options: {
-                paths: [ '<%%= srcBase %>' ]
+                paths: [ '<%%= srcBase %>' ],
+                outputEncoding: 'utf8'
             },
             page: {
                 files: [

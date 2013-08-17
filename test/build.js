@@ -122,7 +122,8 @@ describe('ABC - KISSY-PIE generator build', function () {
                                 helpers.assertFiles([
                                     'build/pages/home/page/index.css',
                                     'build/pages/home/page/index-min.css',
-                                    'build/common/out.css',
+                                    // 验证文件编码是否正常
+                                    [ 'build/common/out.css', /"微软雅黑"/],
                                     'build/common/out-min.css',
                                     'build/common/sub/in.css',
                                     'build/common/sub/in-min.css',
@@ -300,7 +301,7 @@ describe('ABC - KISSY-PIE generator build', function () {
         'src/utils/utils-tpl.js'
     ];
 
-    it.only('字体文件复制 page/common/widget', function (done) {
+    it('字体文件复制 page/common/widget', function (done) {
 
         helpers.mockPrompt( KISSYPie, {
             projectName: "my_project",
