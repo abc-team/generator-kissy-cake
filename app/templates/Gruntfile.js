@@ -158,6 +158,26 @@ module.exports = function (grunt) {
                 ]
             }
         },
+	    /**
+	     * copy
+	     * @link https://github.com/gruntjs/grunt-contrib-less
+	     */
+	    copy:{
+		    /**
+		     * copy font
+		     * 将font字体copy到build目录
+		     * 字体使用参考：
+		     * 1. http://ux.etao.com/fonts
+		     * 2. http://ux.etao.com/tbfonts
+		     */
+		    font: {
+			    files: [
+				    {expand: true,cwd: '<%%= pageSrcBase %>/font/', src: ['**'], dest: '<%%= pageBuildBase %>/font/'},
+				    {expand: true,cwd: '<%%= commonSrcBase %>/font/', src: ['**'], dest: '<%%= commonBuildBase %>/font/'},
+				    {expand: true,cwd: '<%%= widgetSrcBase %>/font/', src: ['**'], dest: '<%%= widgetBuildBase %>/font/'},
+			    ]
+		    }
+	    },
         /**
          * CSS Combo
          * @link https://github.com/daxingplay/grunt-css-combo
@@ -574,17 +594,17 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page']);
+    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page','copy:font']);
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget']);
+    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget','copy:font']);
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common']);
+    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common','copy:font']);
 
     /**
      * 初始化KISSY-Cake的任务注册
