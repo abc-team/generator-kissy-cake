@@ -257,16 +257,20 @@ describe('ABC - KISSY-PIE generator build', function () {
     var gruntAllExpect = [
         'build/pages/home/page/index.css',
         'build/pages/home/page/index-min.css',
+	    'build/pages/home/page/font/uxiconfont.svg',
         'build/pages/index/page/index.css',
         'build/pages/index/page/index-min.css',
         'build/common/out.css',
         'build/common/out-min.css',
         'build/common/sub/in.css',
         'build/common/sub/in-min.css',
+        'build/common/font/uxiconfont.svg',
         'build/widget/tooltip/index.css',
         'build/widget/tooltip/index-min.css',
         'build/widget/slide/index.css',
         'build/widget/slide/index-min.css',
+        'build/widget/slide/font/uxiconfont.svg',
+
 
         // page: KMC
         'build/pages/home/page/init.js',
