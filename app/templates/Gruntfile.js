@@ -372,6 +372,17 @@ module.exports = function (grunt) {
             }
         },
 
+        connect: {
+            server: {
+                options: {
+                    port: 9001,
+                    hostname: '*',
+                    base: '.',
+                    keepalive: true
+                }
+            }
+        },
+
         /**
          * 对文件进行监控
          * watch的一个trick是，如果两个定义的files一样，那么只会执行最后一个的task

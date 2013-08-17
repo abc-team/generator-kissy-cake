@@ -19,6 +19,7 @@
       "grunt-contrib-less": "~0.5.0"<% } %><% if(enableSass) { %>,
       "grunt-contrib-compass": "~0.4.0"<% } %>,
       "grunt-css-combo": ">=0.2.2",
+      "grunt-contrib-connect": "~0.3.0",
       "grunt-contrib-cssmin": "~0.6.1",
       "grunt-contrib-watch": "~0.3.1",
       "grunt-kmc": "~0.1.0",
