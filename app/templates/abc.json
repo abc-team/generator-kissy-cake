@@ -1,18 +1,24 @@
 {
-  "name": "<%= projectName %>",
-  "desc": "description of your app",
-  "type": "kissy-cake",
-  "type-url": "http://abc.f2e.taobao.net/spec/kissy-cake",
-  "author": {
-    "name": "<%= author %>",
-    "email": "<%= email %>"
-  },
-  "_kissy_cake": {
-    "groups": {},
-    "styleEngine": "<%= styleEngine %>",
-    "defaults": {
-      "pages": [],
-      "widgets": []
+    "name": "<%= projectName %>",
+    "desc": "description of your app",
+    "version": "<%= version %>",
+    "type": "kissy-cake",
+    "type-url": "http://abc.f2e.taobao.net/spec/kissy-cake",
+    "author": {
+        "name": "<%= author %>",
+        "email": "<%= email %>"
+    },
+    "repository": {
+        "type": "git",
+        "url": "<%= repo %>",
+        "publish": "<%= publish %>"
+    },
+    "_kissy_cake": {
+        "groups": {},
+        "styleEngine": "<%= styleEngine %>",
+        "defaults": {
+            "pages": [],
+            "widgets": []
+        }
     }
-  }
 }

@@ -1,4 +1,4 @@
-var KISSYCake= require( 'abc-gruntfile-helper').kissycake;
+var KISSYCake = require( 'abc-gruntfile-helper').kissycake;
 
 module.exports = function (grunt) {
 
@@ -42,6 +42,9 @@ module.exports = function (grunt) {
         pageBuildBase: '<%%= buildBase %>/pages/<%%= pageName %>/<%%= packageName %>',
         widgetBuildBase: '<%%= buildBase %>/widget/<%%= widgetName %>',
         commonBuildBase: '<%%= buildBase %>/common',
+
+        // 线上引用地址
+        publishBase: ABCConfig.repository.publish + '/' + ABCConfig.version,
 
         copy: {
             font_widget: {
@@ -292,8 +295,7 @@ module.exports = function (grunt) {
                 outputStyle: 'nested',
                 noLineComments: true,
                 importPath: [ '<%%= srcBase %>' ],
-                trace: true,
-                relativeAssets: true
+                trace: true
             },
 
             page: {
@@ -301,7 +303,8 @@ module.exports = function (grunt) {
                     sassDir: '<%%= pageSrcBase %>',
                     cssDir: '<%%= pageBuildBase %>',
                     imagesDir: '<%%= pageSrcBase %>/images',
-                    generatedImagesDir: '<%%= pageSrcBase %>/images'
+                    generatedImagesDir: '<%%= pageBuildBase %>/images',
+                    httpGeneratedImagesPath: '<%%= publishBase %>/pages/<%%= pageName %>/<%%= packageName %>/images/'
                 }
             },
 
@@ -310,7 +313,8 @@ module.exports = function (grunt) {
                     sassDir: '<%%= widgetSrcBase %>',
                     cssDir: '<%%= widgetBuildBase %>',
                     imagesDir: '<%%= widgetSrcBase %>/images',
-                    generatedImagesDir: '<%%= widgetSrcBase %>/images'
+                    generatedImagesDir: '<%%= widgetBuildBase %>/images',
+                    httpGeneratedImagesPath: '<%%= publishBase %>/widget/<%%= widgetName %>/images/'
                 }
             },
 
@@ -319,7 +323,8 @@ module.exports = function (grunt) {
                     sassDir: '<%%= commonSrcBase %>',
                     cssDir: '<%%= commonBuildBase %>',
                     imagesDir: '<%%= commonSrcBase %>/images',
-                    generatedImagesDir: '<%%= commonSrcBase %>/images'
+                    generatedImagesDir: '<%%= commonBuildBase %>/images',
+                    httpGeneratedImagesPath: '<%%= publishBase %>/common/images/'
                 }
             }
         }<% } %>,
