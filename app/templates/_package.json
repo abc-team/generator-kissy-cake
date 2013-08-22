@@ -1,5 +1,6 @@
 {
   "name": "project_power_by_kissy_cake",
+  "version": "0.0.0",
   "generator_version": "<%= generatorVersion %>",
   "description": "an kissy cake app",
   "main": "index.js",
