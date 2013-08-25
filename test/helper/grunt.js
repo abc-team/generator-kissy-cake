@@ -7,7 +7,8 @@ var Path = require( 'path' );
 
 exports.exec = function( path, args, done, ifLog ){
 
-    var child = ChildProcess.spawn( 'grunt', args, {
+    var GRUNT = process.platform == 'win32' ? 'grunt.cmd' : 'grunt';
+    var child = ChildProcess.spawn( GRUNT, args, {
         cwd: path
     });
     var ifOver = false;
@@ -19,17 +20,17 @@ exports.exec = function( path, args, done, ifLog ){
         }
     });
 
-    child.on( 'exit', function(){
+    child.on( 'exit', function( err ){
         if( !ifOver ){
             ifOver = true;
-            done && done( null );
+            done && done( err );
         }
     });
 
-    child.on( 'close', function(){
+    child.on( 'close', function( err ){
         if( !ifOver ){
             ifOver = true;
-            done && done( null );
+            done && done( err );
         }
     });
 

@@ -12,16 +12,21 @@ describe('ABC - KISSY-PIE generator', function () {
     var KISSYPie;
 
     beforeEach(function( done ){
+
+        process.chdir( __dirname );
+
         helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
             if (err) {
                 done(err);
             }
-            KISSYPie = helpers.createGenerator('kissy-cake:app', [
-                '../../app'
-            ]);
+            else {
+                KISSYPie = helpers.createGenerator('kissy-cake:app', [
+                    '../../app'
+                ]);
 
-            KISSYPie.options['skip-install'] = true;
-            done();
+                KISSYPie.options['skip-install'] = true;
+                done();
+            }
         });
     });
 
@@ -49,7 +54,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     'src/pages/home/page/mods',
                     'src/pages/home/page/init.js'
                 ]);
-                process.chdir( __dirname );
+
                 done();
             });
         });
@@ -88,7 +93,7 @@ describe('ABC - KISSY-PIE generator', function () {
                         'src/pages/home/page/mods/_sprites.scss',
                         'src/pages/home/page/index.scss'
                     ]);
-                    process.chdir( __dirname );
+
                     done();
                 });
             });
@@ -123,7 +128,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     helpers.assertFiles([
                         'src/pages/home/page/index.less'
                     ]);
-                    process.chdir( __dirname );
+
                     done();
                 });
             });
@@ -157,7 +162,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     helpers.assertFiles([
                         'src/pages/home/page/index.css'
                     ]);
-                    process.chdir( __dirname );
+
                     done();
                 });
             });
