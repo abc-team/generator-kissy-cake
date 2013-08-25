@@ -1,9 +1,3 @@
-/*
- combined files :
-
- common/package-config
-
- */
 /**
  * 如何使用这个脚本
  * Step1. 引入 kissy/seed.js
@@ -24,33 +18,15 @@
 
     window.ABC = window.ABC || {
         /**
-         * Config Kissy 1.2 packages
-         * of a FrontBuild Page
          * @param {Object} config
-         * @param config.pageName     name of FrontBuild
-         * @param config.pub      timestamp of published directory
-         * @param config.path     url of you fbapp root
-         * @param config.charset
-         * @param config.debug    debug mode switch
+         * @param config.pageName   页面名称
+         * @param config.pub        Git Tag
+         * @param config.path       仓库对应的线上引用地址
+         * @param config.charset    编码，一般为utf-8
          */
         config: function (config) {
             if (!config.path) {
                 config.path = '';
-            }
-
-            var debug = config.debug ? true : KISSY.Config.debug;
-            var debugPagePath = S.unparam(location.search.replace(/^\?/, ''))['ks-debug'];
-
-            if ( debug ){
-                if( debugPagePath ){
-                    config.path = debugPagePath;
-                    config.pub = "src";
-                }
-                else {
-                    config.pub = 'src';
-                }
-
-                config.debug = true;
             }
 
             config.path = config.path.replace(/\/$/, '');
@@ -60,7 +36,6 @@
             var pagePath = S.substitute('{path}/{pub}/pages/{pageName}', config);
             var widgetPath = S.substitute('{path}/{pub}', config);
             var commonPath = S.substitute('{path}/{pub}', config);
-            var utilsPath = S.substitute('{path}/{pub}', config);
 
             //package config
             S.mix(packageConfig, config, true, [ 'charset' ]);
@@ -76,14 +51,6 @@
                 name: 'widget',
                 path: widgetPath
             }));
-
-            //utils package is only for dev mode
-            if (debug) {
-                pkgs.push(S.merge(packageConfig, {
-                    name: 'utils',
-                    path: utilsPath
-                }));
-            }
 
             //page packages
             pkgs.push(S.merge(packageConfig, {
