@@ -1,3 +1,13 @@
+## v0.3.6
+- 去掉了ks-debug模式将引用`src`的调试模式，使用KISSY默认方式，引用未压缩的合并文件
+- 添加Compass直接生成Gitlab发布路径雪碧图功能
+- 自动检查更新功能添加CHANGELOG读取
+- 添加对于Web Font的打包支持
+- 修复CSS-Combo打包，原码UTF-8，打包后GBK的问题
+- 在package.json中添加`version`字段，防止部分版本npm安装依赖报错
+- 解决watch目标若超过5个则多处的不进行watch的bug
+- 优化测试用力，windows下完全通过
+
 ## v0.3.4
 - 升级界面
 

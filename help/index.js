@@ -34,7 +34,7 @@ var Generator = module.exports = function Generator() {
     console.log( '\t\033[1;33mgrunt page\033[0m: \t\t对abc.json中指定的page进行打包');
     console.log( '\t\033[1;33mgrunt widget\033[0m: \t\t对abc.json中指定的widget进行打包');
     console.log( '\t\033[1;33mgrunt common\033[0m: \t\t对common目录进行打包');
-    console.log( '\t\033[1;33mgrunt build\033[0m: \t\t对abc.json中指定的page和widget进行打包');
+    console.log( '\t\033[1;33mgrunt build\033[0m: \t\t对abc.json中指定的page和widget以及common进行打包');
     console.log( '\t\033[1;33mgrunt all\033[0m: \t\t整站打包：所有的page，widget以及common');
     console.log( '\t\033[1;33mgrunt\033[0m: \t\t\t与grunt all相同');
 };
