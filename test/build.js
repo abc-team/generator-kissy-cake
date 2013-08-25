@@ -83,7 +83,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                                     // utils: ktpl
                                     'src/utils/utils-tpl.js'
                                 ]);
-
+                                process.chdir( __dirname );
                                 done();
                             });
                         }
@@ -134,7 +134,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                                     'build/widget/tooltip/index.css',
                                     'build/widget/tooltip/index-min.css'
                                 ]);
-
+                                process.chdir( __dirname );
                                 done();
                             });
                         }
@@ -192,7 +192,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                                     'build/widget/tooltip/pure_css.css',
                                     'build/widget/tooltip/pure_css-min.css'
                                 ]);
-
+                                process.chdir( __dirname );
                                 done();
                             });
                         }
@@ -253,7 +253,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                                     'build/widget/tooltip/pure_css-min.css',
                                     'build/widget/tooltip/images/i-sdcfa0aaa5c.png'
                                 ]);
-
+                                process.chdir( __dirname );
                                 done();
                             });
                         }
@@ -361,7 +361,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                                 'build/widget/tooltip/font/sub/widget_sub_font.ttf',
                                 'build/widget/tooltip/font/sub/widget_sub_font.woff'
                             ]);
-
+                            process.chdir( __dirname );
                             done();
                         }
                     }, true );
@@ -398,7 +398,7 @@ describe('ABC - KISSY-PIE generator build', function () {
 
                             // 检查文件
                             helpers.assertFiles( gruntAllExpect );
-
+                            process.chdir( __dirname );
                             done();
                         }
                     }, true );
@@ -435,7 +435,7 @@ describe('ABC - KISSY-PIE generator build', function () {
 
                             // 检查文件
                             helpers.assertFiles( gruntAllExpect );
-
+                            process.chdir( __dirname );
                             done();
                         }
                     }, true );

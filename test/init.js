@@ -56,6 +56,7 @@ describe('ABC - KISSY-PIE generator', function () {
 
         KISSYPie.run({}, function () {
             helpers.assertFiles( expected );
+            process.chdir( __dirname );
             done();
         });
     });
@@ -89,6 +90,7 @@ describe('ABC - KISSY-PIE generator', function () {
 
             KISSYPie.run({}, function() {
                 helpers.assertFiles(expected);
+                process.chdir( __dirname );
                 done();
             });
         });
@@ -115,6 +117,7 @@ describe('ABC - KISSY-PIE generator', function () {
 
             KISSYPie.run({}, function() {
                 helpers.assertFiles(expected);
+                process.chdir( __dirname );
                 done();
             });
         });
@@ -141,6 +144,7 @@ describe('ABC - KISSY-PIE generator', function () {
 
             KISSYPie.run({}, function() {
                 helpers.assertFiles(expected);
+                process.chdir( __dirname );
                 done();
             });
         });

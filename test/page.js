@@ -49,7 +49,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     'src/pages/home/page/mods',
                     'src/pages/home/page/init.js'
                 ]);
-
+                process.chdir( __dirname );
                 done();
             });
         });
@@ -88,7 +88,7 @@ describe('ABC - KISSY-PIE generator', function () {
                         'src/pages/home/page/mods/_sprites.scss',
                         'src/pages/home/page/index.scss'
                     ]);
-
+                    process.chdir( __dirname );
                     done();
                 });
             });
@@ -123,7 +123,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     helpers.assertFiles([
                         'src/pages/home/page/index.less'
                     ]);
-
+                    process.chdir( __dirname );
                     done();
                 });
             });
@@ -157,7 +157,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     helpers.assertFiles([
                         'src/pages/home/page/index.css'
                     ]);
-
+                    process.chdir( __dirname );
                     done();
                 });
             });

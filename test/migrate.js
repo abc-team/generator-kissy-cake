@@ -39,7 +39,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     'src/.jshintrc',
                     'build'
                 ]);
-
+                process.chdir( __dirname );
                 done();
             });
         });
@@ -75,7 +75,7 @@ describe('ABC - KISSY-PIE generator', function () {
                     'src/.jshintrc',
                     'build'
                 ]);
-
+                process.chdir( __dirname );
                 done();
             });
         });
@@ -92,6 +92,7 @@ describe('ABC - KISSY-PIE generator', function () {
             ]);
 
             KISSYPieMigrate.run({}, function(){
+                process.chdir( __dirname );
                 done();
             });
         });
