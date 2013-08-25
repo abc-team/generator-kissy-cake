@@ -13,16 +13,21 @@ describe('ABC - KISSY-PIE generator', function () {
     var KISSYPie;
 
     beforeEach(function( done ){
+
+        process.chdir( __dirname );
+
         helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
             if (err) {
                 done(err);
             }
-            KISSYPie = helpers.createGenerator('kissy-cake:app', [
-                '../../app'
-            ]);
+            else {
+                KISSYPie = helpers.createGenerator('kissy-cake:app', [
+                    '../../app'
+                ]);
 
-            KISSYPie.options['skip-install'] = true;
-            done();
+                KISSYPie.options['skip-install'] = true;
+                done();
+            }
         });
     });
 
@@ -32,7 +37,9 @@ describe('ABC - KISSY-PIE generator', function () {
             projectName: "my_project",
             author: 'neekey',
             email: 'ni184775761@gmail.com',
-            styleEngine: 'css'
+            styleEngine: 'css',
+            repo: 'http://gitlab.taobao.ali.com/tb/jury',
+            publish: 'http://g.tbcdn.cn/tb/jury'
         });
 
         var expected = [
@@ -80,7 +87,9 @@ describe('ABC - KISSY-PIE generator', function () {
                 projectName: "my_project",
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
-                styleEngine: 'sass'
+                styleEngine: 'sass',
+                repo: 'http://gitlab.taobao.ali.com/tb/jury',
+                publish: 'http://g.tbcdn.cn/tb/jury'
             });
 
             KISSYPie.run({}, function() {
@@ -104,7 +113,9 @@ describe('ABC - KISSY-PIE generator', function () {
                 projectName: "my_project",
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
-                styleEngine: 'less'
+                styleEngine: 'less',
+                repo: 'http://gitlab.taobao.ali.com/tb/jury',
+                publish: 'http://g.tbcdn.cn/tb/jury'
             });
 
             KISSYPie.run({}, function() {
@@ -128,7 +139,9 @@ describe('ABC - KISSY-PIE generator', function () {
                 projectName: "my_project",
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
-                styleEngine: ''
+                styleEngine: '',
+                repo: 'http://gitlab.taobao.ali.com/tb/jury',
+                publish: 'http://g.tbcdn.cn/tb/jury'
             });
 
             KISSYPie.run({}, function() {

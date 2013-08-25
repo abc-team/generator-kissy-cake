@@ -1,6 +1,6 @@
 {
   "name": "generator-kissy-cake",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Yeoman Generator for KISSY-Cake",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "faq": "http://github.com/abc-team/generator-kissy-cake/wiki/FAQ"
   },
   "keywords": [
-    "generator",
+    "yeoman-generator",
     "abc",
     "kissy-cake",
     "yeoman"
@@ -32,7 +32,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "abc-generator": "~0.1.4",
+    "abc-generator": "~0.1.5",
     "fs-extra": "~0.6.3",
     "iconv-lite": "~0.2.11"
   },

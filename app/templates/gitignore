@@ -4,4 +4,4 @@ dist
 .sass-cache
 app/components
 .idea
-.iml
+*.iml

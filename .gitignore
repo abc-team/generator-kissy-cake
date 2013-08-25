@@ -16,4 +16,5 @@ Thumbs.db
 out/
 node_modules/
 test/build_test
+test/temp
 

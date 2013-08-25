@@ -65,6 +65,18 @@ Generator.prototype.questions = function () {
             warning: ''
         },
         {
+            name: 'repo',
+            message: 'gitLab仓库地址',
+            default: abcJSON.repository ? abcJSON.repository.url || '' : '',
+            warning: ''
+        },
+        {
+            name: 'publish',
+            message: '线上发布地址（不包含时间戳，如: http://g.tbcdn.cn/tb/jury）',
+            default: abcJSON.repository ? abcJSON.repository.publish || '' : '',
+            warning: '打包时，请设置abc.json中的version字段和当前分支时间戳一致'
+        },
+        {
             name: 'styleEngine',
             message: '使用样式引擎[less|sass]? 只使用CSS请回车',
             default: cakeConfig.styleEngine || '',
@@ -78,6 +90,9 @@ Generator.prototype.questions = function () {
         this.projectName = props.projectName;
         this.author = props.author;
         this.email = props.email;
+        this.repo = props.repo;
+        this.publish = props.publish;
+        this.version = abcJSON.version || '0.0.1';
         this.styleEngine = props.styleEngine || 'css';
         this.enableLess = (/less/i).test(this.styleEngine);
         this.enableSass = (/sass/i).test(this.styleEngine);

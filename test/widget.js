@@ -12,16 +12,21 @@ describe('ABC - KISSY-PIE generator', function () {
     var KISSYPie;
 
     beforeEach(function( done ){
+
+        process.chdir( __dirname );
+
         helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
             if (err) {
                 done(err);
             }
-            KISSYPie = helpers.createGenerator('kissy-cake:app', [
-                '../../app'
-            ]);
+            else {
+                KISSYPie = helpers.createGenerator('kissy-cake:app', [
+                    '../../app'
+                ]);
 
-            KISSYPie.options['skip-install'] = true;
-            done();
+                KISSYPie.options['skip-install'] = true;
+                done();
+            }
         });
     });
 

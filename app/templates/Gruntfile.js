@@ -1,4 +1,4 @@
-var KISSYCake= require( 'abc-gruntfile-helper').kissycake;
+var KISSYCake = require( 'abc-gruntfile-helper').kissycake;
 
 module.exports = function (grunt) {
 
@@ -42,6 +42,45 @@ module.exports = function (grunt) {
         pageBuildBase: '<%%= buildBase %>/pages/<%%= pageName %>/<%%= packageName %>',
         widgetBuildBase: '<%%= buildBase %>/widget/<%%= widgetName %>',
         commonBuildBase: '<%%= buildBase %>/common',
+
+        // 线上引用地址
+        publishBase: ABCConfig.repository.publish + '/' + ABCConfig.version,
+
+        copy: {
+            font_widget: {
+                files: [
+                    // widget中的字体
+                    {
+                        expand: true,
+                        cwd: '<%%= widgetSrcBase %>/font',
+                        src: [ '**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff' ],
+                        dest: '<%%= widgetBuildBase %>/font'
+                    }
+                ]
+            },
+            font_page: {
+                files: [
+                    // page中的字体
+                    {
+                        expand: true,
+                        cwd: '<%%= pageSrcBase %>/font',
+                        src: [ '**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff' ],
+                        dest: '<%%= pageBuildBase %>/font'
+                    }
+                ]
+            },
+            font_common: {
+                files: [
+                    // common中的字体
+                    {
+                        expand: true,
+                        cwd: '<%%= commonSrcBase %>/font',
+                        src: [ '**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff' ],
+                        dest: '<%%= commonBuildBase %>/font'
+                    }
+                ]
+            }
+        },
 
         /**
          * 进行KISSY 打包
@@ -164,7 +203,8 @@ module.exports = function (grunt) {
          */
         css_combo: {
             options: {
-                paths: [ '<%%= srcBase %>' ]
+                paths: [ '<%%= srcBase %>' ],
+                outputEncoding: 'utf8'
             },
             page: {
                 files: [
@@ -255,8 +295,7 @@ module.exports = function (grunt) {
                 outputStyle: 'nested',
                 noLineComments: true,
                 importPath: [ '<%%= srcBase %>' ],
-                trace: true,
-                relativeAssets: true
+                trace: true
             },
 
             page: {
@@ -264,7 +303,8 @@ module.exports = function (grunt) {
                     sassDir: '<%%= pageSrcBase %>',
                     cssDir: '<%%= pageBuildBase %>',
                     imagesDir: '<%%= pageSrcBase %>/images',
-                    generatedImagesDir: '<%%= pageSrcBase %>/images'
+                    generatedImagesDir: '<%%= pageBuildBase %>/images',
+                    httpGeneratedImagesPath: '<%%= publishBase %>/pages/<%%= pageName %>/<%%= packageName %>/images/'
                 }
             },
 
@@ -273,7 +313,8 @@ module.exports = function (grunt) {
                     sassDir: '<%%= widgetSrcBase %>',
                     cssDir: '<%%= widgetBuildBase %>',
                     imagesDir: '<%%= widgetSrcBase %>/images',
-                    generatedImagesDir: '<%%= widgetSrcBase %>/images'
+                    generatedImagesDir: '<%%= widgetBuildBase %>/images',
+                    httpGeneratedImagesPath: '<%%= publishBase %>/widget/<%%= widgetName %>/images/'
                 }
             },
 
@@ -282,7 +323,8 @@ module.exports = function (grunt) {
                     sassDir: '<%%= commonSrcBase %>',
                     cssDir: '<%%= commonBuildBase %>',
                     imagesDir: '<%%= commonSrcBase %>/images',
-                    generatedImagesDir: '<%%= commonSrcBase %>/images'
+                    generatedImagesDir: '<%%= commonBuildBase %>/images',
+                    httpGeneratedImagesPath: '<%%= publishBase %>/common/images/'
                 }
             }
         }<% } %>,
@@ -574,17 +616,17 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page']);
+    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget']);
+    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common']);
+    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
 
     /**
      * 初始化KISSY-Cake的任务注册

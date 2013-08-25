@@ -15,10 +15,10 @@
     },
     "_kissy_cake" : {
         "groups": {},
-        "styleEngine": "css",
+        "styleEngine": "less",
         "defaults": {
-            "pages": [ "home" ],
-            "widgets": [ "tooltip" ]
+            "pages": [],
+            "widgets": []
         }
     }
 }
