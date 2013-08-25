@@ -1,6 +1,6 @@
 A yeoman generator for KISSY-Cake
 
-[![Build Status](https://secure.travis-ci.org/abc-team/generator-kissy-cake.png)](http://travis-ci.org/neekey/generator-kissy-cake)
+[![Build Status](https://secure.travis-ci.org/abc-team/generator-kissy-cake.png)](http://travis-ci.org/abc-team/generator-kissy-cake)
 
 ## install
 
