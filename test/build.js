@@ -93,7 +93,7 @@ describe('ABC - KISSY-PIE generator build', function () {
         });
     });
 
-    it.skip('使用CSS-Combo：page/common/', function (done) {
+    it('使用CSS-Combo：page/common/', function (done) {
 
         helpers.mockPrompt( KISSYPie, {
             projectName: "my_project",
@@ -144,7 +144,7 @@ describe('ABC - KISSY-PIE generator build', function () {
         });
     });
 
-    it.only('使用LESS：page/common/widget', function (done) {
+    it('使用LESS：page/common/widget', function (done) {
 
         helpers.mockPrompt( KISSYPie, {
             projectName: "my_project",

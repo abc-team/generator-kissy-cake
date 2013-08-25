@@ -8,7 +8,7 @@ var path = require('path');
 var helpers = require('abc-generator').test;
 
 
-describe.only('ABC - KISSY-PIE generator', function () {
+describe('ABC - KISSY-PIE generator', function () {
 
     var KISSYPie;
 
