@@ -3,6 +3,7 @@
   "version": "0.3.6",
   "description": "Yeoman Generator for KISSY-Cake",
   "main": "index.js",
+  "author": "abc-team",
   "scripts": {
     "test": "mocha -t 0 -R spec"
   },
