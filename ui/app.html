@@ -32,7 +32,7 @@
 </style>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-md-12 col-lg-12">
         <p>
             <button class="btn btn-primary"
                     ng-click="grunt.run($event)"
@@ -62,7 +62,7 @@
 
 <hr>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-md-6 col-lg-6">
         <h3>Pages (<a href="#" ng-click="yeoman.run($event)" data-type="kissy-cake" data-sub="page">添加</a>)</h3>
 
         <div class="cake-page" ng-repeat="page in app.pages" ng-class="page.checked && 'cake-page-checked'">
@@ -80,8 +80,8 @@
 
     </div>
 
-    <div class="col-lg-6">
-        <h3>Widget (<a href="#' ng-click="yeoman.run($event)" data-sub="widget">添加</a>)</h3>
+    <div class="col-md-6 col-lg-6">
+        <h3>Widget (<a href="#" ng-click="yeoman.run($event)" data-sub="widget">添加</a>)</h3>
         <div class="cake-page" ng-repeat="widget in app.widgets" ng-class="widget.checked && 'cake-page-checked'">
             <span class="cake-page-link" ng-click="widget.checked = !widget.checked">
                 {{widget.name}}
