@@ -51,7 +51,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'build' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'build', '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );
@@ -113,7 +113,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'build' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'build', '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );
@@ -160,7 +160,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'build' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'build', '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );
@@ -214,7 +214,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'build' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'build', '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );
@@ -317,7 +317,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'all' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'all', '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );
@@ -378,7 +378,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'all' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'all', '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );
@@ -415,7 +415,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [], function( err ){
+                    Grunt.exec( TestTargetDir, [ '--disable-check' ], function( err ){
 
                         if( err ){
                             done( err );

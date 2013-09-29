@@ -1,4 +1,5 @@
-var KISSYCake = require( 'abc-gruntfile-helper').kissycake;
+var PATH = require('path');
+var FS = require( 'fs' );
 
 module.exports = function (grunt) {
 
@@ -15,7 +16,6 @@ module.exports = function (grunt) {
      *          打包：     `grunt build --page home,intro --widget tooltip,scroll`
      *          watch:    `grunt watch --page home,intro --widget tooltip,scroll`
      */
-    var options = KISSYCake.parse( grunt, ABCConfig._kissy_cake.defaults );
 
     /**
      * 对每个具体任务进行配置
@@ -28,9 +28,9 @@ module.exports = function (grunt) {
         // 包名
         packageName: 'page',
         // 页面名称
-        pageName: options.pageName,
+        pageName: ABCConfig._kissy_cake.defaults.pages[0],
         // Widget名称
-        widgetName: options.widgetName,
+        widgetName: ABCConfig._kissy_cake.defaults.widgets[0],
 
         // 用于页面打包路径
         pageSrcBase: '<%%= srcBase %>/pages/<%%= pageName %>/<%%= packageName %>',
@@ -45,6 +45,193 @@ module.exports = function (grunt) {
 
         // 线上引用地址
         publishBase: ABCConfig.repository.publish + '/' + ABCConfig.version,
+
+        /**
+         * 命令数据统计
+         */
+        keen: {
+            projectId: "5243b86373f4bb052d00000b",
+            writeKey: "a3738c3ed18ecc950a1f029dd45b0e0af900fcc6ab7dd7cb20f7fc0c5e4819030a575609ae3d1d4366e6ba8fce0a33f9d5f714aec6cd2d71247cf3650ece5f44a51a09d91a97e9d020e2acd47f0ad42d33fde9ffa34544024ee24a7e35619e7d34e6921f8a6d84109198ac5b38754f12",
+            data: {
+                repoInfo: {
+                    URL: ABCConfig.repository.url,
+                    author: ABCConfig.author.name,
+                    email: ABCConfig.author.email
+                },
+                other: {
+                    KISSY: ABCConfig.KISSY,
+                    styleEngine: ABCConfig._kissy_cake.styleEngine
+                }
+            },
+            forbid: function(){
+                var COMMAND = process.argv[ 2 ];
+                if( COMMAND && ( COMMAND == 'multi' || COMMAND.indexOf( 'multi:' ) >= 0 || COMMAND.indexOf( '_' ) >= 0 ) ) {
+                    return true;
+                }
+                else return grunt.option('multi-single');
+            },
+            eventName: 'grunt'
+        },
+
+        /**
+         * 定义Multi任务
+         */
+        multi: {
+            // 打包abc.json中指定的page
+            page: {
+                options: {
+                    vars: {
+                        page: ABCConfig._kissy_cake.defaults.pages
+                    },
+                    config: {
+                        pageName: '<%%= page %>'
+                    },
+                    tasks: [ '_page' ]
+                }
+            },
+            // 打包abc.json中指定的widget
+            widget: {
+                options: {
+                    vars: {
+                        widget: ABCConfig._kissy_cake.defaults.widgets
+                    },
+                    config: {
+                        widgetName: '<%%= widget %>'
+                    },
+                    tasks: [ '_widget' ]
+                }
+            },
+            // 打包所有的page
+            all_page: {
+                options: {
+                    vars: {
+                        page: { patterns: '*', options: { cwd: 'src/pages', filter: 'isDirectory' } }
+                    },
+                    config: {
+                        pageName: '<%%= page %>'
+                    },
+                    tasks: [ '_page' ]
+                }
+            },
+            // 打包所有的widget
+            all_widget: {
+                options: {
+                    vars: {
+                        widget: { patterns: '*', options: { cwd: 'src/widget', filter: 'isDirectory' } }
+                    },
+                    config: {
+                        widgetName: '<%%= widget %>'
+                    },
+                    tasks: [ '_widget' ]
+                }
+            },
+            // 监控abc.json中指定的page
+            watch_page: {
+                options: {
+                    continued: true,
+                    vars: {
+                        page: ABCConfig._kissy_cake.defaults.pages
+                    },
+                    config: {
+                        pageName: '<%%= page %>',
+                        watch: function( vars, rawConfig ){
+                            var rawWatch = grunt.util._.clone( rawConfig.watch );
+                            grunt.util._.each( rawWatch, function( value , key ){
+                                if( !(/.*(_page|options)$/.test(key)) ){
+                                    delete rawWatch[ key ];
+                                }
+                            });
+                            return rawWatch;
+                        }
+                    },
+                    tasks: [ 'watch' ]
+                }
+            },
+            // 监控abc.json中指定的widget
+            watch_widget: {
+                options: {
+                    continued: true,
+                    vars: {
+                        widget: ABCConfig._kissy_cake.defaults.widgets
+                    },
+                    config: {
+                        widgetName: '<%%= widget %>',
+                        watch: function( vars, rawConfig ){
+                            var rawWatch = grunt.util._.clone( rawConfig.watch );
+                            grunt.util._.each( rawWatch, function( value , key ){
+                                if( !(/.*(_widget|options)$/.test(key)) ){
+                                    delete rawWatch[ key ];
+                                }
+                            });
+                            return rawWatch;
+                        }
+                    },
+                    tasks: [ 'watch' ]
+                }
+            },
+            // 监控 common
+            watch_common: {
+                options: {
+                    continued: true,
+                    config: {
+                        watch: function( vars, rawConfig ){
+                            var rawWatch = grunt.util._.clone( rawConfig.watch );
+                            grunt.util._.each( rawWatch, function( value , key ){
+                                if( !(/.*(_common|options)$/.test(key)) ){
+                                    delete rawWatch[ key ];
+                                }
+                            });
+                            return rawWatch;
+                        }
+                    },
+                    tasks: [ 'watch' ]
+                }
+            },
+            // 监控所有的page
+            watch_all_page: {
+                options: {
+                    continued: true,
+                    vars: {
+                        page: { patterns: '*', options: { cwd: 'src/pages', filter: 'isDirectory' } }
+                    },
+                    config: {
+                        pageName: '<%%= page %>',
+                        watch: function( vars, rawConfig ){
+                            var rawWatch = grunt.util._.clone( rawConfig.watch );
+                            grunt.util._.each( rawWatch, function( value , key ){
+                                if( !(/.*(_page|options)$/.test(key)) ){
+                                    delete rawWatch[ key ];
+                                }
+                            });
+                            return rawWatch;
+                        }
+                    },
+                    tasks: [ 'watch' ]
+                }
+            },
+            // 监控所有的widget
+            watch_all_widget: {
+                options: {
+                    continued: true,
+                    vars: {
+                        widget: { patterns: '*', options: { cwd: 'src/widget', filter: 'isDirectory' } }
+                    },
+                    config: {
+                        widgetName: '<%%= widget %>',
+                        watch: function( vars, rawConfig ){
+                            var rawWatch = grunt.util._.clone( rawConfig.watch );
+                            grunt.util._.each( rawWatch, function( value , key ){
+                                if( !(/.*(_widget|options)$/.test(key)) ){
+                                    delete rawWatch[ key ];
+                                }
+                            });
+                            return rawWatch;
+                        }
+                    },
+                    tasks: [ 'watch' ]
+                }
+            }
+        },
 
         copy: {
             font_widget: {
@@ -107,9 +294,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
-
-
             page: {
                 files: [
                     {
@@ -120,7 +304,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             widget: {
                 files: [
                     {
@@ -436,6 +619,9 @@ module.exports = function (grunt) {
          *          根据执行的任务不同，脚本中会动态去设置下面的配置，如只watch widget，就会将非_widget的配置项都删除
          */
         watch: {
+            options: {
+                spawn: false
+            },
             // 所有在utils中的js文件变更将重新build widget
             'js_utils_widget': {
                 files: [ '<%%= utilsSrcBase %>/**/*.js' ],
@@ -599,6 +785,41 @@ module.exports = function (grunt) {
                 files: [ '<%%= commonSrcBase %>/**/*.less' ],
                 tasks: [ 'less:common', 'cssmin:common' ]
             }<% } %>
+        },
+
+        /**
+         * 自动更新提示
+         */
+        update_notify: {
+            generator: {
+                options: {
+                    name: 'generator-kissy-cake',
+                    global: true,
+                    changeLogURL: 'https://raw.github.com/abc-team/generator-kissy-cake/master/CHANGELOG.md',
+                    changeLog: function( content, latest ){
+                        // 对内容进行提取
+                        var chunk = content.split( /#+\s*v?([\d\.]+)\s*\n/g );
+                        var isVersion = true;
+                        var lastVersion = null;
+                        var changeLogs = {};
+                        chunk.forEach(function( value ){
+                            if( value = value.trim() ){
+                                if( isVersion ){
+                                    lastVersion = value;
+                                }
+                                else {
+                                    changeLogs[ lastVersion ] = value;
+                                }
+                                isVersion = !isVersion;
+                            }
+                        });
+
+                        return changeLogs[ latest ];
+                    },
+                    append: true,
+                    interval: 0
+                }
+            }
         }
     });
 
@@ -616,20 +837,53 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
+    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
+    grunt.registerTask( 'page', [ 'update_notify:generator', 'multi:page' ] );
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
+    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
+    grunt.registerTask( 'widget', [ 'update_notify:generator', 'multi:widget' ] );
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
+    grunt.registerTask( 'common', [ 'update_notify:generator', 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
 
     /**
-     * 初始化KISSY-Cake的任务注册
+     * 打包common, abc.json中指定的page和widget
      */
-    KISSYCake.taskInit();
+    grunt.registerTask( 'build', [ 'update_notify:generator', 'common', 'multi:page', 'multi:widget' ] );
+
+    /**
+     * 打包所有文件
+     */
+    grunt.registerTask( 'all', [ 'update_notify:generator', 'common', 'multi:all_page', 'multi:all_widget' ] );
+    grunt.registerTask( '_watchall', [ 'multi:watch_all_page', 'multi:watch_all_widget', 'multi:watch_common' ] );
+    grunt.registerTask( '_watchbuild', [ 'multi:watch_page', 'multi:watch_widget', 'multi:watch_common' ] );
+
+    /**
+     * 只有当用户开启的进程才会去重写watch命令
+     * 若用户添加参数 --few 则只watch abc.json中指定的page和widget
+     */
+    if( !grunt.option( 'multi-single' ) ){
+        grunt.registerTask( 'watch', function(){
+            this.async();
+
+            var args = grunt.option( 'few' ) ? [ '_watchbuild' ] : [ '_watchall'];
+            if( grunt.util._.indexOf( process.argv, '--debug' ) >= 0 ){
+                args.push( '--debug' );
+            }
+
+            var child = grunt.util.spawn({
+                grunt: true,
+                args: args
+            }, function(){});
+
+            child.stdout.on('data', function (data) {
+                console.log( data.toString( 'utf8') );
+            });
+        });
+    }
 };

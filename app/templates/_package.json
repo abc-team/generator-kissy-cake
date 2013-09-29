@@ -1,32 +1,34 @@
 {
-  "name": "project_power_by_kissy_cake",
-  "version": "0.0.1",
-  "generator_version": "<%= generatorVersion %>",
-  "description": "an kissy cake app",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "repository": "",
-  "keywords": [
-    "kissy-cake"
-  ],
-  "author": "<%= author %> <<%= email %>>",
-  "license": "BSD",
-  "devDependencies": {
-      "grunt": "~0.4.1",
-      "grunt-contrib-copy": "*",
-      "grunt-contrib-uglify": "~0.2.0"<% if(enableLess) { %>,
-      "grunt-contrib-less": "~0.5.0"<% } %><% if(enableSass) { %>,
-      "grunt-contrib-compass": "~0.4.0"<% } %>,
-      "grunt-css-combo": ">=0.2.2",
-      "grunt-contrib-connect": "~0.3.0",
-      "grunt-contrib-cssmin": "~0.6.1",
-      "grunt-contrib-watch": "~0.3.1",
-      "grunt-kmc": "~0.1.0",
-      "grunt-contrib-connect": "~0.3.0",
-      "grunt-kissy-template": "~0.1.0",
-      "matchdep": "~0.1.2",
-      "abc-gruntfile-helper": "0.0.9"
+    "name": "project_power_by_kissy_cake",
+    "version": "0.0.1",
+    "generator_version": "<%= generatorVersion %>",
+    "description": "an kissy cake app",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "repository": "",
+    "keywords": [
+        "kissy-cake"
+    ],
+    "author": "<%= author %> <<%= email %>>",
+    "license": "BSD",
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-uglify": "~0.2.0"<% if(enableLess) { %>,
+        "grunt-contrib-less": "~0.5.0"<% } %><% if(enableSass) { %>,
+        "grunt-contrib-compass": "~0.4.0"<% } %>,
+        "grunt-css-combo": ">=0.2.2",
+        "grunt-contrib-connect": "~0.3.0",
+        "grunt-contrib-cssmin": "~0.6.1",
+        "grunt-contrib-watch": "~0.5.1",
+        "grunt-kmc": "~0.1.0",
+        "grunt-contrib-connect": "~0.3.0",
+        "grunt-kissy-template": "~0.1.0",
+        "grunt-multi": "0.0.4",
+        "grunt-keen": "0.0.1",
+        "grunt-update-notify": "0.0.1",
+        "matchdep": "~0.1.2"
   }
 }
