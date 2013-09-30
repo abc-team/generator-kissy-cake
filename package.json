@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "abc-team",
   "scripts": {
-    "test": "mocha -t 0 -R spec"
+    "test": "mocha -t 0 -R spec --bail"
   },
   "repository": {
     "type": "git",

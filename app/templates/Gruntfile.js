@@ -788,6 +788,50 @@ module.exports = function (grunt) {
         },
 
         /**
+         * git相关操作
+         */
+        exec: {
+            tag: {
+                command: 'git tag publish/<%%= repoVersion %>'
+            },
+            publish: {
+                command: 'git push origin publish/<%%= repoVersion %>:publish/<%%= repoVersion %>'
+            },
+            prepub: {
+                command: 'git push origin daily/<%%= repoVersion %>:daily/<%%= repoVersion %>'
+            },
+            new_version: {
+                command: function(){
+                var current = grunt.config( 'repoVersion' ) || '0.0.0';
+                var EX = /(\d+)\.(\d+)\.(\d+)/;
+                var ret = EX.exec( current );
+                var newVersion = '';
+
+                if( grunt.option( 'major' ) ){
+                    newVersion = (++ret[1])+'.'+ret[2]+'.'+ret[3];
+                }
+                else if( grunt.option( 'pitch' ) ){
+                    newVersion = ret[1]+'.'+ret[2]+'.'+(++ret[3]);
+                }
+                else {
+                    newVersion = ret[1]+'.'+(++ret[2])+'.'+ret[3];
+                }
+
+                // 更新abc.json中的version字段
+                FS.writeFileSync( 'abc.json', FS.readFileSync( 'abc.json' ).toString().replace( /"version"\s*:\s*"(\d+\.\d+\.\d+)"/, '"version": "' + newVersion + '"' ));
+
+                    return 'git checkout -b ' + 'daily/' + newVersion;
+                }
+            },
+
+            switch: {
+                command: function( version ){
+                    return 'git checkout ' + 'daily/' + version;
+                }
+            }
+        },
+
+        /**
          * 自动更新提示
          */
         update_notify: {
@@ -817,7 +861,8 @@ module.exports = function (grunt) {
                         return changeLogs[ latest ];
                     },
                     append: true,
-                    interval: 0
+                    interval: 0,
+                    block: true
                 }
             }
         }
@@ -849,17 +894,18 @@ module.exports = function (grunt) {
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask( 'common', [ 'update_notify:generator', 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
+    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
+    grunt.registerTask( 'common', [ 'update_notify:generator', '_common' ]);
 
     /**
      * 打包common, abc.json中指定的page和widget
      */
-    grunt.registerTask( 'build', [ 'update_notify:generator', 'common', 'multi:page', 'multi:widget' ] );
+    grunt.registerTask( 'build', [ 'update_notify:generator', 'multi:page', 'multi:widget', '_common' ] );
 
     /**
      * 打包所有文件
      */
-    grunt.registerTask( 'all', [ 'update_notify:generator', 'common', 'multi:all_page', 'multi:all_widget' ] );
+    grunt.registerTask( 'all', [ 'update_notify:generator', 'multi:all_page', 'multi:all_widget', '_common',  ] );
     grunt.registerTask( '_watchall', [ 'multi:watch_all_page', 'multi:watch_all_widget', 'multi:watch_common' ] );
     grunt.registerTask( '_watchbuild', [ 'multi:watch_page', 'multi:watch_widget', 'multi:watch_common' ] );
 
@@ -886,4 +932,40 @@ module.exports = function (grunt) {
             });
         });
     }
+
+    /**
+     * 检查用户当前分支状态和abc.json中是否一致
+     */
+    grunt.registerTask( '_check_version', function(){
+
+        var done = this.async();
+
+        EXEC( 'git branch', function(  error, stdout, stderr ){
+
+            var reg = /\*\s+daily\/(\S+)/,
+                match = stdout.match(reg);
+
+            if (!match) {
+                grunt.fail.fatal( '当前分支为 master 或者名字不合法(daily/x.y.z)，请切换到daily分支' );
+            }
+            else {
+                var realBranch = match[1];
+
+                if( grunt.config( 'repoVersion' ) != realBranch ){
+                    grunt.fail.fatal( '当前分支为 ' + 'daily/' + realBranch + ' 与 abc.json 中设置的版本号不一致，请修改.' );
+                }
+            }
+
+            done();
+        });
+    });
+
+    /**
+     * git相关操作
+     */
+    grunt.registerTask( 'prepub', [ '_check_version', 'exec:prepub' ] );
+    grunt.registerTask( 'pub', [ '_check_version', 'exec:tag', 'exec:publish' ] );
+    grunt.registerTask( 'newbranch', [ 'exec:new_version' ] );
+    grunt.registerTask( 'switch', function( version ){ grunt.task.run( [ 'exec:switch:' + version ] )})
+
 };
