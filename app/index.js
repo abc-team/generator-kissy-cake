@@ -98,6 +98,7 @@ Generator.prototype.questions = function () {
         this.repo = props.repo;
         this.publish = props.publish;
         this.version = abcJSON.version || '0.0.0';
+        this.kissyVersion = props.kissyVersion || '';
         this.styleEngine = props.styleEngine || 'css';
         this.enableLess = (/less/i).test(this.styleEngine);
         this.enableSass = (/sass/i).test(this.styleEngine);

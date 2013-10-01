@@ -26,7 +26,7 @@
         "grunt-kmc": "~0.1.0",
         "grunt-kissy-template": "~0.1.0",
         "grunt-multi": "0.0.5",
-        "grunt-keen": "0.0.1",
+        "grunt-keen": "0.0.2",
         "grunt-exec": "~0.4.2",
         "bower": "~1.2.7",
         "grunt-update-notify": "0.0.1",

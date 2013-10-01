@@ -38,6 +38,7 @@ describe('ABC - KISSY-PIE generator', function () {
             author: 'neekey',
             email: 'ni184775761@gmail.com',
             styleEngine: 'css',
+            kissyVersion: '1.2.1',
             repo: 'http://gitlab.taobao.ali.com/tb/jury',
             publish: 'http://g.tbcdn.cn/tb/jury'
         });
@@ -88,6 +89,7 @@ describe('ABC - KISSY-PIE generator', function () {
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
                 styleEngine: 'sass',
+                kissyVersion: '1.1.6',
                 repo: 'http://gitlab.taobao.ali.com/tb/jury',
                 publish: 'http://g.tbcdn.cn/tb/jury'
             });
@@ -114,6 +116,7 @@ describe('ABC - KISSY-PIE generator', function () {
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
                 styleEngine: 'less',
+                kissyVersion: '1.2.1',
                 repo: 'http://gitlab.taobao.ali.com/tb/jury',
                 publish: 'http://g.tbcdn.cn/tb/jury'
             });
@@ -140,6 +143,7 @@ describe('ABC - KISSY-PIE generator', function () {
                 author: 'neekey',
                 email: 'ni184775761@gmail.com',
                 styleEngine: '',
+                kissyVersion: '1.2.1',
                 repo: 'http://gitlab.taobao.ali.com/tb/jury',
                 publish: 'http://g.tbcdn.cn/tb/jury'
             });

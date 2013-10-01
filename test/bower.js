@@ -13,7 +13,6 @@ describe('ABC - KISSY-PIE generator build', function () {
 
     var KISSYPie;
     var TestTargetDir = path.join(__dirname, 'build_test' );
-//    process.chdir( TestTargetDir );
 
     beforeEach(function( done ){
 
@@ -52,7 +51,7 @@ describe('ABC - KISSY-PIE generator build', function () {
                 }
                 else {
                     // build page & widget
-                    Grunt.exec( TestTargetDir, [ 'install' ], function( err ){
+                    Grunt.exec( TestTargetDir, [ 'install', '--disable-keen' ], function( err ){
 
                         if( err ){
                             done( err );

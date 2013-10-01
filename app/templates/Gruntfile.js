@@ -69,7 +69,7 @@ module.exports = function (grunt) {
                 if( COMMAND && ( COMMAND == 'multi' || COMMAND.indexOf( 'multi:' ) >= 0 || COMMAND.indexOf( '_' ) >= 0 ) ) {
                     return true;
                 }
-                else return grunt.option('multi-single');
+                else return grunt.option('multi-single') || grunt.option( 'disable-keen' );
             },
             eventName: 'grunt'
         },
