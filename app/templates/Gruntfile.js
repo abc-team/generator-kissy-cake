@@ -877,7 +877,8 @@ module.exports = function (grunt) {
                         return changeLogs[ latest ];
                     },
                     append: true,
-                    interval: 0,
+                    // 两天检查一次更新
+                    interval: 2,
                     block: true
                 }
             }

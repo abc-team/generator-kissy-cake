@@ -77,6 +77,11 @@ Generator.prototype.questions = function () {
             warning: '打包时，请设置abc.json中的version字段和当前分支时间戳一致'
         },
         {
+            name: 'kissyVersion',
+            message: '项目中主要使用的KISSY版本',
+            default: cakeConfig.KISSY_version || ''
+        },
+        {
             name: 'styleEngine',
             message: '使用样式引擎[less|sass]? 只使用CSS请回车',
             default: cakeConfig.styleEngine || '',

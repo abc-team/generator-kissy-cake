@@ -30,13 +30,22 @@ var Generator = module.exports = function Generator() {
     console.log( '\t\033[1;33myo kissy-cake:widget\033[0m: \t添加一个widget');
     console.log( '\t\033[1;33myo kissy-cake:migrate\033[0m: \t从KISSY-Pie到KISSY-Cake迁移');
     console.log( '\t\033[1;33myo kissy-cake:help\033[0m: \t显示使用帮助');
-    console.log( '\n  Grunt命令列表:\n');
+    console.log( '\n  Grunt打包命令列表:\n');
     console.log( '\t\033[1;33mgrunt page\033[0m: \t\t对abc.json中指定的page进行打包');
     console.log( '\t\033[1;33mgrunt widget\033[0m: \t\t对abc.json中指定的widget进行打包');
     console.log( '\t\033[1;33mgrunt common\033[0m: \t\t对common目录进行打包');
     console.log( '\t\033[1;33mgrunt build\033[0m: \t\t对abc.json中指定的page和widget以及common进行打包');
     console.log( '\t\033[1;33mgrunt all\033[0m: \t\t整站打包：所有的page，widget以及common');
     console.log( '\t\033[1;33mgrunt\033[0m: \t\t\t与grunt all相同');
+    console.log( '\t\033[1;33mgrunt watch\033[0m: \t\t\t整站watch，添加--few可以只针对abc.json中指定的page和widget进行watch');
+    console.log( '\n  Grunt发布相关命令列表:\n');
+    console.log( '\t\033[1;33mgrunt newbranch\033[0m: \t\t创建一个新的时间戳分支，默认第二位+1，通过--major来让第一位+1，通过--patch来让最后一位+1');
+    console.log( '\t\033[1;33mgrunt switch\033[0m: \t\t切换到其他分支，如：grunt switch:0.2.5');
+    console.log( '\t\033[1;33mgrunt prepub\033[0m: \t\tpush当前的daily分之');
+    console.log( '\t\033[1;33mgrunt pub\033[0m: \t\t为当前分之添加 publish/* 的tag，并提交');
+    console.log( '\n  Bower相关命令列表:\n');
+    console.log( '\t\033[1;33mgrunt install\033[0m: \t\t读取abc.json中的指定的依赖组件');
+    console.log( '\t\033[1;33mgrunt search\033[0m: \t\t搜索组件，如：grunt search:tooltip');
 };
 
 util.inherits(Generator, generator.UIBase);
