@@ -8,6 +8,7 @@
  * 可以将多个页面共享的样式放置于utils文件夹中直接引入
  */
 @import "utils/utils_mod";
+@import "components/abc-bower-test/mod";
 
 /**
  * 可以在page中将widget打包在一起

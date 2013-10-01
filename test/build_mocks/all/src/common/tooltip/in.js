@@ -24,5 +24,6 @@ KISSY.add(function (S) {
     '../mods/_common_mod',
     '../mods/popup-tpl',
     'utils/utils_mod',
-    'utils/utils-tpl'
+    'utils/utils-tpl',
+    'components/abc-bower-test/mod'
 ]});

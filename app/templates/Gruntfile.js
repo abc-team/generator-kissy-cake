@@ -37,6 +37,7 @@ module.exports = function (grunt) {
         widgetSrcBase: '<%%= srcBase %>/widget/<%%= widgetName %>',
         commonSrcBase: '<%%= srcBase %>/common',
         utilsSrcBase: '<%%= srcBase %>/utils',
+        componentsSrcBase: '<%%= srcBase %>/components',
 
         // 打包输出目录
         pageBuildBase: '<%%= buildBase %>/pages/<%%= pageName %>/<%%= packageName %>',
@@ -289,6 +290,10 @@ module.exports = function (grunt) {
                         path: './<%%= srcBase %>'
                     },
                     {
+                        name: 'components',
+                        path: './<%%= srcBase %>'
+                    },
+                    {
                         name: 'common',
                         path: './<%%= srcBase %>'
                     }
@@ -314,7 +319,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             common: {
                 files: [
                     {
@@ -343,7 +347,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             widget: {
                 files: [
                     {
@@ -355,7 +358,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             utils: {
                 files: [
                     {
@@ -367,7 +369,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             common: {
                 files: [
                     {
@@ -399,7 +400,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             widget: {
                 files: [
                     {
@@ -410,7 +410,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             common: {
                 files: [
                     {
@@ -429,9 +428,8 @@ module.exports = function (grunt) {
          */
         less: {
             options: {
-                paths: [ '<%%= srcBase %>', '<%%= pageSrcBase %>', '<%%= widgetSrcBase %>', '<%%= utilsSrcBase %>', '<%%= commonSrcBase %>' ]
+                paths: [ '<%%= srcBase %>', '<%%= pageSrcBase %>', '<%%= widgetSrcBase %>', '<%%= utilsSrcBase %>', '<%%= componentsSrcBase %>', '<%%= commonSrcBase %>' ]
             },
-
             page: {
                 files: [
                     {
@@ -443,7 +441,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             widget: {
                 files: [
                     {
@@ -455,7 +452,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             common: {
                 files: [
                     {
@@ -480,7 +476,6 @@ module.exports = function (grunt) {
                 importPath: [ '<%%= srcBase %>' ],
                 trace: true
             },
-
             page: {
                 options: {
                     sassDir: '<%%= pageSrcBase %>',
@@ -490,7 +485,6 @@ module.exports = function (grunt) {
                     httpGeneratedImagesPath: '<%%= publishBase %>/pages/<%%= pageName %>/<%%= packageName %>/images/'
                 }
             },
-
             widget: {
                 options: {
                     sassDir: '<%%= widgetSrcBase %>',
@@ -500,7 +494,6 @@ module.exports = function (grunt) {
                     httpGeneratedImagesPath: '<%%= publishBase %>/widget/<%%= widgetName %>/images/'
                 }
             },
-
             common: {
                 options: {
                     sassDir: '<%%= commonSrcBase %>',
@@ -596,7 +589,6 @@ module.exports = function (grunt) {
                 ]
             }
         },
-
         connect: {
             server: {
                 options: {
@@ -791,6 +783,31 @@ module.exports = function (grunt) {
          * git相关操作
          */
         exec: {
+            /**
+             * Component 安装
+             */
+            bower_install: {
+                command: function(){
+                    var deps = ABCConfig.dependencies;
+                    var depsArr = [];
+                    grunt.util._.each(deps, function( version, name ){
+                        var depStr = name;
+                        if( version != '*' ){
+                            depStr += '#' + version;
+                        }
+                        depsArr.push( depStr );
+                    });
+                    return 'node ' + PATH.resolve( __dirname, 'node_modules/bower/bin/bower' ) + ' install ' + depsArr.join( ' ' ) + ' --color';
+                }
+            },
+            /**
+             * Component 搜索
+             */
+            bower_search: {
+                command: function( keyword ){
+                    return 'node ' + PATH.resolve( __dirname, 'node_modules/bower/bin/bower' ) + ' search ' + keyword + ' --color';
+                }
+            },
             tag: {
                 command: 'git tag publish/<%%= repoVersion %>'
             },
@@ -823,7 +840,6 @@ module.exports = function (grunt) {
                     return 'git checkout -b ' + 'daily/' + newVersion;
                 }
             },
-
             switch: {
                 command: function( version ){
                     return 'git checkout ' + 'daily/' + version;
@@ -933,6 +949,15 @@ module.exports = function (grunt) {
         });
     }
 
+
+    /**
+     * Component 相关操作, 安装 & 搜索
+     */
+    grunt.registerTask( 'install', [ 'exec:bower_install'] );
+    grunt.registerTask( 'search', function( keyword ){
+        grunt.task.run( [ 'exec:bower_search:' + keyword ] );
+    });
+
     /**
      * 检查用户当前分支状态和abc.json中是否一致
      */
@@ -967,5 +992,4 @@ module.exports = function (grunt) {
     grunt.registerTask( 'pub', [ '_check_version', 'exec:tag', 'exec:publish' ] );
     grunt.registerTask( 'newbranch', [ 'exec:new_version' ] );
     grunt.registerTask( 'switch', function( version ){ grunt.task.run( [ 'exec:switch:' + version ] )})
-
 };

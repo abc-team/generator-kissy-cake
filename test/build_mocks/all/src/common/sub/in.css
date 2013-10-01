@@ -1,5 +1,6 @@
 @import "../mods/_common_mod.css";
 @import "utils/utils_mod.css";
+@import "components/abc-bower-test/mod.css";
 
 .common-in {
     margin: 5px;

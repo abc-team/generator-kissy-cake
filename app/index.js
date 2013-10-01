@@ -128,12 +128,14 @@ Generator.prototype.projectFiles = function projectFiles() {
     this.template('package-config.js', 'src/common/package-config.js');
 };
 
-
 Generator.prototype.gruntFiles = function gruntFiles() {
     this.template('_package.json', 'package.json');
     this.template('Gruntfile.js');
 };
 
+Generator.prototype.gruntBowerFiles = function gruntFiles() {
+    this.copy( '.bowerrc' );
+};
 
 Generator.prototype.sampleFiles = function endRun() {
     if (!this.isFirstTime) {

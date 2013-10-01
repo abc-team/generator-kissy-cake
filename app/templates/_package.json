@@ -24,11 +24,12 @@
         "grunt-contrib-cssmin": "~0.6.1",
         "grunt-contrib-watch": "~0.5.1",
         "grunt-kmc": "~0.1.0",
-        "grunt-contrib-connect": "~0.3.0",
         "grunt-kissy-template": "~0.1.0",
-        "grunt-multi": "0.0.4",
+        "grunt-multi": "0.0.5",
         "grunt-keen": "0.0.1",
+        "grunt-exec": "~0.4.2",
+        "bower": "~1.2.7",
         "grunt-update-notify": "0.0.1",
         "matchdep": "~0.1.2"
-  }
+    }
 }
