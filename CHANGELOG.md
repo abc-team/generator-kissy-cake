@@ -1,3 +1,13 @@
+## v0.4.0
+- 添加用户使用的统计插件，方便后续优化
+- 修改watch组件到0.5.x，默认`grunt watch`为整站watch，添加`--few`为针对abc.json的watch
+- 添加仓库KISSY版本信息的记录
+- 添加对bower的支持，在abc.json中设置依赖，`grunt install`来安装依赖，使用`grunt search`进行组件搜索
+- 添加git操作命令：创建新分支，切换分支，预发布，发布
+- 所有的多进行任务的实现改用 `grunt-multi` 来实现。
+- 新增命令信息请使用`yo kissy-cake:help`查看
+- 变更较多，请谨慎升级!
+
 ## v0.3.7
 - 更新界面
 

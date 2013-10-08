@@ -825,13 +825,13 @@ module.exports = function (grunt) {
                 var newVersion = '';
 
                 if( grunt.option( 'major' ) ){
-                    newVersion = (++ret[1])+'.'+ret[2]+'.'+ret[3];
+                    newVersion = (++ret[1])+'.0.0';
                 }
                 else if( grunt.option( 'pitch' ) ){
                     newVersion = ret[1]+'.'+ret[2]+'.'+(++ret[3]);
                 }
                 else {
-                    newVersion = ret[1]+'.'+(++ret[2])+'.'+ret[3];
+                    newVersion = ret[1]+'.'+(++ret[2])+'.0';
                 }
 
                 // 更新abc.json中的version字段
