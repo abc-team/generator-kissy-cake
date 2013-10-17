@@ -503,6 +503,52 @@ module.exports = function (grunt) {
                     httpGeneratedImagesPath: '<%%= publishBase %>/common/images/'
                 }
             }
+        }<% } if(enableStylus) { %>,
+
+        /**
+         * Compile Stylus
+         * @link https://github.com/daxingplay/grunt-contrib-stylus
+         */
+        stylus: {
+            options: {
+                paths: ['<%%= srcBase %>']
+            },
+
+            page: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= pageSrcBase %>',
+                        src: '*.styl',
+                        dest: '<%%= pageBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            },
+
+            widget: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= widgetSrcBase %>',
+                        src: '*.styl',
+                        dest: '<%%= widgetBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            },
+
+            common: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= commonSrcBase %>',
+                        src: [ '**/*.styl', '!**/_*.styl' ],
+                        dest: '<%%= commonBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            }
         }<% } %>,
 
         /**
@@ -776,6 +822,39 @@ module.exports = function (grunt) {
             'less_common': {
                 files: [ '<%%= commonSrcBase %>/**/*.less' ],
                 tasks: [ 'less:common', 'cssmin:common' ]
+            }<% } if(enableStylus) { %>,
+            // utils目录中的stylus文件变更，就build widget
+            'stylus_utils_widget': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:widget', 'cssmin:widget' ]
+            },
+            // utils目录中的stylus文件变更，就build page
+            'stylus_utils_page': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            'stylus_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:common', 'cssmin:common' ]
+            },
+            // 某个widget目录中的stylus文件变更，就build 对应的widget
+            'stylus_widget_widget': {
+                files: [ '<%%= widgetSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:widget', 'cssmin:widget' ]
+            },
+            // 任意widget目录中的stylus文件变更，就build page
+            'stylus_widget_page': {
+                files: [ '<%%= srcBase %>/widget/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            // 某个page目录中的stylus文件变更，就build对应的page
+            'stylus_page': {
+                files: [ '<%%= pageSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            'stylus_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:common', 'cssmin:common' ]
             }<% } %>
         },
 
@@ -899,19 +978,19 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
+    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } if(enableStylus) {%>, 'stylus:page' <% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
     grunt.registerTask( 'page', [ 'update_notify:generator', 'multi:page' ] );
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
+    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } if(enableStylus) {%>, 'stylus:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
     grunt.registerTask( 'widget', [ 'update_notify:generator', 'multi:widget' ] );
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
+    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } if(enableStylus) {%>, 'stylus:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
     grunt.registerTask( 'common', [ 'update_notify:generator', '_common' ]);
 
     /**
