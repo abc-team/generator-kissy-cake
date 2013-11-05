@@ -23,6 +23,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
+        repoVersion: ABCConfig.version,
         buildBase: 'build',
         srcBase: 'src',
         // 包名
@@ -81,6 +82,12 @@ module.exports = function (grunt) {
             // 打包abc.json中指定的page
             page: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Page: ' + vars.page + ' ...';
+                    },
+                    logEnd: function( vars ){
+                        return 'Page: ' + vars.page + ' 打包成功!';
+                    },
                     vars: {
                         page: ABCConfig._kissy_cake.defaults.pages
                     },
@@ -93,6 +100,12 @@ module.exports = function (grunt) {
             // 打包abc.json中指定的widget
             widget: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Widget: ' + vars.widget + ' ...';
+                    },
+                    logEnd: function( vars ){
+                        return 'Widget: ' + vars.widget + ' 打包成功!';
+                    },
                     vars: {
                         widget: ABCConfig._kissy_cake.defaults.widgets
                     },
@@ -105,6 +118,12 @@ module.exports = function (grunt) {
             // 打包所有的page
             all_page: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Page: ' + vars.page;
+                    },
+                    logEnd: function( vars ){
+                        return 'Page: ' + vars.page + '打包成功!' + ' ...';
+                    },
                     vars: {
                         page: { patterns: '*', options: { cwd: 'src/pages', filter: 'isDirectory' } }
                     },
@@ -117,6 +136,12 @@ module.exports = function (grunt) {
             // 打包所有的widget
             all_widget: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Widget: ' + vars.widget + ' ...';
+                    },
+                    logEnd: function( vars ){
+                        return 'Widget: ' + vars.widget + '打包成功!';
+                    },
                     vars: {
                         widget: { patterns: '*', options: { cwd: 'src/widget', filter: 'isDirectory' } }
                     },
@@ -992,5 +1017,21 @@ module.exports = function (grunt) {
     grunt.registerTask( 'prepub', [ '_check_version', 'exec:prepub' ] );
     grunt.registerTask( 'pub', [ '_check_version', 'exec:tag', 'exec:publish' ] );
     grunt.registerTask( 'newbranch', [ 'exec:new_version' ] );
-    grunt.registerTask( 'switch', function( version ){ grunt.task.run( [ 'exec:switch:' + version ] )})
+    grunt.registerTask( 'switch', function( version ){ grunt.task.run( [ 'exec:switch:' + version ] )});
+
+    /**
+     * 记录总的打包时间
+     */
+    if( !grunt.option( 'multi-single' ) ){
+        var GRUNT_BEGIN_TS = Date.now();
+        process.on( 'exit', function(){
+            grunt.log.ok( 'Total took ' + ( Date.now() - GRUNT_BEGIN_TS ) / 1000 + 's' );
+        });
+    }
+    else {
+        var GRUNT_BEGIN_TS = Date.now();
+        process.on( 'exit', function(){
+            grunt.log.ok( 'Total took ' + ( Date.now() - GRUNT_BEGIN_TS ) / 1000 + 's' );
+        });
+    }
 };
