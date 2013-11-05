@@ -882,7 +882,7 @@ module.exports = function (grunt) {
                 if( grunt.option( 'major' ) ){
                     newVersion = (++ret[1])+'.0.0';
                 }
-                else if( grunt.option( 'pitch' ) ){
+                else if( grunt.option( 'patch' ) ){
                     newVersion = ret[1]+'.'+ret[2]+'.'+(++ret[3]);
                 }
                 else {
