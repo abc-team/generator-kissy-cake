@@ -558,6 +558,52 @@ module.exports = function (grunt) {
                     httpGeneratedImagesPath: '<%%= publishBase %>/common/images/'
                 }
             }
+        }<% } if(enableStylus) { %>,
+
+        /**
+         * Compile Stylus
+         * @link https://github.com/daxingplay/grunt-contrib-stylus
+         */
+        stylus: {
+            options: {
+                paths: ['<%%= srcBase %>']
+            },
+
+            page: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= pageSrcBase %>',
+                        src: '*.styl',
+                        dest: '<%%= pageBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            },
+
+            widget: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= widgetSrcBase %>',
+                        src: '*.styl',
+                        dest: '<%%= widgetBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            },
+
+            common: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= commonSrcBase %>',
+                        src: [ '**/*.styl', '!**/_*.styl' ],
+                        dest: '<%%= commonBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            }
         }<% } %>,
 
         /**
@@ -831,6 +877,39 @@ module.exports = function (grunt) {
             'less_common': {
                 files: [ '<%%= commonSrcBase %>/**/*.less' ],
                 tasks: [ 'less:common', 'cssmin:common' ]
+            }<% } if(enableStylus) { %>,
+            // utils目录中的stylus文件变更，就build widget
+            'stylus_utils_widget': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:widget', 'cssmin:widget' ]
+            },
+            // utils目录中的stylus文件变更，就build page
+            'stylus_utils_page': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            'stylus_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:common', 'cssmin:common' ]
+            },
+            // 某个widget目录中的stylus文件变更，就build 对应的widget
+            'stylus_widget_widget': {
+                files: [ '<%%= widgetSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:widget', 'cssmin:widget' ]
+            },
+            // 任意widget目录中的stylus文件变更，就build page
+            'stylus_widget_page': {
+                files: [ '<%%= srcBase %>/widget/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            // 某个page目录中的stylus文件变更，就build对应的page
+            'stylus_page': {
+                files: [ '<%%= pageSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            'stylus_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:common', 'cssmin:common' ]
             }<% } %>
         },
 
