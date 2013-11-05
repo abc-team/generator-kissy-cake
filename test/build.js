@@ -66,16 +66,19 @@ describe('ABC - KISSY-PIE generator build', function () {
                                 'build/pages/home/page/init-min.js',
                                 // page: ktpl
                                 'src/pages/home/page/mods/page-tpl.js',
+                                'src/pages/home/page/images/caniuse.png',
                                 // widget: KMC
                                 'build/widget/tooltip/index.js',
                                 // widget: uglify
                                 'build/widget/tooltip/index-min.js',
                                 // widget: ktpl
                                 'src/widget/tooltip/mods/widget-tpl.js',
+                                'src/widget/tooltip/images/caniuse.png',
                                 // common: KMC
                                 'build/common/out.js',
                                 'build/common/tooltip/in.js',
                                 'build/common/package-config.js',
+                                'build/common/images/caniuse.png',
                                 // common: uglify
                                 'build/common/out-min.js',
                                 'build/common/tooltip/in-min.js',

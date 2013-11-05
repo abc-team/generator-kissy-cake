@@ -293,13 +293,23 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            image_widget: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= widgetSrcBase %>/images',
+                        src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
+                        dest: '<%%= widgetBuildBase %>/images'
+                    }
+                ]
+            },
             image_page: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= pageSrcBase %>/images',
+                        cwd: '<%%= pageSrcBase %>/images',
                         src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
-                        dest: '<%= pageBuildBase %>/images'
+                        dest: '<%%= pageBuildBase %>/images'
                     }
                 ]
             },
@@ -307,9 +317,9 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= commonSrcBase %>/images',
+                        cwd: '<%%= commonSrcBase %>/images',
                         src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
-                        dest: '<%= commonBuildBase %>/images'
+                        dest: '<%%= commonBuildBase %>/images'
                     }
                 ]
             }
@@ -944,19 +954,19 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
+    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page', 'copy:image_page' ]);
     grunt.registerTask( 'page', [ 'update_notify:generator', 'multi:page' ] );
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
+    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget', 'copy:image_widget' ]);
     grunt.registerTask( 'widget', [ 'update_notify:generator', 'multi:widget' ] );
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
+    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common', 'copy:image_common' ]);
     grunt.registerTask( 'common', [ 'update_notify:generator', '_common' ]);
 
     /**
