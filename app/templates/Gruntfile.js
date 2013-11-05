@@ -292,6 +292,26 @@ module.exports = function (grunt) {
                         dest: '<%%= commonBuildBase %>/font'
                     }
                 ]
+            },
+            image_page: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= pageSrcBase %>/images',
+                        src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
+                        dest: '<%= pageBuildBase %>/images'
+                    }
+                ]
+            },
+            image_common: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= commonSrcBase %>/images',
+                        src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
+                        dest: '<%= commonBuildBase %>/images'
+                    }
+                ]
             }
         },
 
