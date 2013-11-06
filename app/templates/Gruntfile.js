@@ -1,5 +1,6 @@
 var PATH = require('path');
 var FS = require( 'fs' );
+var EXEC = require( 'child_process').exec;
 
 module.exports = function (grunt) {
 
