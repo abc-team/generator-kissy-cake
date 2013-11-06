@@ -133,6 +133,41 @@ describe('ABC - KISSY-PIE generator', function () {
             });
         });
 
+        it('Stylus类型page', function (done) {
+
+            // 先初始化目录
+            helpers.mockPrompt( KISSYPie, {
+                projectName: "my_project",
+                author: 'neekey',
+                email: 'ni184775761@gmail.com',
+                styleEngine: 'stylus'
+            });
+
+            KISSYPie.run({}, function () {
+
+                helpers.assertFiles([
+                    [ 'abc.json', /"styleEngine"\:\s*"stylus"/ ]
+                ]);
+
+                var KISSYPiePage = helpers.createGenerator('kissy-cake:widget', [
+                    '../../widget'
+                ]);
+
+                helpers.mockPrompt( KISSYPiePage, {
+                    widgetName: 'tooltip'
+                });
+
+                KISSYPiePage.run({}, function(){
+
+                    helpers.assertFiles([
+                        'src/widget/tooltip/index.styl'
+                    ]);
+
+                    done();
+                });
+            });
+        });
+
         it('CSS类型page', function (done) {
 
             // 先初始化目录

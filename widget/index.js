@@ -71,7 +71,7 @@ Generator.prototype.initFile = function app() {
             this.copy('index.less', path.join(widgetPath, 'index.less'));
             break;
         case "stylus":
-            this.copy('index.styl', path.join(pagePath, 'index.styl'));
+            this.copy('index.styl', path.join(widgetPath, 'index.styl'));
             break;
         case 'sass':
             this.mkdir(path.join(widgetPath, 'images', 'i'));
