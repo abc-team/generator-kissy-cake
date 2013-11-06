@@ -1,0 +1,24 @@
+{
+    "name": "my_project",
+    "desc": "description of your app",
+    "version": "0.0.1",
+    "type": "kissy-cake",
+    "type-url": "http://abc.alibaba-inc.com/r/kissy-cake",
+    "author": {
+        "name": "neekey",
+        "email": "ni184775761@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://gitlab.alibaba-inc.com/tb/jury",
+        "publish": "http://g.tbcdn.cn/tb/jury"
+    },
+    "_kissy_cake" : {
+        "groups": {},
+        "styleEngine": "stylus",
+        "defaults": {
+            "pages": [ "home" ],
+            "widgets": [ "tooltip" ]
+        }
+    }
+}

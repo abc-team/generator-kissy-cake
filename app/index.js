@@ -83,7 +83,7 @@ Generator.prototype.questions = function () {
         },
         {
             name: 'styleEngine',
-            message: '使用样式引擎[less|sass]? 只使用CSS请回车',
+            message: '使用样式引擎[less|sass|stylus]? 只使用CSS请回车',
             default: cakeConfig.styleEngine || '',
             warning: ''
         }
@@ -102,6 +102,7 @@ Generator.prototype.questions = function () {
         this.styleEngine = props.styleEngine || 'css';
         this.enableLess = (/less/i).test(this.styleEngine);
         this.enableSass = (/sass/i).test(this.styleEngine);
+        this.enableStylus = (/stylus/i).test(this.styleEngine);
 
         cb();
     }.bind(this));

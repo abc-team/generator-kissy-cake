@@ -23,6 +23,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
+        repoVersion: ABCConfig.version,
         buildBase: 'build',
         srcBase: 'src',
         // 包名
@@ -81,6 +82,12 @@ module.exports = function (grunt) {
             // 打包abc.json中指定的page
             page: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Page: ' + vars.page + ' ...';
+                    },
+                    logEnd: function( vars ){
+                        return 'Page: ' + vars.page + ' 打包成功!';
+                    },
                     vars: {
                         page: ABCConfig._kissy_cake.defaults.pages
                     },
@@ -93,6 +100,12 @@ module.exports = function (grunt) {
             // 打包abc.json中指定的widget
             widget: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Widget: ' + vars.widget + ' ...';
+                    },
+                    logEnd: function( vars ){
+                        return 'Widget: ' + vars.widget + ' 打包成功!';
+                    },
                     vars: {
                         widget: ABCConfig._kissy_cake.defaults.widgets
                     },
@@ -105,6 +118,12 @@ module.exports = function (grunt) {
             // 打包所有的page
             all_page: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Page: ' + vars.page;
+                    },
+                    logEnd: function( vars ){
+                        return 'Page: ' + vars.page + '打包成功!' + ' ...';
+                    },
                     vars: {
                         page: { patterns: '*', options: { cwd: 'src/pages', filter: 'isDirectory' } }
                     },
@@ -117,6 +136,12 @@ module.exports = function (grunt) {
             // 打包所有的widget
             all_widget: {
                 options: {
+                    logBegin: function( vars ){
+                        return '开始打包 Widget: ' + vars.widget + ' ...';
+                    },
+                    logEnd: function( vars ){
+                        return 'Widget: ' + vars.widget + '打包成功!';
+                    },
                     vars: {
                         widget: { patterns: '*', options: { cwd: 'src/widget', filter: 'isDirectory' } }
                     },
@@ -265,6 +290,36 @@ module.exports = function (grunt) {
                         cwd: '<%%= commonSrcBase %>/font',
                         src: [ '**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff' ],
                         dest: '<%%= commonBuildBase %>/font'
+                    }
+                ]
+            },
+            image_widget: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= widgetSrcBase %>/images',
+                        src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
+                        dest: '<%%= widgetBuildBase %>/images'
+                    }
+                ]
+            },
+            image_page: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= pageSrcBase %>/images',
+                        src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
+                        dest: '<%%= pageBuildBase %>/images'
+                    }
+                ]
+            },
+            image_common: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= commonSrcBase %>/images',
+                        src: [ '*.png', '*.jpg', '*.jpeg', '*.gif' ],
+                        dest: '<%%= commonBuildBase %>/images'
                     }
                 ]
             }
@@ -502,6 +557,52 @@ module.exports = function (grunt) {
                     generatedImagesDir: '<%%= commonBuildBase %>/images',
                     httpGeneratedImagesPath: '<%%= publishBase %>/common/images/'
                 }
+            }
+        }<% } if(enableStylus) { %>,
+
+        /**
+         * Compile Stylus
+         * @link https://github.com/daxingplay/grunt-contrib-stylus
+         */
+        stylus: {
+            options: {
+                paths: ['<%%= srcBase %>']
+            },
+
+            page: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= pageSrcBase %>',
+                        src: '*.styl',
+                        dest: '<%%= pageBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            },
+
+            widget: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= widgetSrcBase %>',
+                        src: '*.styl',
+                        dest: '<%%= widgetBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
+            },
+
+            common: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%%= commonSrcBase %>',
+                        src: [ '**/*.styl', '!**/_*.styl' ],
+                        dest: '<%%= commonBuildBase %>',
+                        ext: '.css'
+                    }
+                ]
             }
         }<% } %>,
 
@@ -776,6 +877,39 @@ module.exports = function (grunt) {
             'less_common': {
                 files: [ '<%%= commonSrcBase %>/**/*.less' ],
                 tasks: [ 'less:common', 'cssmin:common' ]
+            }<% } if(enableStylus) { %>,
+            // utils目录中的stylus文件变更，就build widget
+            'stylus_utils_widget': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:widget', 'cssmin:widget' ]
+            },
+            // utils目录中的stylus文件变更，就build page
+            'stylus_utils_page': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            'stylus_utils_common': {
+                files: [ '<%%= utilsSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:common', 'cssmin:common' ]
+            },
+            // 某个widget目录中的stylus文件变更，就build 对应的widget
+            'stylus_widget_widget': {
+                files: [ '<%%= widgetSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:widget', 'cssmin:widget' ]
+            },
+            // 任意widget目录中的stylus文件变更，就build page
+            'stylus_widget_page': {
+                files: [ '<%%= srcBase %>/widget/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            // 某个page目录中的stylus文件变更，就build对应的page
+            'stylus_page': {
+                files: [ '<%%= pageSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:page', 'cssmin:page' ]
+            },
+            'stylus_common': {
+                files: [ '<%%= commonSrcBase %>/**/*.styl' ],
+                tasks: [ 'stylus:common', 'cssmin:common' ]
             }<% } %>
         },
 
@@ -827,7 +961,7 @@ module.exports = function (grunt) {
                 if( grunt.option( 'major' ) ){
                     newVersion = (++ret[1])+'.0.0';
                 }
-                else if( grunt.option( 'pitch' ) ){
+                else if( grunt.option( 'patch' ) ){
                     newVersion = ret[1]+'.'+ret[2]+'.'+(++ret[3]);
                 }
                 else {
@@ -899,19 +1033,19 @@ module.exports = function (grunt) {
      * 对page进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page' ]);
+    grunt.registerTask('_page', [ 'ktpl:utils', 'ktpl:page', 'kmc:page', 'uglify:page'<% if(enableLess) {%>, 'less:page'<% } if(enableSass) {%>, 'compass:page'<% } if(enableStylus) {%>, 'stylus:page'<% } %>, 'css_combo:page', 'cssmin:page', 'copy:font_page', 'copy:image_page' ]);
     grunt.registerTask( 'page', [ 'update_notify:generator', 'multi:page' ] );
     /**
      * 对widget进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget' ]);
+    grunt.registerTask('_widget', [ 'ktpl:utils', 'ktpl:widget', 'kmc:widget', 'uglify:widget'<% if(enableLess) { %>, 'less:widget'<% } if(enableSass) { %>, 'compass:widget'<% } if(enableStylus) {%>, 'stylus:widget'<% } %>, 'css_combo:widget', 'cssmin:widget', 'copy:font_widget', 'copy:image_widget' ]);
     grunt.registerTask( 'widget', [ 'update_notify:generator', 'multi:widget' ] );
     /**
      * 对common进行打包
      *      html -> js, KISSY pkg, js compression, less/sass compile, css compression.
      */
-    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common' ]);
+    grunt.registerTask( '_common', [ 'ktpl:utils', 'ktpl:common', 'kmc:common', 'uglify:common'<% if(enableLess) { %>, 'less:common'<% } if(enableSass) { %>, 'compass:common'<% } if(enableStylus) {%>, 'stylus:common'<% } %>, 'css_combo:common', 'cssmin:common', 'copy:font_common', 'copy:image_common' ]);
     grunt.registerTask( 'common', [ 'update_notify:generator', '_common' ]);
 
     /**
@@ -992,5 +1126,21 @@ module.exports = function (grunt) {
     grunt.registerTask( 'prepub', [ '_check_version', 'exec:prepub' ] );
     grunt.registerTask( 'pub', [ '_check_version', 'exec:tag', 'exec:publish' ] );
     grunt.registerTask( 'newbranch', [ 'exec:new_version' ] );
-    grunt.registerTask( 'switch', function( version ){ grunt.task.run( [ 'exec:switch:' + version ] )})
+    grunt.registerTask( 'switch', function( version ){ grunt.task.run( [ 'exec:switch:' + version ] )});
+
+    /**
+     * 记录总的打包时间
+     */
+    if( !grunt.option( 'multi-single' ) ){
+        var GRUNT_BEGIN_TS = Date.now();
+        process.on( 'exit', function(){
+            grunt.log.ok( 'Total took ' + ( Date.now() - GRUNT_BEGIN_TS ) / 1000 + 's' );
+        });
+    }
+    else {
+        var GRUNT_BEGIN_TS = Date.now();
+        process.on( 'exit', function(){
+            grunt.log.ok( 'Total took ' + ( Date.now() - GRUNT_BEGIN_TS ) / 1000 + 's' );
+        });
+    }
 };

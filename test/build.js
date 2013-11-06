@@ -66,16 +66,19 @@ describe('ABC - KISSY-PIE generator build', function () {
                                 'build/pages/home/page/init-min.js',
                                 // page: ktpl
                                 'src/pages/home/page/mods/page-tpl.js',
+                                'src/pages/home/page/images/caniuse.png',
                                 // widget: KMC
                                 'build/widget/tooltip/index.js',
                                 // widget: uglify
                                 'build/widget/tooltip/index-min.js',
                                 // widget: ktpl
                                 'src/widget/tooltip/mods/widget-tpl.js',
+                                'src/widget/tooltip/images/caniuse.png',
                                 // common: KMC
                                 'build/common/out.js',
                                 'build/common/tooltip/in.js',
                                 'build/common/package-config.js',
+                                'build/common/images/caniuse.png',
                                 // common: uglify
                                 'build/common/out-min.js',
                                 'build/common/tooltip/in-min.js',
@@ -155,6 +158,60 @@ describe('ABC - KISSY-PIE generator build', function () {
         KISSYPie.run({}, function () {
 
             BuildMock.mocks( TestTargetDir, [ 'less' ], function( err ){
+                if( err ){
+                    done( err );
+                }
+                else {
+                    // build page & widget
+                    Grunt.exec( TestTargetDir, [ 'build', '--disable-check', '--disable-keen' ], function( err ){
+
+                        if( err ){
+                            done( err );
+                        }
+                        else {
+
+                            // 检查文件
+                            helpers.assertFiles([
+                                'build/pages/home/page/index.css',
+                                'build/pages/home/page/index-min.css',
+                                'build/pages/home/page/pure_css.css',
+                                'build/pages/home/page/pure_css-min.css',
+                                'build/common/out.css',
+                                'build/common/out-min.css',
+                                'build/common/sub/in.css',
+                                'build/common/sub/in-min.css',
+                                'build/common/pure_out.css',
+                                'build/common/pure_out-min.css',
+                                'build/common/sub/pure_in.css',
+                                'build/common/sub/pure_in-min.css',
+                                'build/widget/tooltip/index.css',
+                                'build/widget/tooltip/index-min.css',
+                                'build/widget/tooltip/pure_css.css',
+                                'build/widget/tooltip/pure_css-min.css'
+                            ]);
+
+                            done();
+                        }
+                    }, true );
+                }
+            });
+        });
+    });
+
+    it('使用Stylus：page/common/widget', function (done) {
+
+        helpers.mockPrompt( KISSYPie, {
+            projectName: "my_project",
+            author: 'neekey',
+            email: 'ni184775761@gmail.com',
+            styleEngine: 'stylus',
+            repo: 'http://gitlab.taobao.ali.com/tb/jury',
+            publish: 'http://g.tbcdn.cn/tb/jury'
+        });
+
+        KISSYPie.run({}, function () {
+
+            BuildMock.mocks( TestTargetDir, [ 'stylus' ], function( err ){
                 if( err ){
                     done( err );
                 }

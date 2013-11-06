@@ -127,6 +127,33 @@ describe('ABC - KISSY-PIE generator', function () {
             });
         });
 
+        it('使用Stylus', function (done) {
+
+            var expected = [
+                [ 'package.json', /grunt-contrib-stylus/ ],
+                [ 'Gruntfile.js', /stylus\:\s*\{/ ],
+                [ 'Gruntfile.js', /stylus\:page/ ],
+                [ 'Gruntfile.js', /stylus\:common/ ],
+                [ 'Gruntfile.js', /stylus\:widget/ ],
+                [ 'Gruntfile.js', /tasks\:\s*\[\s*\'stylus\:/ ],
+                [ 'abc.json', /"styleEngine"\:\s*"stylus"/ ]
+            ];
+            helpers.mockPrompt( KISSYPie, {
+                projectName: "my_project",
+                author: 'neekey',
+                email: 'ni184775761@gmail.com',
+                styleEngine: 'stylus',
+                kissyVersion: '1.2.1',
+                repo: 'http://gitlab.taobao.ali.com/tb/jury',
+                publish: 'http://g.tbcdn.cn/tb/jury'
+            });
+
+            KISSYPie.run({}, function() {
+                helpers.assertFiles(expected);
+                done();
+            });
+        });
+
         it('使用CSS', function (done) {
 
             var expected = [

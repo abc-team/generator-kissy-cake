@@ -1,3 +1,9 @@
+## v0.4.1
+- 添加对stylus的支持
+- 添加总体打包时间，单个任务打包时间的log
+- 添加图片从src复制到build的功能
+- 修正git发布操作中错将参数patch拼写pitch的错误
+
 ## v0.4.0
 - 添加用户使用的统计插件，方便后续优化
 - 修改watch组件到0.5.x，默认`grunt watch`为整站watch，添加`--few`为针对abc.json的watch
