@@ -94,7 +94,7 @@ module.exports = function (grunt) {
                     },
                     config: {
                         buildBase: grunt.option( 'buildTo' ) || 'build',
-                        pageName: '<%= page %>'
+                        pageName: '<%%= page %>'
                     },
                     tasks: [ '_page' ]
                 }
@@ -113,7 +113,7 @@ module.exports = function (grunt) {
                     },
                     config: {
                         buildBase: grunt.option( 'buildTo' ) || 'build',
-                        widgetName: '<%= widget %>'
+                        widgetName: '<%%= widget %>'
                     },
                     tasks: [ '_widget' ]
                 }
@@ -132,7 +132,7 @@ module.exports = function (grunt) {
                     },
                     config: {
                         buildBase: grunt.option( 'buildTo' ) || 'build',
-                        pageName: '<%= page %>'
+                        pageName: '<%%= page %>'
                     },
                     tasks: [ '_page' ]
                 }
@@ -151,7 +151,7 @@ module.exports = function (grunt) {
                     },
                     config: {
                         buildBase: grunt.option( 'buildTo' ) || 'build',
-                        widgetName: '<%= widget %>'
+                        widgetName: '<%%= widget %>'
                     },
                     tasks: [ '_widget' ]
                 }
@@ -164,7 +164,7 @@ module.exports = function (grunt) {
                         page: ABCConfig._kissy_cake.defaults.pages
                     },
                     config: {
-                        pageName: '<%= page %>',
+                        pageName: '<%%= page %>',
                         buildBase: grunt.option( 'buildTo' ) || 'build',
                         watch: function( vars, rawConfig ){
                             var rawWatch = grunt.util._.clone( rawConfig.watch );
@@ -187,7 +187,7 @@ module.exports = function (grunt) {
                         widget: ABCConfig._kissy_cake.defaults.widgets
                     },
                     config: {
-                        widgetName: '<%= widget %>',
+                        widgetName: '<%%= widget %>',
                         buildBase: grunt.option( 'buildTo' ) || 'build',
                         watch: function( vars, rawConfig ){
                             var rawWatch = grunt.util._.clone( rawConfig.watch );
@@ -229,7 +229,7 @@ module.exports = function (grunt) {
                         page: { patterns: '*', options: { cwd: 'src/pages', filter: 'isDirectory' } }
                     },
                     config: {
-                        pageName: '<%= page %>',
+                        pageName: '<%%= page %>',
                         buildBase: grunt.option( 'buildTo' ) || 'build',
                         watch: function( vars, rawConfig ){
                             var rawWatch = grunt.util._.clone( rawConfig.watch );
@@ -252,7 +252,7 @@ module.exports = function (grunt) {
                         widget: { patterns: '*', options: { cwd: 'src/widget', filter: 'isDirectory' } }
                     },
                     config: {
-                        widgetName: '<%= widget %>',
+                        widgetName: '<%%= widget %>',
                         buildBase: grunt.option( 'buildTo' ) || 'build',
                         watch: function( vars, rawConfig ){
                             var rawWatch = grunt.util._.clone( rawConfig.watch );
