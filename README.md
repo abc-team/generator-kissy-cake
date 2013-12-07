@@ -63,5 +63,13 @@ $ yo kissy-cake:page
 
 ## 查看版本信息以及命令列表
 
-- `yo kissy-cake:help` 
+- `yo kissy-cake:help`
+
+## 指定打包目录
+
+KISSY-Cake默认将所有文件从`src`打包到`build`，你也可以指定需要打包到的目录：
+
+```
+grunt --buildTo myBuild
+```
 
